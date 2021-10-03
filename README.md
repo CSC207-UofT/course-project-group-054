@@ -1,6 +1,6 @@
 # Group 54
 ## Members
-- [Rohan Tinna](https://instagram.com/rohantinna) ((rohan.tinna@mail.utoronto.ca)[mailto:rohan.tinna@mail.utoronto.ca])
+- [Rohan Tinna](https://instagram.com/rohantinna) (rohan.tinna@mail.utoronto.ca)
 - Add your details by editing `README.md`
 
 ## Links
