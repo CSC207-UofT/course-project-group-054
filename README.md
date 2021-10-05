@@ -2,7 +2,7 @@
 ## Members
 - [Rohan Tinna](https://instagram.com/rohantinna) (rohan.tinna@mail.utoronto.ca)
 - Subhasis Chakraborti (subhasis.chakraborti@mail.utoronto.ca)
-- [Lingyun Jiang] (johnnyl.jiang@mail.utoronto.ca)
+- Lingyun Jiang (johnnyl.jiang@mail.utoronto.ca)
 - Add your details by editing `README.md`
 
 ## Links
