@@ -26,4 +26,9 @@ public class TemporaryGroup extends Group{
         return 0;
     }
 
+    @Override
+    public int getUID() {
+        return this.UID;
+    }
+
 }

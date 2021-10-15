@@ -14,12 +14,12 @@ public class User extends Person implements AccountFeatures{
      * @param balance the User's balance (the amount owed)
      * @param email the User's email used to contact them
      */
-    public User(String name, float balance, String email){
+    public User(String name, double balance, String email){
         super(name, balance, email);
         this.UID = generateUID();
     }
 
-    public User(float balance, String email){
+    public User(double balance, String email){
         super(balance, email);
         this.UID = generateUID();
     }
@@ -34,5 +34,9 @@ public class User extends Person implements AccountFeatures{
         TODO: Implement this method
          */
         return 0;
+    }
+
+    public int getUID(){
+        return this.UID;
     }
 }

@@ -8,7 +8,7 @@ package Entities;
 
 public class Person {
     protected String name;
-    protected float balance;
+    protected double balance;
     protected String email;
 
     /**
@@ -17,13 +17,13 @@ public class Person {
      * @param balance the Person's balance (the amount owed)
      * @param email the Person's email used to contact them
      */
-    public Person(String name, float balance, String email) {
+    public Person(String name, double balance, String email) {
         this.name = name;
         this.balance = balance;
         this.email = email;
     }
 
-    public Person(float balance, String email){
+    public Person(double balance, String email){
         this.name = email;
         this.balance = balance;
         this.email = email;
@@ -37,11 +37,11 @@ public class Person {
         this.name = name;
     }
 
-    public float getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

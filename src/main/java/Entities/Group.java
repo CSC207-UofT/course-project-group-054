@@ -3,6 +3,7 @@
  */
 package Entities;
 
+import javax.swing.*;
 import java.util.*;
 
 
@@ -28,6 +29,24 @@ public abstract class Group {
     }
 
     public abstract int generateUID();
+
+    public abstract int getUID();
+
+    public String getGroupName() {
+        return this.groupName;
+    }
+
+    public List<Person> getGroupMembers() {
+        return this.groupMembers;
+    }
+
+    public List<Expense> getExpenseList() {
+        return this.expenseList;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 
 
 }

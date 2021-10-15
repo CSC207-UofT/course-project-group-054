@@ -27,6 +27,11 @@ public class ExtendedGroup extends Group implements GroupFeatures {
         return 0;
     }
 
+    @Override
+    public int getUID() {
+        return this.UID;
+    }
+
 
     /**
      * Add a person to the groupMembers
@@ -77,7 +82,7 @@ public class ExtendedGroup extends Group implements GroupFeatures {
      */
     @Override
     public boolean removeExpense(Expense e) {
-        if(!this.expenseList.contains(e)){
+        if(this.expenseList.contains(e)){
             this.expenseList.remove(e);
             return true;
         }
