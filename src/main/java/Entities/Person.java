@@ -6,7 +6,7 @@
 
 package Entities;
 
-public abstract class Person {
+public class Person {
     protected String name;
     protected float balance;
     protected String email;
