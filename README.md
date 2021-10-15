@@ -1,6 +1,6 @@
 # Group 54
 ## Members
-- [Rohan Tinna](https://instagram.com/rohantinna) (rohan.tinna@mail.utoronto.ca)
+- [Rohan Tinna](https://rohantinna.com) (rohan.tinna@mail.utoronto.ca)
 - Subhasis Chakraborti (subhasis.chakraborti@mail.utoronto.ca)
 - Lingyun Jiang (johnnyl.jiang@mail.utoronto.ca)
 - Wasee Alam (wasee.alam@mail.utoronto.ca)
@@ -14,4 +14,4 @@
 - [CRC Cards](https://utoronto-my.sharepoint.com/:o:/g/personal/rohan_tinna_mail_utoronto_ca/Ettb3QDSfqVJtKyJhTRb3FEBf6VCMOUHe8U84aeBMTvf3Q?e=8lrg3s)
 
 ## Important Dates & Deadlines
-`Add details here`
+- `Phase 0` due Friday, Oct 15 (Saturday with extension)
