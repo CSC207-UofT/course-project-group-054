@@ -1,7 +1,8 @@
-import java.io.IOException;
+package App_name;
+
 import java.util.*;
 
-public class Controller {
+public class App_name {
     // TODO: Replace the following dummy variable for app name
     private static String appName = "[APP NAME]";
     public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account"};

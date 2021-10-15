@@ -23,6 +23,12 @@ public class Person {
         this.email = email;
     }
 
+    public Person(float balance, String email){
+        this.name = email;
+        this.balance = balance;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

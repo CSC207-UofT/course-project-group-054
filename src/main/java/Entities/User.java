@@ -8,8 +8,19 @@ package Entities;
 public class User extends Person implements AccountFeatures{
     private int UID;
 
+    /**
+     * Construct User, giving them the given name, balance, and email.
+     * @param name the User's name
+     * @param balance the User's balance (the amount owed)
+     * @param email the User's email used to contact them
+     */
     public User(String name, float balance, String email){
         super(name, balance, email);
+        this.UID = generateUID();
+    }
+
+    public User(float balance, String email){
+        super(balance, email);
         this.UID = generateUID();
     }
 
