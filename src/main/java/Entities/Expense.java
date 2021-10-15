@@ -18,7 +18,7 @@ public class Expense {
 
 
     /**
-     * Construct Person, with title, cost, payers, note, and current time
+     * Construct Expense, with title, cost, payers, note, and current time
      * @param title the title of the Expense
      * @param cost the cost of the Expense
      * @param payers the list of payers of the Expense
