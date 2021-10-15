@@ -5,8 +5,12 @@
 
 package Entities;
 
+import java.util.*;
+
+
 public class User extends Person implements AccountFeatures{
     private int UID;
+    private List<Group> groups;
 
     /**
      * Construct User, giving them the given name, balance, and email.
