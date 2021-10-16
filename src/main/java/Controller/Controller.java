@@ -10,6 +10,7 @@ import Data.*;
 public class Controller {
 
     private static User currentUser;
+    private static boolean isLoggedIn = Boolean.FALSE;
 
     // TODO: Replace the following dummy variable for app name
     private static String appName = "[APP NAME]";
@@ -38,7 +39,7 @@ public class Controller {
         Data.initializeData();
         currentUser = (User) Data.USERS.get(0);
 
-        boolean isLoggedIn = Boolean.TRUE;
+        isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome to " + appName);
         for (int i = 1; i <= mainMenuOptions.length; i++) {
             System.out.println(i + ") " + mainMenuOptions[i - 1]);
@@ -53,7 +54,8 @@ public class Controller {
                     2. Manage groups
                     3. Check balance
                     4. Update Profile
-                    5. Log out""");
+                    5. Log out
+                    6. Create a new group""");
             String input = sc.nextLine();
             switch (input) {
 //                case "1" -> GroupManager.create_temp();
@@ -65,6 +67,7 @@ public class Controller {
                     System.out.println("Goodbye. Have a nice day!");
                     isLoggedIn = Boolean.FALSE;
                 }
+                case "6" -> createGroupView();
                 default -> {
                     System.out.println("Please select a valid option.");
                 }
@@ -122,8 +125,72 @@ public class Controller {
             System.out.println("Please enter a valid choice.");
         }
 
-
-
     }
 
+    private static void authenticateUser() {
+        // TODO: Implement this method
+        isLoggedIn = Boolean.TRUE;
+    }
+
+
+    /** View to create new groups
+     * @returns 0: if user is not authenticated, the view doesn't allow new group to be created.
+     */
+    public static int createGroupView() {
+        if (!isLoggedIn) {
+            System.out.println("Error: You must be authenticated to create a new group.");
+            return 0;
+        }
+
+
+        String gName;
+        List<String> members = new ArrayList<>();
+
+
+        //
+        System.out.println("Enter name of the group: ");
+        gName = sc.nextLine();
+
+        boolean addAnotherMember = false;
+
+        do {
+            System.out.println("Enter email of member " + members.size() + 1 + ": ");
+            String member = sc.nextLine();
+            members.add(member);
+
+            System.out.println("Would you like to add more members? (y/n)");
+
+            if (sc.nextLine() == "y") {
+                addAnotherMember = Boolean.TRUE;
+            }
+        } while (addAnotherMember);
+
+        Group g1 = new Group(gName, members, new ArrayList<Expense>(), "Dummy description");
+        Data.GROUPS.add(g1);
+
+        /* For testing the code */
+        System.out.println(Data.GROUPS);
+        System.out.println(Data.GROUPS.get(1).getGroupName());
+        /* */
+
+        return 1;
+    }
+
+    /**
+     * Returns user's unique identifier through email
+     * @param email Email to search user
+     * @return UUID of user is user with given email exists in Data.USERS, "0" otherwise
+     */
+    public static String getUUID(String email) {
+        for (Person person: Data.USERS) {
+            try {
+                User user = (User) person;
+                if (user.getEmail().equals(email)) {
+                    return user.getUUID();
+                }
+            } catch (Exception ignored) { }
+        }
+
+        return "0";
+    }
 }

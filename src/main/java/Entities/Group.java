@@ -8,11 +8,12 @@ import java.util.*;
 
 
 
-public abstract class Group {
+public class Group {
     protected String groupName;
-    protected List<Person> groupMembers;
+    protected List<String> groupMembers;
     protected List<Expense> expenseList;
     protected String description;
+    protected String GUID;
 
     /**
      *Construct a group with groupName, groupMembers, expenseList, and description.
@@ -21,22 +22,27 @@ public abstract class Group {
      * @param expenseList the list of expenses in the group
      * @param description the description of the group
      */
-    public Group(String groupName, List<Person> groupMembers, List<Expense> expenseList, String description){
+    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description){
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
         this.description = description;
+        this.GUID = ""; // TODO: Generate and set GUID
     }
 
-    public abstract int generateUID();
+//    public int generateUID() {
+//
+//    };
 
-    public abstract int getUID();
+    public String getGUID() {
+        return this.GUID;
+    };
 
     public String getGroupName() {
         return this.groupName;
     }
 
-    public List<Person> getGroupMembers() {
+    public List<String> getGroupMembers() {
         return this.groupMembers;
     }
 
