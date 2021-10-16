@@ -3,13 +3,13 @@
  * and TODO: Insert functions
  */
 
-package Entities;
+package entities;
 
 import java.util.*;
 
 
 public class User extends Person implements AccountFeatures{
-    private int UID;
+    private final int UID;
     private List<Group> groups;
 
     /**

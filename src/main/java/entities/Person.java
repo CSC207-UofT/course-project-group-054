@@ -4,12 +4,12 @@
  * a person not in a Group.
  */
 
-package Entities;
+package entities;
 
 public class Person {
-    protected String name;
-    protected double balance;
-    protected String email;
+    private String name;
+    private double balance;
+    private String email;
 
     /**
      * Construct Person, giving them the given name, balance, and email.
@@ -52,4 +52,5 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

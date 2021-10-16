@@ -1,10 +1,9 @@
 package Controller;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import Use_Cases.*;
-import Entities.*;
+import entities.*;
 
 public class Controller {
 
@@ -54,11 +53,11 @@ public class Controller {
                 GroupManager.create_temp();
             }
             else if(input.equals("2")){
-                GroupManager.show_group(currentUser);
+                GroupManager.showGroup(currentUser);
 
             }
             else if(input.equals("3")){
-                UserManager.show_balance(currentUser);
+                UserManager.showBalance(currentUser);
             }
             else if (input.equals("4")){
                 UserManager.updateProfile(currentUser);

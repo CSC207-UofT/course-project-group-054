@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import java.util.List;
 
@@ -30,5 +30,26 @@ public class TemporaryGroup extends Group{
     public int getUID() {
         return this.UID;
     }
+
+    @Override
+    public boolean addPerson(Person p) {
+        return false;
+    }
+
+    @Override
+    public boolean removePerson(Person p) {
+        return false;
+    }
+
+    @Override
+    public boolean addExpense(Expense e) {
+        return false;
+    }
+
+    @Override
+    public boolean removeExpense(Expense e) {
+        return false;
+    }
+
 
 }

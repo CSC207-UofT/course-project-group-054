@@ -1,9 +1,8 @@
 /*
  * Below is the abstract Group class which represents the origin of our program.
  */
-package Entities;
+package entities;
 
-import javax.swing.*;
 import java.util.*;
 
 
@@ -13,6 +12,22 @@ public abstract class Group {
     protected List<Person> groupMembers;
     protected List<Expense> expenseList;
     protected String description;
+
+    public List<Person> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(List<Person> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+
+    public List<Expense> getExpenseList() {
+        return expenseList;
+    }
+
+    public void setExpenseList(List<Expense> expenseList) {
+        this.expenseList = expenseList;
+    }
 
     /**
      *Construct a group with groupName, groupMembers, expenseList, and description.
@@ -36,17 +51,16 @@ public abstract class Group {
         return this.groupName;
     }
 
-    public List<Person> getGroupMembers() {
-        return this.groupMembers;
-    }
-
-    public List<Expense> getExpenseList() {
-        return this.expenseList;
-    }
-
     public String getDescription() {
         return this.description;
     }
 
+    public abstract boolean addPerson(Person p);
+
+    public abstract boolean removePerson(Person p);
+
+    public abstract boolean addExpense(Expense e);
+
+    public abstract boolean removeExpense(Expense e);
 
 }

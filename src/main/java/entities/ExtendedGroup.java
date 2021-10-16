@@ -1,10 +1,8 @@
-package Entities;
-
-import Use_Cases.GroupFeatures;
+package entities;
 
 import java.util.List;
 
-public class ExtendedGroup extends Group implements GroupFeatures {
+public class ExtendedGroup extends Group{
     private int UID;
     /**
      * Construct a group with groupName, groupMembers, expenseList, and description.
@@ -88,4 +86,5 @@ public class ExtendedGroup extends Group implements GroupFeatures {
         }
         return false;
     }
+
 }
