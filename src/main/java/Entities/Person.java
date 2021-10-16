@@ -4,7 +4,7 @@
  * a person not in a Group.
  */
 
-package entities;
+package Entities;
 
 import java.util.HashMap;
 

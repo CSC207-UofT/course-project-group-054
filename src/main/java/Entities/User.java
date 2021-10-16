@@ -2,7 +2,7 @@
  * This class is identical to Person, except that it has a UID
  */
 
-package entities;
+package Entities;
 
 import java.util.*;
 
@@ -19,11 +19,13 @@ public class User extends Person implements AccountFeatures{
      */
     public User(String name, double balance, String email){
         super(name, balance, email);
+        this.groups = new ArrayList<>();
         this.UID = generateUID();
     }
 
     public User(double balance, String email){
         super(balance, email);
+        this.groups = new ArrayList<>();
         this.UID = generateUID();
     }
 
@@ -31,7 +33,6 @@ public class User extends Person implements AccountFeatures{
      * Generate a unique integer for this user.
      * @return the integer representing the UID
      */
-    @Override
     public int generateUID() {
         /*
         TODO: Implement this method
@@ -39,18 +40,25 @@ public class User extends Person implements AccountFeatures{
         return 0;
     }
 
-    public int getUID(){
-        return this.UID;
+    public String getUID(){
+        return String.valueOf(this.UID);
     }
 
     public List<Group> getGroups(){
         return this.groups;
     }
-    public boolean addGroups(Group g){
-        if(!groups.contains(g)) {
-            this.groups.add(g);
-            return true;
-        }
-        return false;
+
+    public boolean addGroup(Group g){
+//        if(!groups.contains(g)) {
+//            this.groups.add(g);
+//            return true;
+//        }
+//        return false;
+        return this.groups.add(g);
+    }
+
+    @Override
+    public String generateUUID() {
+        return null;
     }
 }

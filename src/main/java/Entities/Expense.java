@@ -41,6 +41,10 @@ public class Expense {
         this.isGroupExpense = false; // TODO: Change this so it is not fixed
     }
 
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public String getTitle(){return this.title;}
 
     public double getAmount(){return this.amount;}
@@ -54,8 +58,6 @@ public class Expense {
     }
 
     public String getDescription(){return this.description;}
-
-    // TODO
 
     /**
      * Creates a new expense and adds it to every user associated with the expense.

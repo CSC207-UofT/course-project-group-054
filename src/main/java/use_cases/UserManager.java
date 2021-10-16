@@ -3,7 +3,7 @@ Below is the UserManager class which edits and returns instances of User.
  */
 package use_cases;
 
-import entities.*;
+import Entities.*;
 
 public class UserManager {
 
@@ -23,5 +23,9 @@ public class UserManager {
         for(Group group: user.getAmountsOwed().keySet()){
             System.out.println("You owe " + group.getGroupName() + " " + user.getAmountsOwed().get(group));
         }
+    }
+
+    public static void showBalance(User currentUser) {
+        System.out.println(currentUser.getBalance());
     }
 }

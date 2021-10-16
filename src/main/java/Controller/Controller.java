@@ -2,9 +2,10 @@ package Controller;
 
 import java.util.*;
 
-import Use_Cases.*;
+import use_cases.*;
 import Entities.*;
 import Data.*;
+import use_cases.UserManager;
 
 public class Controller {
 
@@ -12,12 +13,12 @@ public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
 
     // TODO: Replace the following dummy variable for app name
-    private static String appName = "[APP NAME]";
+    private static String appName = "Money Manager";
     public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account"};
 
     private static Scanner sc = new Scanner(System.in);
 
-    public static void welcomeScreen() {
+    public static User welcomeScreen() {
         // For now we will have to sign up each time
         String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
         List<String> inputs = new ArrayList<>();
@@ -32,12 +33,12 @@ public class Controller {
         currentUser = new User(inputs.get(0),0,inputs.get(2));
 
         System.out.println("Thanks for signing up! Your account has been successfully created, " + inputs.get(0) + ".");
+
+        return currentUser;
     }
 
 
     public static void main(String[] args) {
-        Data.initializeData();
-        currentUser = (User) Data.USERS.get(0);
 
         isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome to " + appName);
@@ -45,7 +46,7 @@ public class Controller {
             System.out.println(i + ") " + mainMenuOptions[i - 1]);
         }
         System.out.println("\n");
-        welcomeScreen(); // see welcomeScreen comment
+        currentUser = welcomeScreen(); // see welcomeScreen comment
 
         while (isLoggedIn) {
             System.out.println("""
@@ -58,27 +59,16 @@ public class Controller {
                     6. Create a new group""");
             String input = sc.nextLine();
             switch (input) {
-                case "1" :
-                    createExpenseView();
-                    break;
-                case "2":
-                    GroupManager.showGroup(currentUser);
-                    break;
-                case "3":
-                    UserManager.show_balance(currentUser);
-                    break;
-                case "4":
-                    UserManager.updateProfile(currentUser);
-                    break;
-                case "5": {
+                case "1" -> createExpenseView();
+                case "2" -> GroupManager.showGroup(currentUser);
+                case "3" -> UserManager.showBalance(currentUser);
+                case "4" -> UserManager.updateProfile(currentUser);
+                case "5" -> {
                     System.out.println("Goodbye. Have a nice day!");
                     isLoggedIn = Boolean.FALSE;
-                    break;
                 }
-                case "6":
-                    createGroupView();
-                    break;
-                default: {
+                case "6" -> createGroupView(currentUser);
+                default -> {
                     System.out.println("Please select a valid option.");
                 }
             }
@@ -126,7 +116,7 @@ public class Controller {
                     }
                 }
             } while (addMorePeople);
-            if (Expense.createExpense(amount, currentUser.getUUID(), people)) {
+            if (Expense.createExpense(amount, currentUser.getUID(), people)) {
                 System.out.println("Expense has been successfully created!");
                 System.out.println(Data.EXPENSES);
             }
@@ -151,12 +141,9 @@ public class Controller {
             return;
         }
 
-
         String gName;
-        List<String> members = new ArrayList<>();
+        List<Person> members = new ArrayList<>();
 
-
-        //
         System.out.println("Enter name of the group: ");
         gName = sc.nextLine();
 
@@ -164,7 +151,8 @@ public class Controller {
 
         do {
             System.out.println("Enter email of member " + (members.size() + 1) + ": ");
-            String member = sc.nextLine();
+            String memberName = sc.nextLine();
+            Person member = new Person(memberName, 0, "n/a");
             members.add(member);
 
             System.out.println("Would you like to add more members? (y/n)");
@@ -177,7 +165,9 @@ public class Controller {
             }
         } while (addAnotherMember);
 
-        currentUser.addGroups()
+        Group g1 = new Group(
+                gName, members, new ArrayList<Expense>(), "N/A");
+        currentUser.addGroup(g1);
 
     }
 
@@ -191,7 +181,7 @@ public class Controller {
             try {
                 User user = (User) person;
                 if (user.getEmail().equals(email)) {
-                    return user.getUUID();
+                    return user.getUID();
                 }
             } catch (Exception ignored) { }
         }

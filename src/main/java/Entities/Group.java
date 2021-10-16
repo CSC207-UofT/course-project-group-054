@@ -3,12 +3,11 @@
  */
 package Entities;
 
-import javax.swing.*;
 import java.util.*;
 
 public class Group {
     protected String groupName;
-    protected List<String> groupMembers;
+    protected List<Person> groupMembers;
     protected List<Expense> expenseList;
     protected String description;
     protected String GUID;
@@ -20,7 +19,7 @@ public class Group {
      * @param expenseList the list of expenses in the group
      * @param description the description of the group
      */
-    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description){
+    public Group(String groupName, List<Person> groupMembers, List<Expense> expenseList, String description){
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
@@ -40,7 +39,7 @@ public class Group {
         return this.groupName;
     }
 
-    public List<String> getGroupMembers() {
+    public List<Person> getGroupMembers() {
         return this.groupMembers;
     }
 

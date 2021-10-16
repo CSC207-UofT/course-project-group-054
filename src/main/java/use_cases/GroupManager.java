@@ -3,15 +3,14 @@ Below is the GroupManager use case which edits and returns the instances of Grou
  */
 
 package use_cases;
-import entities.*;
-import java.util.*;
+import Entities.*;
+
 public class GroupManager {
-    public static void create_temp(){
 
-    }
-
-    public static List<Group> showGroup(User u){
-        return u.getGroups();
+    public static void showGroup(User u){
+        for(Group g: u.getGroups()){
+            System.out.println(g.getGroupName());
+        }
     }
 
     /**
@@ -56,7 +55,7 @@ public class GroupManager {
         // Edit Group Expense Cost
         for (Expense expense: group.getExpenseList()){
             if (expense.getTitle().equals(expensePaid)){
-                expense.setCost(expense.getCost() - amountPaid);
+                expense.setAmount(expense.getAmount() - amountPaid);
             }
         }
         payee.setBalance(payee.getBalance());
@@ -79,7 +78,7 @@ public class GroupManager {
         // Update the specified expense.
         for (Expense expense: group.getExpenseList()){
             if (expense.getTitle().equals(expensePaid)){
-                expense.setCost(expense.getCost() - amountPaid);
+                expense.setAmount(expense.getAmount() - amountPaid);
                 return;
             }
         }

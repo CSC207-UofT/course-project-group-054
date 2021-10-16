@@ -13,13 +13,6 @@ public class Data {
         USERS.add(new User("Rohan", 100, "rohan.tinna@mail.utoronto.ca"));
         USERS.add(new User("Johny", 100, "johny@example.com"));
 
-        // Creating dummy expenses
-
-
-        // Creating dummy groups
-        GROUPS.add(
-                new Group("One Direction", new ArrayList<String>(), new ArrayList<Expense>(), "")
-        );
     }
 
 
