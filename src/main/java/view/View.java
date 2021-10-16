@@ -3,6 +3,8 @@ import java.util.*;
 import controller.*;
 import data.*;
 import entities.*;
+import use_cases.ExpenseManager;
+import use_cases.UserManager;
 
 
 public class View {
@@ -13,7 +15,7 @@ public class View {
      * Menu View
      */
 
-    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account"};
+    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account", "Close app"};
 
     public static void menuView() {
         System.out.println("Welcome to " + Controller.appName);
@@ -24,6 +26,7 @@ public class View {
         switch (menuInput) {
             case "1" -> loginView();
             case "2" -> signUpView();
+            case "3" -> System.exit(1);
             default -> {
                 System.out.println("Please enter a valid option.");
             }
@@ -69,7 +72,39 @@ public class View {
     /**
      * Dashboard View
      */
-
+    public static void dashboardView() {
+        while (Controller.getUserStatus()) {
+            System.out.println("""
+                    Please enter the number for the actions below:
+                    1. Add an expense
+                    2. Show groups
+                    3. Check balance
+                    4. Update Profile [Coming soon]
+                    5. Create a new group
+                    6. View expenses
+                    7. Log out""");
+            String input = sc.nextLine();
+            switch (input) {
+//                case "1" -> GroupManager.create_temp();
+                case "1" -> Controller.createExpenseView();
+                case "2" -> {
+                    StringBuilder lst = ExpenseManager.show_group(Controller.getCurrentUser());
+                    System.out.println(lst);
+                }
+                case "3" -> System.out.println("Your balance is: $" + Controller.getCurrentUser().getBalance());
+                case "4" -> UserManager.updateProfile(Controller.getCurrentUser());
+                case "5" -> View.createGroupView();
+                case "6" -> System.out.println(UserManager.getExpenses(Controller.getCurrentUser()));
+                case "7" -> {
+                    Controller.logoutUser();
+                    System.out.println("Goodbye. Have a nice day!");
+                }
+                default -> {
+                    System.out.println("Please select a valid option.");
+                }
+            }
+        }
+    }
 
     /**
      * Create Group View
