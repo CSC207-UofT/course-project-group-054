@@ -11,7 +11,7 @@ import java.util.*;
  * can be spent on items in the budget.
  */
 public abstract class Budget {
-    private Map<String, Map<String, Item>> budget;
+    private final Map<String, Map<String, Item>> budget;
     private int maxSpend;
     private int timeSpan;
 
@@ -107,6 +107,25 @@ public abstract class Budget {
     }
 
     /**
+     * Change the quantity of the item with the given name and of the given category to the given quantity.
+     *
+     * @param category    the category of the item
+     * @param item        the name of the item
+     * @param newQuantity the new quantity of the item
+     * @return whether the quantity was changed
+     */
+    public boolean changeQuantity(String category, String item, int newQuantity) {
+        if (budget.containsKey(category) && budget.get(category).containsKey(item)) {
+            Item oldItem = budget.get(category).get(item);
+            Item newItem = new Item(oldItem.getCategory(), oldItem.getName(), oldItem.getCost(), newQuantity);
+            budget.get(category).put(item, newItem);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Remove the item with the given name and of the given category from this budget.
      *
      * @param category the category of the item
@@ -146,7 +165,7 @@ public abstract class Budget {
         double totalCost = 0;
         for (String category : budget.keySet()) {
             for (String item : budget.get(category).keySet()) {
-                totalCost += budget.get(category).get(item).getCost();
+                totalCost += budget.get(category).get(item).getCost() * budget.get(category).get(item).getQuantity();
             }
         }
         return totalCost;
@@ -166,7 +185,7 @@ public abstract class Budget {
         for (String category : budget.keySet()) {
             double categoryCost = 0; // the total cost of the items of the category
             for (String item : budget.get(category).keySet()) {
-                categoryCost += budget.get(category).get(item).getCost();
+                categoryCost += budget.get(category).get(item).getCost() * budget.get(category).get(item).getQuantity();
             }
             percentages.put(category, categoryCost / totalCost);
         }
