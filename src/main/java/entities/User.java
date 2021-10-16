@@ -3,7 +3,7 @@
  * and TODO: Insert functions
  */
 
-package Entities;
+package entities;
 
 public class User extends Person implements AccountFeatures{
     private int UID;

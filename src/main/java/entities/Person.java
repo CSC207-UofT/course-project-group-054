@@ -4,7 +4,7 @@
  * a person not in a Group.
  */
 
-package Entities;
+package entities;
 
 public class Person {
     protected String name;

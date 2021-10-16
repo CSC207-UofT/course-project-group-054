@@ -1,6 +1,6 @@
-package Entities;
+package entities;
 
-import Use_Cases.GroupFeatures;
+import use_cases.GroupFeatures;
 
 import java.util.List;
 
