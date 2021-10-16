@@ -48,9 +48,6 @@ public class User extends Person implements AccountFeatures {
         return this.groups;
     }
 
-    public List<Group> getGroups(){
-        return this.groups;
-    }
     public boolean addGroups(Group g){
         if(!groups.contains(g)) {
             this.groups.add(g);
