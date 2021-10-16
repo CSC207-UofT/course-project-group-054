@@ -36,7 +36,7 @@ public class Group {
 
     public String getGUID() {
         return this.GUID;
-    };
+    }
 
     public String getGroupName() {
         return this.groupName;
@@ -54,5 +54,8 @@ public class Group {
         return this.description;
     }
 
-
+    @Override
+    public String toString(){
+        return "Group: " + this.groupName + " ( " + this.description + " ).";
+    }
 }

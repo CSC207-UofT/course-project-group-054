@@ -48,30 +48,36 @@ public class Controller {
 //        signUp();
 
         while (isLoggedIn) {
-            System.out.println("""
-                    Please enter the number for the actions below:
-                    1. Add an expense
-                    2. Manage groups
-                    3. Check balance
-                    4. Update Profile
-                    5. Create a new group
-                    6. Log out""");
+            System.out.println("Please enter the number for the actions below:\n" +
+                               "1. Add an expense\n" +
+                               "2. Check groups\n" +
+                               "3. Check balance\n" +
+                               "4. Update Profile\n" +
+                               "5. Create a new group\n" +
+                               "6. Log out");
             String input = sc.nextLine();
             switch (input) {
 //                case "1" -> GroupManager.create_temp();
-                case "1" -> createExpenseView();
-                case "2" -> GroupManager.show_group(currentUser);
-                case "3" -> UserManager.show_balance(currentUser);
-                case "4" -> UserManager.updateProfile(currentUser);
-                case "6" -> {
+                case "1":
+                    createExpenseView();
+                case "2":
+                    StringBuilder lst = GroupManager.showGroup(currentUser);
+                    System.out.println(lst);
+                case "3":
+                    UserManager.show_balance(currentUser);
+                case "4":
+                    UserManager.updateProfile(currentUser);
+                case "5":
+                    createGroupView();
+                case "6":
                     System.out.println("Goodbye. Have a nice day!");
                     isLoggedIn = Boolean.FALSE;
-                }
-                case "5" -> createGroupView();
-                default -> System.out.println("Please select a valid option.");
+                default:
+                    System.out.println("Please select a valid option.");
             }
         }
     }
+
 
     public static void createExpenseView() {
         double amount;
