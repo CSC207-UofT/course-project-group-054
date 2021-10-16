@@ -18,17 +18,20 @@ public class UserManager {
     }
 
     public static StringBuilder getExpenses(User user) {
-        StringBuilder lst = new StringBuilder("Recent expenses:\n");
+        StringBuilder lst = new StringBuilder("RECENT EXPENSES\n");
+        lst.append("EUID  Title                People\n");
+        lst.append("---------------------------------\n");
         int counter = 0;
 
         for (String expenseUID: user.expenses) {
             try {
                 for (Expense expense: Data.expenses) {
                     if (expense.getEUID().equals(expenseUID)) {
-                        lst.append(expense);
+                        lst.append(expense + "\n");
+                        counter++;
                     }
                 }
-                return lst;
+//                return lst;
             } catch (Exception ignored) { }
         }
 

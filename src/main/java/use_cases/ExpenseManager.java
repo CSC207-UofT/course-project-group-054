@@ -1,6 +1,8 @@
 package use_cases;
 import entities.*;
 import data.*;
+import controller.*;
+
 public class ExpenseManager {
     public static void create_temp(){
 
@@ -72,28 +74,22 @@ public class ExpenseManager {
 //        payee.setBalance(payee.getBalance());
 //    }
 //
-//    /**
-//     * payBill's helper; used when the user wants to pay off the debt of the group.
-//     * @param group - The group where the expense is housed.
-//     * @param payee - The person that pays the bill.
-//     * @param amountPaid - The amount the person paid.
-//     * @param expensePaid - The name of the expense that was paid for.
-//     */
-//    public void payDebt(Group group, Person payee, double amountPaid,
-//                        String expensePaid){
-//        // Get and set the balance of the payee.
-//        double payeeBal = payee.getBalance();
-//        payee.setBalance(payeeBal - amountPaid);
-//        payee.setAmountsOwed(group, payee.getAmountsOwed().get(group) - amountPaid);
-//
-//        // Update the specified expense.
-//        for (Expense expense: group.getExpenseList()){
-//            if (expense.getTitle().equals(expensePaid)){
-//                expense.setAmount(expense.getAmount() - amountPaid);
-//                return;
-//            }
-//        }
-//    }
+    /**
+     * payBill's helper; used when the user wants to pay off the debt of the group.
+     * @param payee - The person that pays the bill.
+     * @param expenseUID - The unique identifier of expense
+     */
+    public void payDebt(Person payee, String expenseUID) {
+        Expense expense = Controller.getExpense(expenseUID);
+        expense.settleExpense();
+
+        double amountPaid = expense.getAmount() / expense.numPeople();
+
+        // Get and set the balance of the payee.
+        double payeeBal = payee.getBalance();
+        payee.updateBalance(-amountPaid);
+        expense.getPayer().updateBalance(amountPaid);
+    }
 
 
 }

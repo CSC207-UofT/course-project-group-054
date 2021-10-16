@@ -23,6 +23,15 @@ public class Expense {
     private List<String> people;
 
     private LocalDateTime time;
+    private boolean isSettled;
+
+    public void settleExpense() {
+        this.isSettled = Boolean.TRUE;
+    }
+
+    public int numPeople() {
+        return this.people.size();
+    }
 
 
     /**
@@ -40,6 +49,7 @@ public class Expense {
         this.description = description;
         this.isGroupExpense = false; // TODO: Change this so it is not fixed
         this.EUID = Integer.toString(Data.expenses.size() + 1);
+        this.people = people;
     }
 
     public String getTitle(){return this.title;}
@@ -71,7 +81,7 @@ public class Expense {
             Data.expenses.add(expense);
             // TODO Search for user through UUID in Data.USERS and add expense in that user.expenses
 
-            System.out.println("Debug: " + people);
+            System.out.println("People: " + expense.people);
 
             for (String userEmail: people) {
                 try {
@@ -92,6 +102,7 @@ public class Expense {
             Expense expense = new Expense(title, amount, payerUUID, group.getGroupMembers(), "");
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Please enter a valid group name");
             return false;
         }
         return true;
@@ -113,6 +124,6 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "Expense " + this.EUID;
+        return this.EUID + "     " + this.title + "     " + this.numPeople();
     }
 }

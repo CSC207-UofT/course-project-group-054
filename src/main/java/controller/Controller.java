@@ -23,6 +23,7 @@ public class Controller {
 
     public static void main(String[] args) {
         Data.initializeData();
+
         do {
             View.menuView();
         } while (!isLoggedIn);
@@ -81,7 +82,7 @@ public class Controller {
         if (input.equals("y") || input.equals("Y")) {
             StringBuilder lst = ExpenseManager.show_group(currentUser);
             System.out.println(lst);
-            System.out.println("Enter group name: ");
+            System.out.print("Enter group name: ");
             String groupName = sc.nextLine();
             try {
                 // TODO Implement this as Group.findGroup rather than directly
@@ -187,5 +188,18 @@ public class Controller {
      */
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+
+
+    public static Expense getExpense(String expenseUID) {
+        try {
+            for (Expense expense: Data.expenses) {
+                if (expense.getEUID().equals(expenseUID)) {
+                    return expense;
+                }
+            }
+        } catch (Exception ignored) { }
+        return null;
     }
 }
