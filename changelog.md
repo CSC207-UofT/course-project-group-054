@@ -10,6 +10,7 @@
 - [x] Create a new group
 - [x] Log out
 
+---
 ## Many small changes
 - Added `View` package to manage all the views. Now we don't need to have every view implemented in the controller.
 - Made many small minor changes to the code.
@@ -17,7 +18,7 @@
 - Partially completed `createGroupExpense` method in `Expense` class
 - Overridden `toString()` method in `Group` class
 
-
+---
 ## Feature to create groups
 ### Changes
 - commented ExtendedGroup & TemporaryGroup (**for now**, will fix this)
