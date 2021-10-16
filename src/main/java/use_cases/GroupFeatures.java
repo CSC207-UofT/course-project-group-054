@@ -1,7 +1,7 @@
-package Use_Cases;
+package use_cases;
 
-import Entities.Expense;
-import Entities.Person;
+import entities.Expense;
+import entities.Person;
 
 public interface GroupFeatures {
 

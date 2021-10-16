@@ -1,9 +1,8 @@
 /*
  * Below is the abstract Group class which represents the origin of our program.
  */
-package Entities;
+package entities;
 
-import javax.swing.*;
 import java.util.*;
 
 public class Group {
@@ -40,6 +39,10 @@ public class Group {
         return this.groupName;
     }
 
+    /**
+     *
+     * @return A list of strings containing emails of group members
+     */
     public List<String> getGroupMembers() {
         return this.groupMembers;
     }
@@ -50,6 +53,11 @@ public class Group {
 
     public String getDescription() {
         return this.description;
+    }
+    
+    @Override
+    public String toString() {
+        return this.groupName;
     }
 
 

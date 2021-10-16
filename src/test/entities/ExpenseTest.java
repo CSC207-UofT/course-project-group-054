@@ -1,12 +1,11 @@
-package java.Entities;
+package entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import Entities.*;
+import entities.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
