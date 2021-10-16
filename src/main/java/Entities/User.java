@@ -43,4 +43,15 @@ public class User extends Person implements AccountFeatures{
     public int getUID(){
         return this.UID;
     }
+
+    public List<Group> getGroups(){
+        return this.groups;
+    }
+    public boolean addGroups(Group g){
+        if(!groups.contains(g)) {
+            this.groups.add(g);
+            return true;
+        }
+        return false;
+    }
 }
