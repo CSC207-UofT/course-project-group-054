@@ -35,16 +35,16 @@ public abstract class Budget {
     }
 
     /**
-     * Return the maximum amount on money that can be spent on items in this budget.
+     * Return the maximum amount of money that can be spent on items in this budget.
      *
-     * @return the maximum amount on money that can be spent on items in this budget
+     * @return the maximum amount of money that can be spent on items in this budget
      */
     public int getMaxSpend() {
         return maxSpend;
     }
 
     /**
-     * Set the maximum amount on money that can be spent on items in this budget to the given value.
+     * Set the maximum amount of money that can be spent on items in this budget to the given value.
      *
      * @param maxSpend the maximum amount on money that can be spent on items in this budget
      */
@@ -164,7 +164,7 @@ public abstract class Budget {
         double totalCost = getTotalCost();
 
         for (String category : budget.keySet()) {
-            double categoryCost = 0; // the total cost of the items in the sub-mapping associated with category
+            double categoryCost = 0; // the total cost of the items of the category
             for (String item : budget.get(category).keySet()) {
                 categoryCost += budget.get(category).get(item).getCost();
             }
