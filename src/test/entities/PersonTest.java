@@ -34,7 +34,7 @@ public class PersonTest {
 
     @Test
     void setBalance() {
-        p.setBalance(200.02);
+        p.updateBalance(200.02);
         assertEquals(200.02, p.getBalance());
     }
 

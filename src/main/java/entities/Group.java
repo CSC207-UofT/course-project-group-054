@@ -41,6 +41,10 @@ public class Group {
         return this.groupName;
     }
 
+    /**
+     *
+     * @return A list of strings containing emails of group members
+     */
     public List<String> getGroupMembers() {
         return this.groupMembers;
     }

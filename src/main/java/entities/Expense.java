@@ -7,22 +7,31 @@ package entities;
 import java.time.*;
 import java.util.*;
 
-import controller.Controller;
+import controller.*;
 import data.*;
 
 public class Expense {
 
-    private String EUID;
+    private final String EUID;
     private boolean isGroupExpense;
 
-    private String title;
-    private String description;
-    private double amount;
-
+    private final String title;
+    private final String description;
+    private final double amount;
     private String payerUUID;
+
     private List<String> people;
 
     private LocalDateTime time;
+    private boolean isSettled;
+
+    public void settleExpense() {
+        this.isSettled = Boolean.TRUE;
+    }
+
+    public int numPeople() {
+        return this.people.size();
+    }
 
 
     /**
@@ -40,6 +49,7 @@ public class Expense {
         this.description = description;
         this.isGroupExpense = false; // TODO: Change this so it is not fixed
         this.EUID = Integer.toString(Data.expenses.size() + 1);
+        this.people = people;
     }
 
     public String getTitle(){return this.title;}
@@ -70,12 +80,11 @@ public class Expense {
             Expense expense = new Expense("Expense Title", amount, payerUUID, people, "Description");
             Data.expenses.add(expense);
             // TODO Search for user through UUID in Data.USERS and add expense in that user.expenses
-
-            System.out.println("Debug: " + people);
+            System.out.println("People: " + expense.people);
 
             for (String userEmail: people) {
                 try {
-                    System.out.println(Controller.getUser(people.get(0)).getName());
+//                    System.out.println(Objects.requireNonNull(Controller.getUser(people.get(0))).getName());
                     Objects.requireNonNull(Controller.getUser(userEmail)).expenses.add(expense.EUID);
                 } catch (Exception ignored) { }
             }
@@ -90,8 +99,15 @@ public class Expense {
     public static boolean createGroupExpense(String title, double amount, String payerUUID, Group group) {
         try {
             Expense expense = new Expense(title, amount, payerUUID, group.getGroupMembers(), "");
+            for (String userEmail: group.getGroupMembers()) {
+                try {
+//                    System.out.println(Objects.requireNonNull(Controller.getUser(people.get(0))).getName());
+                    Objects.requireNonNull(Controller.getUser(userEmail)).expenses.add(expense.EUID);
+                } catch (Exception ignored) { }
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Please enter a valid group name");
             return false;
         }
         return true;
@@ -100,10 +116,10 @@ public class Expense {
     public void printExpense() {
         HashMap<String, String> lines = new HashMap<>();
         lines.put("Amount:", "" + this.amount);
-        lines.put("Paid by:", "DUMMY");
+        lines.put("Paid by:", "" + this.getPayer().getName());
 
         // TODO: Print all details about this expense on the console.
-        // lines.forEach();
+//         lines.forEach();
     }
 
     public String getEUID() {
@@ -113,6 +129,6 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "Expense " + this.EUID;
+        return this.EUID + "     " + this.title + "     " + this.numPeople();
     }
 }

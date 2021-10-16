@@ -13,7 +13,7 @@ public class View {
      * Menu View
      */
 
-    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account"};
+    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account", "Close app"};
 
     public static void menuView() {
         System.out.println("Welcome to " + Controller.appName);
@@ -24,6 +24,7 @@ public class View {
         switch (menuInput) {
             case "1" -> loginView();
             case "2" -> signUpView();
+            case "3" -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
     }
@@ -93,11 +94,6 @@ public class View {
             return getActionView(actions);
         }
     }
-
-    /**
-     * Dashboard View
-     */
-
 
     /**
      * Create and return a new Group based on user input.

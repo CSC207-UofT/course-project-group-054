@@ -26,16 +26,19 @@ public class Controller {
         "Log out"
     };
 
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         Data.initializeData();
+
         do {
             View.menuView();
         } while (!isLoggedIn);
 
         System.out.println("\n");
-
+    }
+  
+    public static void dashboard() {
         while (isLoggedIn) {
             int input = View.getActionView(actions); // Return an integer between 1 and the number of actions, inclusive
             switch (input) {
@@ -82,7 +85,7 @@ public class Controller {
         if (input.equals("y") || input.equals("Y")) {
             StringBuilder lst = ExpenseManager.show_group(currentUser);
             System.out.println(lst);
-            System.out.println("Enter group name: ");
+            System.out.print("Enter group name: ");
             String groupName = sc.nextLine();
             try {
                 // TODO Implement this as Group.findGroup rather than directly
@@ -131,7 +134,6 @@ public class Controller {
             // TODO: Handle this
             System.out.println("Please enter a valid choice.");
         }
-
     }
 
     public static void authenticateUser(User user) {
@@ -139,11 +141,8 @@ public class Controller {
         currentUser = user; // TODO Set it as indexOf user in Data.USER insetead of directly assigning user object
         isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome back, " + currentUser.getName() + "!");
-//        view.dashboardView();
+        dashboard();
     }
-
-
-
 
     /**
      * Returns user's unique identifier through email
@@ -174,19 +173,19 @@ public class Controller {
         return null;
     }
 
-    /**
-     * Function
-     * @return true, if user is logged in. False otherwise.
-     */
-    public static boolean getUserStatus() {
-        return isLoggedIn;
+    public static Expense getExpense(String expenseUID) {
+        try {
+            for (Expense expense: Data.expenses) {
+                if (expense.getEUID().equals(expenseUID)) {
+                    return expense;
+                }
+            }
+        } catch (Exception ignored) { }
+        return null;
     }
 
-    /**
-     * Function
-     * @return current user
-     */
-    public static User getCurrentUser() {
-        return currentUser;
+    public static void logoutUser() {
+        currentUser = null;
+        isLoggedIn = false;
     }
 }
