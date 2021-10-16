@@ -10,7 +10,7 @@ import java.util.*;
  * A budget is associated with the length of time for which the budget is active and a limit on the amount on money that
  * can be spent on items in the budget.
  */
-public abstract class Budget {
+public class Budget {
     private final Map<String, Map<String, Item>> budget;
     private int maxSpend;
     private int timeSpan;
