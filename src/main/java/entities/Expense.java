@@ -7,7 +7,7 @@ package entities;
 import java.time.*;
 import java.util.*;
 
-import controller.Controller;
+import controller.*;
 import data.*;
 
 public class Expense {
@@ -75,7 +75,7 @@ public class Expense {
 
             for (String userEmail: people) {
                 try {
-                    System.out.println(Controller.getUser(people.get(0)).getName());
+                    System.out.println(Objects.requireNonNull(Controller.getUser(people.get(0))).getName());
                     Objects.requireNonNull(Controller.getUser(userEmail)).expenses.add(expense.EUID);
                 } catch (Exception ignored) { }
             }

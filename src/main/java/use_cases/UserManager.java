@@ -1,6 +1,6 @@
 package use_cases;
 
-import data.Data;
+import data.*;
 import entities.*;
 
 public class UserManager {
@@ -19,7 +19,6 @@ public class UserManager {
 
     public static StringBuilder getExpenses(User user) {
         StringBuilder lst = new StringBuilder("Recent expenses:\n");
-        int counter = 0;
 
         for (String expenseUID: user.expenses) {
             try {
@@ -30,10 +29,6 @@ public class UserManager {
                 }
                 return lst;
             } catch (Exception ignored) { }
-        }
-
-        if (counter > 0) {
-            return lst;
         }
 
         return new StringBuilder("You don't have any expenses now.");

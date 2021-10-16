@@ -56,9 +56,7 @@ public class Controller {
                     isLoggedIn = Boolean.FALSE;
                     System.out.println("Goodbye. Have a nice day!");
                 }
-                default -> {
-                    System.out.println("Please select a valid option.");
-                }
+                default -> System.out.println("Please select a valid option.");
             }
         }
     }
@@ -81,23 +79,13 @@ public class Controller {
         if (input.equals("y") || input.equals("Y")) {
             StringBuilder lst = ExpenseManager.show_group(currentUser);
             System.out.println(lst);
-            System.out.println("Enter group name: ");
-            String groupName = sc.nextLine();
-            try {
-                // TODO Implement this as Group.findGroup rather than directly
-                for (Group group: Data.groups) {
-                    if (group.getGroupName().equals(groupName)) {
-                        if (Expense.createGroupExpense("", amount, currentUser.getUUID(), group)) {
-                            System.out.println("Successfully added to your expenses.");
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("There was an error finding your group in our database.");
-            }
+
+            if (lst.charAt(0) != 'Y') {
+                findGroup(amount);
 //            System.out.println("Group expenses are not currently supported.");
+            }
         }
+
 
         // NOT A GROUP EXPENSE
         else if (input.equals("n") || input.equals("N")) {
@@ -133,9 +121,31 @@ public class Controller {
 
     }
 
+
+    /**
+     * Helper method for createExpenseView that finds a group with the groupName given by the user
+     * @param amount the amount of the expense to be added to a group
+     */
+    private static void findGroup(double amount) {
+        System.out.println("Enter group name: ");
+        String groupName = sc.nextLine();
+        try {
+            for (Group group: Data.groups) {
+                if (group.getGroupName().equals(groupName)) {
+                    if (Expense.createGroupExpense("", amount, currentUser.getUUID(), group)) {
+                        System.out.println("Successfully added to your expenses.");
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("There was an error finding your group in our database.");
+        }
+    }
+
     public static void authenticateUser(User user) {
         // TODO: Implement this method
-        currentUser = user; // TODO Set it as indexOf user in Data.USER insetead of directly assigning user object
+        currentUser = user; // TODO Set it as indexOf user in Data.USER instead of directly assigning user object
         isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome back, " + currentUser.getName() + "!");
 //        view.dashboardView();
