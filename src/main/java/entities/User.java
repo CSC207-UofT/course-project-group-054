@@ -1,6 +1,5 @@
 /* A subclass of Person named User.
  * This class is identical to Person, except that it has a UID
- * and TODO: Insert functions
  */
 
 package entities;

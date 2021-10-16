@@ -2,7 +2,7 @@
 Below is the GroupManager use case which edits and returns the instances of Group's subclasses.
  */
 
-package Use_Cases;
+package use_cases;
 import entities.*;
 import java.util.*;
 public class GroupManager {
@@ -48,9 +48,10 @@ public class GroupManager {
     public void splitBill(Group group, Person payee, double amountPaid,
                           String expensePaid){
         // Decrease the balance of each person by the cost over the total number of people.
+        double payeeAmount = payee.getBalance() - (amountPaid/group.getGroupMembers().size());
         for(Person person: group.getGroupMembers()){
-            person.setBalance(person.getBalance() -
-                    (amountPaid/group.getGroupMembers().size()));
+            payee.setBalance(payeeAmount);
+            payee.setAmountsOwed(group, payee.getAmountsOwed().get(group) - amountPaid);
         }
         // Edit Group Expense Cost
         for (Expense expense: group.getExpenseList()){
@@ -73,6 +74,7 @@ public class GroupManager {
         // Get and set the balance of the payee.
         double payeeBal = payee.getBalance();
         payee.setBalance(payeeBal - amountPaid);
+        payee.setAmountsOwed(group, payee.getAmountsOwed().get(group) - amountPaid);
 
         // Update the specified expense.
         for (Expense expense: group.getExpenseList()){

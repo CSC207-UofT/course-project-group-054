@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 import java.util.*;
 
-import Use_Cases.*;
+import use_cases.*;
 import entities.*;
 
 public class Controller {

@@ -5,29 +5,11 @@ package entities;
 
 import java.util.*;
 
-
-
 public abstract class Group {
     protected String groupName;
     protected List<Person> groupMembers;
     protected List<Expense> expenseList;
     protected String description;
-
-    public List<Person> getGroupMembers() {
-        return groupMembers;
-    }
-
-    public void setGroupMembers(List<Person> groupMembers) {
-        this.groupMembers = groupMembers;
-    }
-
-    public List<Expense> getExpenseList() {
-        return expenseList;
-    }
-
-    public void setExpenseList(List<Expense> expenseList) {
-        this.expenseList = expenseList;
-    }
 
     /**
      *Construct a group with groupName, groupMembers, expenseList, and description.
@@ -62,5 +44,21 @@ public abstract class Group {
     public abstract boolean addExpense(Expense e);
 
     public abstract boolean removeExpense(Expense e);
+
+    public List<Person> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(List<Person> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+
+    public List<Expense> getExpenseList() {
+        return expenseList;
+    }
+
+    public void setExpenseList(List<Expense> expenseList) {
+        this.expenseList = expenseList;
+    }
 
 }
