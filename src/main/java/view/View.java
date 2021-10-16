@@ -65,6 +65,36 @@ public class View {
     }
 
     /**
+     * Given a list of possible actions that the user can take, output the actions as a numbered list and request that
+     * the user choose one, input their choice of action as the number corresponding to the chosen action, and return
+     * the number.
+     *
+     * @param actions a list of the possible actions the user can take
+     * @return a number between 1 and the length of the given list of actions, inclusive, representing the action at
+     *         the corresponding position in the given list
+     */
+    public static int getActionView(String[] actions) {
+        System.out.println("Please enter the number for the actions below:");
+        for (int i = 1; i <= actions.length; i++) {
+            System.out.println(i + ". " + actions[i]);
+        }
+        String input = sc.nextLine();
+        int number;
+        try {
+            number = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Please select a valid option.");
+            return getActionView(actions);
+        }
+        if ((1 <= number) && (number <= 7)) {
+            return number;
+        } else {
+            System.out.println("Please select a valid option.");
+            return getActionView(actions);
+        }
+    }
+
+    /**
      * Dashboard View
      */
 
@@ -83,10 +113,11 @@ public class View {
         List<String> members = new ArrayList<>();
         members.add(Controller.getCurrentUser().getEmail());
 
-        //
+        // Input the group's name
         System.out.println("Enter name of the group: ");
         groupName = sc.nextLine();
 
+        // Input the names of the group's members
         boolean addAnotherMember = false;
 
         System.out.println("ADD GROUP MEMBERS:");

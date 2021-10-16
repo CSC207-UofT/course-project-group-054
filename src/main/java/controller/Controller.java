@@ -16,10 +16,17 @@ public class Controller {
     // TODO: Replace the following dummy variable for app name
     public static String appName = "[APP NAME]";
 
+    public static String[] actions = {
+        "Add an expense",
+        "Show groups",
+        "Check balance",
+        "Update Profile [Coming soon]",
+        "Create a new group",
+        "View expenses",
+        "Log out"
+    };
+
     private static Scanner sc = new Scanner(System.in);
-
-
-
 
     public static void main(String[] args) {
         Data.initializeData();
@@ -30,39 +37,29 @@ public class Controller {
         System.out.println("\n");
 
         while (isLoggedIn) {
-            System.out.println("""
-                    Please enter the number for the actions below:
-                    1. Add an expense
-                    2. Show groups
-                    3. Check balance
-                    4. Update Profile [Coming soon]
-                    5. Create a new group
-                    6. View expenses
-                    7. Log out""");
-            String input = sc.nextLine();
+            int input = View.getActionView(actions); // Return an integer between 1 and the number of actions, inclusive
             switch (input) {
-//                case "1" -> GroupManager.create_temp();
-                case "1" -> createExpenseView();
-                case "2" -> {
+//                case 1 -> GroupManager.create_temp();
+                case 1 -> createExpenseView();
+                case 2 -> {
                     StringBuilder lst = ExpenseManager.show_group(currentUser);
                     System.out.println(lst);
                 }
-                case "3" -> System.out.println("Your balance is: $" + currentUser.getBalance());
-                case "4" -> UserManager.updateProfile(currentUser);
-                case "5" -> {
+                case 3 -> System.out.println("Your balance is: $" + currentUser.getBalance());
+                case 4 -> UserManager.updateProfile(currentUser);
+                case 5 -> {
                     Group g1 = View.createGroupView();
                     if (g1 != null) {
                         Data.groups.add(g1);
                         View.outputGroups(); // For testing the code
                     }
                 }
-                case "6" -> System.out.println(UserManager.getExpenses(currentUser));
-                case "7" -> {
+                case 6 -> System.out.println(UserManager.getExpenses(currentUser));
+                case 7 -> {
                     currentUser = null;
                     isLoggedIn = Boolean.FALSE;
                     System.out.println("Goodbye. Have a nice day!");
                 }
-                default -> System.out.println("Please select a valid option.");
             }
         }
     }
