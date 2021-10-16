@@ -24,9 +24,7 @@ public class View {
         switch (menuInput) {
             case "1" -> loginView();
             case "2" -> signUpView();
-            default -> {
-                System.out.println("Please enter a valid option.");
-            }
+            default -> System.out.println("Please enter a valid option.");
         }
     }
 
@@ -72,25 +70,22 @@ public class View {
 
 
     /**
-     * Create Group View
-     * - View to create new groups
-     * @returns 0: if user is not authenticated, the view doesn't allow new group to be created.
+     * Create and return a new Group based on user input.
+     * @return a new Group based on user input
      */
-    public static int createGroupView() {
+    public static Group createGroupView() {
         if (!Controller.getUserStatus()) {
             System.out.println("Error: You must be authenticated to create a new group.");
-            return 0;
+            return null;
         }
 
-
-        String gName;
+        String groupName;
         List<String> members = new ArrayList<>();
         members.add(Controller.getCurrentUser().getEmail());
 
-
         //
         System.out.println("Enter name of the group: ");
-        gName = sc.nextLine();
+        groupName = sc.nextLine();
 
         boolean addAnotherMember = false;
 
@@ -113,18 +108,12 @@ public class View {
             }
         } while (addAnotherMember);
 
-        Group g1 = new Group(
-                gName, members, new ArrayList<Expense>(), "Edit group description in Manage Group."
-        );
-
-        Data.groups.add(g1);
-
-        /* For testing the code */
-        System.out.println(Data.groups);
-        System.out.println(Data.groups.get(1).getGroupName());
-        /* */
-
-        return 1;
+        return new Group(groupName, members, new ArrayList<>(), "Edit group description in Manage Group.)");
     }
 
+    /* For testing the code */
+    public static void outputGroups() {
+        System.out.println(Data.groups);
+        System.out.println(Data.groups.get(1).getGroupName());
+    }
 }

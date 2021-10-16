@@ -49,16 +49,20 @@ public class Controller {
                 }
                 case "3" -> System.out.println("Your balance is: $" + currentUser.getBalance());
                 case "4" -> UserManager.updateProfile(currentUser);
-                case "5" -> View.createGroupView();
+                case "5" -> {
+                    Group g1 = View.createGroupView();
+                    if (g1 != null) {
+                        Data.groups.add(g1);
+                        View.outputGroups(); // For testing the code
+                    }
+                }
                 case "6" -> System.out.println(UserManager.getExpenses(currentUser));
                 case "7" -> {
                     currentUser = null;
                     isLoggedIn = Boolean.FALSE;
                     System.out.println("Goodbye. Have a nice day!");
                 }
-                default -> {
-                    System.out.println("Please select a valid option.");
-                }
+                default -> System.out.println("Please select a valid option.");
             }
         }
     }
