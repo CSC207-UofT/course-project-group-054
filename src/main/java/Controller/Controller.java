@@ -54,8 +54,8 @@ public class Controller {
                     2. Manage groups
                     3. Check balance
                     4. Update Profile
-                    5. Log out
-                    6. Create a new group""");
+                    5. Create a new group
+                    6. Log out""");
             String input = sc.nextLine();
             switch (input) {
 //                case "1" -> GroupManager.create_temp();
@@ -63,14 +63,12 @@ public class Controller {
                 case "2" -> GroupManager.show_group(currentUser);
                 case "3" -> UserManager.show_balance(currentUser);
                 case "4" -> UserManager.updateProfile(currentUser);
-                case "5" -> {
+                case "6" -> {
                     System.out.println("Goodbye. Have a nice day!");
                     isLoggedIn = Boolean.FALSE;
                 }
-                case "6" -> createGroupView();
-                default -> {
-                    System.out.println("Please select a valid option.");
-                }
+                case "5" -> createGroupView();
+                default -> System.out.println("Please select a valid option.");
             }
         }
     }
@@ -134,7 +132,7 @@ public class Controller {
 
 
     /** View to create new groups
-     * @returns 0: if user is not authenticated, the view doesn't allow new group to be created.
+     * @return 0: if user is not authenticated, the view doesn't allow new group to be created.
      */
     public static int createGroupView() {
         if (!isLoggedIn) {
@@ -151,21 +149,21 @@ public class Controller {
         System.out.println("Enter name of the group: ");
         gName = sc.nextLine();
 
-        boolean addAnotherMember = false;
+        boolean addAnotherMember = true;
 
         do {
-            System.out.println("Enter email of member " + members.size() + 1 + ": ");
+            System.out.println("Enter email of member " + members.size() + ": ");
             String member = sc.nextLine();
             members.add(member);
 
             System.out.println("Would you like to add more members? (y/n)");
 
-            if (sc.nextLine() == "y") {
-                addAnotherMember = Boolean.TRUE;
+            if (sc.nextLine().equals("n")) {
+                addAnotherMember = Boolean.FALSE;
             }
         } while (addAnotherMember);
 
-        Group g1 = new Group(gName, members, new ArrayList<Expense>(), "Dummy description");
+        Group g1 = new Group(gName, members, new ArrayList<>(), "Dummy description");
         Data.GROUPS.add(g1);
 
         /* For testing the code */
