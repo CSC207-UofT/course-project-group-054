@@ -18,8 +18,25 @@ public class Data {
 
         // Creating dummy groups
         GROUPS.add(
-                new Group("One Direction", new ArrayList<String>(), new ArrayList<Expense>(), "")
-        );
+                new Group("One Direction", new ArrayList<String>() {
+                    {
+                        add("rohan.tinna@mail.utoronto.ca");
+                        add("johny@example.com");
+                    }
+                }, new ArrayList<Expense>(), "")
+        ); // Group with 2 users
+
+        GROUPS.add(
+                new Group("Avengers", new ArrayList<String>() {
+                    {
+                        add("rohan.tinna@mail.utoronto.ca");
+                    }
+                }, new ArrayList<Expense>(), "")
+        ); // Group with 1 user
+
+        GROUPS.add(
+                new Group("Impossible Group", new ArrayList<String>(), new ArrayList<Expense>(), "")
+        ); // Empty group
     }
 
 

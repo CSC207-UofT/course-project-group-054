@@ -37,7 +37,7 @@ public class User extends Person implements AccountFeatures {
         /*
         TODO: Implement this method
          */
-        return "Update generateUUID() in";
+        return "Update generateUUID() in User class";
     }
 
     public String getUUID(){

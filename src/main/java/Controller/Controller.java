@@ -37,7 +37,7 @@ public class Controller {
 
     public static void main(String[] args) {
         Data.initializeData();
-        currentUser = (User) Data.USERS.get(0);
+        currentUser = (User) Data.USERS.get(0); // TODO Change this to authenticated user in submission version
 
         isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome to " + appName);
@@ -51,23 +51,27 @@ public class Controller {
             System.out.println("""
                     Please enter the number for the actions below:
                     1. Add an expense
-                    2. Manage groups
+                    2. Show groups
                     3. Check balance
-                    4. Update Profile
-                    5. Log out
-                    6. Create a new group""");
+                    4. Update Profile [Coming soon]
+                    5. Create a new group
+                    6. Log out""");
             String input = sc.nextLine();
             switch (input) {
 //                case "1" -> GroupManager.create_temp();
                 case "1" -> createExpenseView();
-                case "2" -> GroupManager.show_group(currentUser);
-                case "3" -> UserManager.show_balance(currentUser);
-                case "4" -> UserManager.updateProfile(currentUser);
-                case "5" -> {
-                    System.out.println("Goodbye. Have a nice day!");
-                    isLoggedIn = Boolean.FALSE;
+                case "2" -> {
+                    StringBuilder lst = GroupManager.show_group(currentUser);
+                    System.out.println(lst);
                 }
-                case "6" -> createGroupView();
+                case "3" -> System.out.println("Your balance is: $" + currentUser.getBalance());
+                case "4" -> UserManager.updateProfile(currentUser);
+                case "5" -> createGroupView();
+                case "6" -> {
+                    currentUser = null;
+                    isLoggedIn = Boolean.FALSE;
+                    System.out.println("Goodbye. Have a nice day!");
+                }
                 default -> {
                     System.out.println("Please select a valid option.");
                 }
@@ -145,6 +149,7 @@ public class Controller {
 
         String gName;
         List<String> members = new ArrayList<>();
+        members.add(currentUser.getEmail());
 
 
         //
@@ -153,19 +158,29 @@ public class Controller {
 
         boolean addAnotherMember = false;
 
+        System.out.println("ADD GROUP MEMBERS:");
+        System.out.println("You will now be asked to add group members. " +
+                "Press enter if you don't want to add any member");
+
         do {
-            System.out.println("Enter email of member " + members.size() + 1 + ": ");
+            System.out.println("Enter email of member " + members.size() + ": ");
             String member = sc.nextLine();
+            if (member.equals("")) { continue; }
             members.add(member);
 
             System.out.println("Would you like to add more members? (y/n)");
 
-            if (sc.nextLine() == "y") {
+            if (sc.nextLine().equals("y")) {
                 addAnotherMember = Boolean.TRUE;
+            } else {
+                addAnotherMember = Boolean.FALSE;
             }
         } while (addAnotherMember);
 
-        Group g1 = new Group(gName, members, new ArrayList<Expense>(), "Dummy description");
+        Group g1 = new Group(
+                gName, members, new ArrayList<Expense>(), "Edit group description in Manage Group."
+        );
+
         Data.GROUPS.add(g1);
 
         /* For testing the code */

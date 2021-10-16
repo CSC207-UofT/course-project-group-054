@@ -77,7 +77,13 @@ public class Expense {
         return true;
     }
 
-    public static boolean createGroupExpense() {
+    public static boolean createGroupExpense(String title, double amount, String payerUUID, Group group) {
+        try {
+            Expense expense = new Expense(title, amount, payerUUID, group.getGroupMembers(), "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 

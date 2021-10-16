@@ -1,4 +1,23 @@
 # Changelog
+> Note: many tests may fail as a result of changes to variable names over the three major changes below.
+> The code may also be different from our CRC models.
+
+## Features implemented so far
+- [x] Add an expense (Group expense still pending)
+- [x] Show groups
+- [x] Check balance
+- [ ] Update profile
+- [x] Create a new group
+- [x] Log out
+
+## Many small changes
+- Added `View` package to manage all the views. Now we don't need to have every view implemented in the controller.
+- Made many small minor changes to the code.
+- Implemented *Check balance* feature.
+- Partially completed `createGroupExpense` method in `Expense` class
+- Overridden `toString()` method in `Group` class
+
+
 ## Feature to create groups
 ### Changes
 - commented ExtendedGroup & TemporaryGroup (**for now**, will fix this)

@@ -53,6 +53,11 @@ public class Group {
     public String getDescription() {
         return this.description;
     }
+    
+    @Override
+    public String toString() {
+        return this.groupName;
+    }
 
 
 }
