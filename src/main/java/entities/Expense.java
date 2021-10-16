@@ -1,14 +1,14 @@
 /*
  * Below is the Expense class which represents the origin of our program.
  */
-package Entities;
+package entities;
 
 
 import java.time.*;
 import java.util.*;
-import Entities.*;
-import Use_Cases.*;
-import Data.*;
+
+import controller.Controller;
+import data.*;
 
 public class Expense {
 
@@ -39,6 +39,7 @@ public class Expense {
         this.payerUUID = payerUUID;
         this.description = description;
         this.isGroupExpense = false; // TODO: Change this so it is not fixed
+        this.EUID = Integer.toString(Data.expenses.size() + 1);
     }
 
     public String getTitle(){return this.title;}
@@ -67,8 +68,17 @@ public class Expense {
     public static boolean createExpense(double amount, String payerUUID, List<String> people) {
         try {
             Expense expense = new Expense("Expense Title", amount, payerUUID, people, "Description");
-            Data.EXPENSES.add(expense);
+            Data.expenses.add(expense);
             // TODO Search for user through UUID in Data.USERS and add expense in that user.expenses
+
+            System.out.println("Debug: " + people);
+
+            for (String userEmail: people) {
+                try {
+                    System.out.println(Controller.getUser(people.get(0)).getName());
+                    Objects.requireNonNull(Controller.getUser(userEmail)).expenses.add(expense.EUID);
+                } catch (Exception ignored) { }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -96,6 +106,13 @@ public class Expense {
         // lines.forEach();
     }
 
+    public String getEUID() {
+        return this.EUID;
+    }
 
 
+    @Override
+    public String toString() {
+        return "Expense " + this.EUID;
+    }
 }

@@ -1,9 +1,8 @@
 /*
  * Below is the abstract Group class which represents the origin of our program.
  */
-package Entities;
+package entities;
 
-import javax.swing.*;
 import java.util.*;
 
 

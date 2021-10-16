@@ -1,23 +1,23 @@
-package Data;
+package data;
 
-import Entities.*;
+import entities.*;
 import java.util.*;
 
 public class Data {
-    public static List<Person> USERS = new ArrayList<>();
-    public static List<Expense> EXPENSES = new ArrayList<>();
-    public static List<Group> GROUPS = new ArrayList<>();
+    public static List<Person> users = new ArrayList<>();
+    public static List<Expense> expenses = new ArrayList<>();
+    public static List<Group> groups = new ArrayList<>();
 
     public static void initializeData() {
         // Creating dummy users
-        USERS.add(new User("Rohan", 100, "rohan.tinna@mail.utoronto.ca"));
-        USERS.add(new User("Johny", 100, "johny@example.com"));
+        users.add(new User("Rohan", 100, "rohan.tinna@mail.utoronto.ca"));
+        users.add(new User("Johny", 100, "johny@example.com"));
 
         // Creating dummy expenses
 
 
         // Creating dummy groups
-        GROUPS.add(
+        groups.add(
                 new Group("One Direction", new ArrayList<String>() {
                     {
                         add("rohan.tinna@mail.utoronto.ca");
@@ -26,7 +26,7 @@ public class Data {
                 }, new ArrayList<Expense>(), "")
         ); // Group with 2 users
 
-        GROUPS.add(
+        groups.add(
                 new Group("Avengers", new ArrayList<String>() {
                     {
                         add("rohan.tinna@mail.utoronto.ca");
@@ -34,7 +34,7 @@ public class Data {
                 }, new ArrayList<Expense>(), "")
         ); // Group with 1 user
 
-        GROUPS.add(
+        groups.add(
                 new Group("Impossible Group", new ArrayList<String>(), new ArrayList<Expense>(), "")
         ); // Empty group
     }
