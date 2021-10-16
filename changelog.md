@@ -1,5 +1,16 @@
 # Changelog
+## Feature to create groups
+### Changes
+- commented ExtendedGroup & TemporaryGroup (**for now**, will fix this)
+- created a `getUUID` method in `Controller` class to get user UID using email (not tested the method)
+- created `createGroupView` method that uses a CLI to allow users to create a group
+- changed some return types and variable types in `Group` class (we can use original types after program is fully completed)
 
+### Feature desctiption
+Users can now create groups with any name and a dummy description.
+
+---
+## Feature to create new expenses
 ### Made a lot of changes:
 - changed a lot of variable types and names. Also made changes to some method return types and names
 - most tests would not work but only require slight modification for them to work properly
