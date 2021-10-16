@@ -9,7 +9,7 @@ import java.util.*;
 
 
 public class User extends Person implements AccountFeatures {
-    private String UUID;
+    private final String UUID;
     private List<Group> groups;
 
     /**
@@ -46,5 +46,13 @@ public class User extends Person implements AccountFeatures {
 
     public List<Group> getGroups() {
         return this.groups;
+    }
+
+    public boolean addGroups(Group g){
+        if(!groups.contains(g)) {
+            this.groups.add(g);
+            return true;
+        }
+        return false;
     }
 }

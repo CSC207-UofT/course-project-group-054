@@ -6,8 +6,6 @@ package Entities;
 import javax.swing.*;
 import java.util.*;
 
-
-
 public class Group {
     protected String groupName;
     protected List<String> groupMembers;

@@ -1,6 +1,5 @@
 package Controller;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import Use_Cases.*;
@@ -18,7 +17,8 @@ public class Controller {
 
     private static Scanner sc = new Scanner(System.in);
 
-    public static void signUp() {
+    public static void welcomeScreen() {
+        // For now we will have to sign up each time
         String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
         List<String> inputs = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class Controller {
             System.out.println(i + ") " + mainMenuOptions[i - 1]);
         }
         System.out.println("\n");
-//        signUp();
+        welcomeScreen(); // see welcomeScreen comment
 
         while (isLoggedIn) {
             System.out.println("""
@@ -58,17 +58,27 @@ public class Controller {
                     6. Create a new group""");
             String input = sc.nextLine();
             switch (input) {
-//                case "1" -> GroupManager.create_temp();
-                case "1" -> createExpenseView();
-                case "2" -> GroupManager.show_group(currentUser);
-                case "3" -> UserManager.show_balance(currentUser);
-                case "4" -> UserManager.updateProfile(currentUser);
-                case "5" -> {
+                case "1" :
+                    createExpenseView();
+                    break;
+                case "2":
+                    GroupManager.showGroup(currentUser);
+                    break;
+                case "3":
+                    UserManager.show_balance(currentUser);
+                    break;
+                case "4":
+                    UserManager.updateProfile(currentUser);
+                    break;
+                case "5": {
                     System.out.println("Goodbye. Have a nice day!");
                     isLoggedIn = Boolean.FALSE;
+                    break;
                 }
-                case "6" -> createGroupView();
-                default -> {
+                case "6":
+                    createGroupView();
+                    break;
+                default: {
                     System.out.println("Please select a valid option.");
                 }
             }
@@ -134,12 +144,11 @@ public class Controller {
 
 
     /** View to create new groups
-     * @returns 0: if user is not authenticated, the view doesn't allow new group to be created.
      */
-    public static int createGroupView() {
+    public static void createGroupView(User currentUser) {
         if (!isLoggedIn) {
             System.out.println("Error: You must be authenticated to create a new group.");
-            return 0;
+            return;
         }
 
 
@@ -154,26 +163,22 @@ public class Controller {
         boolean addAnotherMember = false;
 
         do {
-            System.out.println("Enter email of member " + members.size() + 1 + ": ");
+            System.out.println("Enter email of member " + (members.size() + 1) + ": ");
             String member = sc.nextLine();
             members.add(member);
 
             System.out.println("Would you like to add more members? (y/n)");
 
-            if (sc.nextLine() == "y") {
+            if (sc.nextLine().equals("y")) {
                 addAnotherMember = Boolean.TRUE;
+            }
+            else{
+                addAnotherMember = Boolean.FALSE;
             }
         } while (addAnotherMember);
 
-        Group g1 = new Group(gName, members, new ArrayList<Expense>(), "Dummy description");
-        Data.GROUPS.add(g1);
+        currentUser.addGroups()
 
-        /* For testing the code */
-        System.out.println(Data.GROUPS);
-        System.out.println(Data.GROUPS.get(1).getGroupName());
-        /* */
-
-        return 1;
     }
 
     /**
