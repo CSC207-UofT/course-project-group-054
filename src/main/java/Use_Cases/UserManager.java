@@ -11,4 +11,8 @@ public class UserManager {
     public static void updateProfile(Person p) {
 
     }
+
+    public boolean createExpense() {
+        return true;
+    }
 }

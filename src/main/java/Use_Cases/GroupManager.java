@@ -7,6 +7,8 @@ public class GroupManager {
     }
 
     public static List<Group> show_group(Person p){
-        return p.getGroups();
+        // return p.getGroups();
+        // TODO implement this
+        return new ArrayList<Group>();
     }
 }

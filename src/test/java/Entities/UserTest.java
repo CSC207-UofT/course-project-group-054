@@ -1,9 +1,10 @@
-package Entities;
+package java.Entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import Entities.*;
 
 public class UserTest {
 
@@ -28,7 +29,7 @@ public class UserTest {
         /*
         TODO: Implement this test
          */
-        assertEquals(0, u.getUID());
+        assertEquals(0, u.getUUID());
     }
 
 }
