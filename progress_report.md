@@ -22,6 +22,7 @@ We have **5** main classes: Person, User, Expense, Group, and
 - **Wasee** has worked on `Controller`, `Person`, `User`, `Group`, and `View` classes. He has also worked on the CRC Cards and specification, as well. He has implemented features such as payDebt and refined features and documentation. He has also helped debug non functional code.
 - **Subhasis** has worked on `Budget`, `Item`, `InOut`, and separated `Controller` from the `View`. He created the Budget test cases. He has worked on the CRC Cards and Specification as well.He has also helped debug non functional code.
 - **Lingyun** has worked on `Groups`, `Expense`, created tests for entities the later deleted `ExtendedGroup` and `TemporaryGroup`. Lingyun has also worked on the CRC Cards and specification.He has also helped debug non functional code.
+- **Mohamed** has worked on the CRC cards and specification. He has also helped with naming.
 
 ## Plans for Phase 1 & Phase 2
 - **Storing data in actual database**: For Phase 0, we created a `Data` class to emulate a database. We did this because setting up a database requires careful consideration of what kind of database to use (SQL, noSQL, Graph, on-device storage etc.). We plan to implement a working database cloud or on-device database for next submissions.
