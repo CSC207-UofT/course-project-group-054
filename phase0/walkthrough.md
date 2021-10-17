@@ -8,13 +8,13 @@ https://docs.google.com/document/d/1LANp7L1RGW__yy-vadollgQmEJeXje5iBjtSXnTR4LY/
 
 **Some Basic instructions** (Please strictly follow the type of inputs as we haven’t included much exceptions catch in this project yet.):
 
-1. Run the class called Controller to open our app;
+1. Run the class called **Controller** to open our app;
 
-2. Type “2” to create a new account;
+2. Type “**2**” to create a **new account**;
 
-3. Type [your name], [your email], and your [phone number]
+3. Type [**your name**], [**your email**], and your [**phone number**]
 
-4. Then, Type “1” to sign in with the account you just created;
+4. Then, type “**1**” to **sign in** with the account you just created;
 
 5. All the eight actions would then be prompted in the main menu;
 
