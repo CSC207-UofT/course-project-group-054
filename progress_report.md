@@ -12,6 +12,8 @@ The `User` class is a child class of `People`. Further, the `Expense` class mode
 
 ## Member progress
 - **Rohan** has mostly worked on the `User`, `Expense`, `Controller`, and `View` classes. He worked with other team members on implementing features such as creating a group, adding an expense (group and non-group), creating a user, and logging in and authenticating the user.
+- **Wasee** has worked on `Controller`, `Person`, `User`, `Group`, and `View` classes. He has also worked on the CRC Cards and specification, as well. He has implemented features such as payDebt and refined features and documentation. 
+- **Subhasis** has worked on `Budget`, `Item`, `InOut`, and separated `Controller` from the `View`. He created the Budget test cases. He has worked on the CRC Cards and Specification as well.
 
 ## Plans for Phase 1 & Phase 2
 - **Storing data in actual database**: For Phase 0, we created a `Data` class to emulate a database. We did this because setting up a database requires careful consideration of what kind of database to use (SQL, noSQL, Graph, on-device storage etc.). We plan to implement a working database cloud or on-device database for next submissions.
