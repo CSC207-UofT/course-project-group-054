@@ -7,6 +7,13 @@ We designed our app such that each class is responsible for a specific task. Our
 
 The `User` class is a child class of `People`. Further, the `Expense` class models users’ expenses. Similarly, the `Group` class models groups of people.
 
+## CRC Cards Summary
+We have **5** main classes: Person, User, Expense, Group, and 
+- **`Person`**: The Person class models a person. It contains attributes such as name. Person class is the _parent class_ of `User`.
+- **`User`**: User class models a registered user on our app. It is a child class of `Person` and inherits some attributes and methods from its parent class. It also contains attributes UUID, email, balance, expenses, and groups. It contains many methods such as updateBalance() among others.
+- **`Expense`**: Expense class models an expense. It contains attributes EUID, amount, people, isGroupExpense. It also contains methods toString() among others. An expense can either be a group expense (iff isGroupExpense is true) or a non-group expense.
+- **`Group`**: The Group class models a group of people. Group class contains attributes like GUID, people, etc.
+
 ## Design Summary
 - Our app is designed in a way to minimise redundant storage of data. We use **unique identifiers** for expenes, users, and groups. This allows us to keep a single copy of all objects (of all types) in our central database. Then any object can be accessed and even modified by using its unique identifier.
 
