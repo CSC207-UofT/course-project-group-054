@@ -39,4 +39,8 @@ public class Item {
     public int getQuantity() {
         return quantity;
     }
+
+    public Expense toExpense(String payerUUID, Group group) {
+        return new Expense(name, quantity * cost, payerUUID, group.getGroupMembers(), category);
+    }
 }

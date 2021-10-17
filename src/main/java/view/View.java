@@ -5,17 +5,24 @@ import data.*;
 import entities.*;
 
 
-public class View {
+public class View implements InOut {
     // TODO Transfer all the views from Controller class here
     public static Scanner sc = new Scanner(System.in);
+
+    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account", "Close app"};
+
+    public String getInput() {
+        return sc.nextLine();
+    }
+
+    public void sendOutput(Object s) {
+        System.out.println(s);
+    }
 
     /**
      * Menu View
      */
-
-    public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account", "Close app"};
-
-    public static void menuView() {
+    public void menuView() {
         System.out.println("Welcome to " + Controller.appName);
         for (int i = 1; i <= mainMenuOptions.length; i++) {
             System.out.println(i + ") " + mainMenuOptions[i - 1]);
@@ -27,29 +34,34 @@ public class View {
             case "3" -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
+
+        System.out.println('\n');
     }
 
 
     /**
      * Login View
      */
-    public static void loginView() {
+    public void loginView() {
         // TODO: Implement this method
         System.out.println("Enter your email: ");
         String email = sc.nextLine();
 
-        User user = Controller.getUser(email);
+        User user = Controller.getUser(email); // TODO Set it as indexOf user in Data.USER instead of directly assigning user object
+
         if (user != null) {
             Controller.authenticateUser(user);
+            System.out.println("Welcome back, " + user.getName() + "!");
+            Controller.dashboard(this);
         } else {
             System.out.println("ERROR: There was a problem logging you in. Please try again.");
         }
     }
 
     /**
-     * Login View
+     * Signup View
      */
-    public static void signUpView() {
+    public void signUpView() {
         String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
         List<String> inputs = new ArrayList<>();
 
@@ -74,10 +86,10 @@ public class View {
      * @return a number between 1 and the length of the given list of actions, inclusive, representing the action at
      *         the corresponding position in the given list
      */
-    public static int getActionView(String[] actions) {
+    public int getActionView(String[] actions) {
         System.out.println("Please enter the number for the actions below:");
         for (int i = 1; i <= actions.length; i++) {
-            System.out.println(i + ". " + actions[i]);
+            System.out.println(i + ". " + actions[i - 1]);
         }
         String input = sc.nextLine();
         int number;
@@ -99,7 +111,7 @@ public class View {
      * Create and return a new Group based on user input.
      * @return a new Group based on user input
      */
-    public static Group createGroupView() {
+    public Group createGroupView() {
         if (!Controller.getUserStatus()) {
             System.out.println("Error: You must be authenticated to create a new group.");
             return null;
@@ -139,7 +151,7 @@ public class View {
     }
 
     /* For testing the code */
-    public static void outputGroups() {
+    public void outputGroups() {
         System.out.println(Data.groups);
         System.out.println(Data.groups.get(1).getGroupName());
     }

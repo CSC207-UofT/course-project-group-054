@@ -1,12 +1,10 @@
 package controller;
 
-//import java.sql.SQLOutput;
 import java.util.*;
 
 import use_cases.*;
 import entities.*;
 import data.*;
-import view.*;
 
 public class Controller {
 
@@ -26,81 +24,65 @@ public class Controller {
         "Log out"
     };
 
-    private static final Scanner sc = new Scanner(System.in);
-
-    public static void main(String[] args) {
-        Data.initializeData();
-
-        do {
-            View.menuView();
-        } while (!isLoggedIn);
-
-        System.out.println("\n");
-    }
-  
-    public static void dashboard() {
+    public static void dashboard(InOut inOut) {
         while (isLoggedIn) {
-            int input = View.getActionView(actions); // Return an integer between 1 and the number of actions, inclusive
+            int input = inOut.getActionView(actions); // Return an integer between 1 and the number of actions, inclusive
             switch (input) {
 //                case 1 -> GroupManager.create_temp();
-                case 1 -> createExpenseView();
+                case 1 -> createExpense(inOut);
                 case 2 -> {
                     StringBuilder lst = ExpenseManager.show_group(currentUser);
-                    System.out.println(lst);
+                    inOut.sendOutput(lst);
                 }
-                case 3 -> System.out.println("Your balance is: $" + currentUser.getBalance());
+                case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
                 case 4 -> UserManager.updateProfile(currentUser);
                 case 5 -> {
-                    Group g1 = View.createGroupView();
+                    Group g1 = inOut.createGroupView();
                     if (g1 != null) {
                         Data.groups.add(g1);
-                        View.outputGroups(); // For testing the code
+                        inOut.outputGroups(); // For testing the code
                     }
                 }
-                case 6 -> System.out.println(UserManager.getExpenses(currentUser));
+                case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
                 case 7 -> {
                     currentUser = null;
                     isLoggedIn = Boolean.FALSE;
-                    System.out.println("Goodbye. Have a nice day!");
+                    inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
         }
     }
 
-    public static void createExpenseView() {
-        double amount;
+    public static void createExpense(InOut inOut) {
         List<String> people = new ArrayList<>();
         people.add(currentUser.getEmail());
 
-        System.out.println("Enter amount: ");
-        amount = Float.parseFloat(sc.nextLine());
-
-        boolean isGroupExpense;
+        inOut.sendOutput("Enter amount: ");
+        double amount = Float.parseFloat(inOut.getInput());
 
         // Asking User whether expense is a group expense
-        System.out.println("Group expense (y/n): ");
-        String input = sc.nextLine();
+        inOut.sendOutput("Group expense (y/n): ");
+        String input = inOut.getInput();
 
         // GROUP EXPENSE
         if (input.equals("y") || input.equals("Y")) {
             StringBuilder lst = ExpenseManager.show_group(currentUser);
-            System.out.println(lst);
-            System.out.print("Enter group name: ");
-            String groupName = sc.nextLine();
+            inOut.sendOutput(lst);
+            inOut.sendOutput("Enter group name: ");
+            String groupName = inOut.getInput();
             try {
                 // TODO Implement this as Group.findGroup rather than directly
                 for (Group group: Data.groups) {
                     if (group.getGroupName().equals(groupName)) {
                         if (Expense.createGroupExpense("", amount, currentUser.getUUID(), group)) {
-                            System.out.println("Successfully added to your expenses.");
+                            inOut.sendOutput("Successfully added to your expenses.");
                         }
                         break;
                     }
                 }
             } catch (Exception e) {
-                System.out.println("There was an error finding your group in our database.");
+                inOut.sendOutput("There was an error finding your group in our database.");
             }
-//            System.out.println("Group expenses are not currently supported.");
         }
 
         // NOT A GROUP EXPENSE
@@ -108,16 +90,16 @@ public class Controller {
 
             boolean addMorePeople = Boolean.TRUE;
             do {
-                System.out.println("Do you want to add more people to this expense? (y/n)");
-                String input2 = sc.nextLine();
+                inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
+                String input2 = inOut.getInput();
                 switch (input2) {
                     case "y" -> {
-                        System.out.println("Enter user email:");
-                        people.add(sc.nextLine());
+                        inOut.sendOutput("Enter user email:");
+                        people.add(inOut.getInput());
                     }
                     case "n" -> {
                         if (people.size() == 0) {
-                            System.out.println("ERROR: You need to have at least one other person to share " +
+                            inOut.sendOutput("ERROR: You need to have at least one other person to share " +
                                     "expense with.");
                         } else {
                             addMorePeople = Boolean.FALSE;
@@ -126,13 +108,13 @@ public class Controller {
                 }
             } while (addMorePeople);
             if (Expense.createExpense(amount, currentUser.getUUID(), people)) {
-                System.out.println("Expense has been successfully created!");
-                System.out.println(Data.expenses);
-                System.out.println(currentUser.expenses.get(0));
+                inOut.sendOutput("Expense has been successfully created!");
+                inOut.sendOutput(Data.expenses);
+                inOut.sendOutput(currentUser.expenses.get(0));
             }
         } else {
             // TODO: Handle this
-            System.out.println("Please enter a valid choice.");
+            inOut.sendOutput("Please enter a valid choice.");
         }
     }
 
@@ -140,8 +122,6 @@ public class Controller {
         // TODO: Implement this method
         currentUser = user; // TODO Set it as indexOf user in Data.USER insetead of directly assigning user object
         isLoggedIn = Boolean.TRUE;
-        System.out.println("Welcome back, " + currentUser.getName() + "!");
-        dashboard();
     }
 
     /**
@@ -171,6 +151,29 @@ public class Controller {
             }
         } catch (Exception ignored) { }
         return null;
+    }
+
+    /**
+     * Function
+     * @return true, if user is logged in. False otherwise.
+     */
+    public static boolean getUserStatus() {
+        return isLoggedIn;
+    }
+
+    /**
+     * Set the current user's login status to the given value.
+     */
+    public static void setUserStatus(boolean isLoggedIn) {
+        Controller.isLoggedIn = isLoggedIn;
+    }
+
+    /**
+     * Function
+     * @return current user
+     */
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     public static Expense getExpense(String expenseUID) {
