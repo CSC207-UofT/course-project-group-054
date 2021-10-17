@@ -16,7 +16,4 @@ public interface InOut {
     int getActionView(String[] actions);
 
     Group createGroupView();
-
-    /* For testing the code */
-    void outputGroups();
 }

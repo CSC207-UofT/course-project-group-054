@@ -11,6 +11,6 @@ public class Main {
 
         do {
             view.menuView();
-        } while (!Controller.getUserStatus());
+        } while (Controller.getIsNotLoggedIn());
     }
 }

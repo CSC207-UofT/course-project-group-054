@@ -3,6 +3,7 @@ import java.util.*;
 import controller.*;
 import data.*;
 import entities.*;
+import use_cases.UserManager;
 
 /*
 This is the View class which handles what the user sees in the command line.
@@ -112,7 +113,7 @@ public class View implements InOut {
      * @return a new Group based on user input
      */
     public Group createGroupView() {
-        if (!Controller.getUserStatus()) {
+        if (Controller.getIsNotLoggedIn()) {
             System.out.println("Error: You must be authenticated to create a new group.");
             return null;
         }

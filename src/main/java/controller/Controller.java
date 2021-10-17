@@ -39,30 +39,30 @@ public class Controller {
             int input = inOut.getActionView(actions);
             
             switch (input) {
-                case "1" -> {
+                case 1 -> {
                     inOut.sendOutput("Enter the title: ");
                     String expenseTitle = inOut.getInput();
                     createExpense(inOut, currentUser, expenseTitle);
                 }
-                case "2" -> {
+                case 2 -> {
                     StringBuilder lst = GroupManager.showGroup(currentUser);
                     inOut.sendOutput(lst);
                 }
-                case "3" -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
-                case "4" -> inOut.sendOutput("Feature not currently implemented.");
-                case "5" -> {
+                case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
+                case 4 -> inOut.sendOutput("Feature not currently implemented.");
+                case 5 -> {
                     Group g1 = inOut.createGroupView();
                     if (g1 != null) {
                         Data.groups.add(g1);
                     }
                 }
-                case "6" -> inOut.sendOutput(UserManager.getExpenses(currentUser));
-                case "7" -> {
+                case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
+                case 7 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expensePaid = inOut.getInput();
                     ExpenseManager.payDebt(currentUser, expensePaid);
                 }
-                case "8" -> {
+                case 8 -> {
                     currentUser = null;
                     isLoggedIn = false;
                     inOut.sendOutput("Goodbye. Have a nice day!");
@@ -91,7 +91,7 @@ public class Controller {
 
         // GROUP EXPENSE
         if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = GroupManager.show_group(currentUser);
+            StringBuilder lst = GroupManager.showGroup(currentUser);
             inOut.sendOutput(lst);
             inOut.sendOutput("Enter group name: ");
             String groupName = inOut.getInput();
@@ -156,8 +156,8 @@ public class Controller {
      * Check if the user is logged into the system or not.
      * @return true, if user is logged in. False otherwise.
      */
-    public static boolean getUserStatus() {
-        return isLoggedIn;
+    public static boolean getIsNotLoggedIn() {
+        return !isLoggedIn;
     }
 
     /**
