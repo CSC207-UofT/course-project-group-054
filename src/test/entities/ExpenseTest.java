@@ -1,50 +1,43 @@
 package entities;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import entities.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ExpenseTest {
 
     Expense e;
     Person p;
     User u;
+    List<String> lst = new ArrayList<>();
 
-    @BeforeEach
-    public void setUp() {
+    @Before
+    public void TestSetUp() {
         p = new Person("name", 100.01, "email");
         u = new User("name", 100.01, "email");
-        List<Person> lst = new ArrayList<>();
-        lst.add(p);
-        lst.add(u);
-        // TODO: Rewrite this
-//        e = new Expense("title", 120.01, lst, "description");
+        lst.add(p.getName());
+        lst.add(u.getName());
+        e = new Expense("title", 120.01, lst);
+    }
+
+
+    @Test
+    public void TestgetAmount() {
+        assertEquals(120.01, e.getAmount(), 0);
     }
 
     @Test
-    public void getTitle() {
-        assertEquals("title", e.getTitle());
-    }
+    public void TestEUID() {assertEquals("1", e.getEUID());}
+
 
     @Test
-    public void getCost() {
-        assertEquals(120.01, e.getAmount());
+    public void TestSettleExpense(){
+        e.settleExpense();
+        assertEquals(0, e.getAmount(), 0);
     }
 
-    @Test
-    public void getPayers() {
-//        assertEquals(p, e.getPayer().get(0));
-//        assertEquals(u, e.getPayer().get(1));
-        // TODO: Rewrite this test
-    }
-
-    @Test
-    public void getDescription() {
-        assertEquals("description", e.getDescription());
-    }
 }
