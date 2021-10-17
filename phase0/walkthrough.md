@@ -16,23 +16,23 @@ https://docs.google.com/document/d/1LANp7L1RGW__yy-vadollgQmEJeXje5iBjtSXnTR4LY/
 
 4. Then, type “**1**” to **sign in** with the account you just created;
 
-5. All the eight actions would then be prompted in the main menu;
+5. All the eight actions would then be prompted in the **main menu**;
 
-6. Type “5” to create a new group;
+6. Type “**5**” to create a **new group**;
 
-7. Follow the instructions and type [group name]
+7. Follow the instructions and type [**group name**]
 
-8. Then, add as many people as you want to the group by typing their emails (click [enter] if you don’t want to add any member)
+8. Then, add as many people as you want to the group by typing their emails (click [**enter**] if you don’t want to add any member)
 
-9. After you adding all the people, you would be sent back to the main menu;
+9. After you adding all the people, you would be sent back to the **main menu**;
 
-10. Type “2” to see the group you just created;
+10. Type “**2**” to see the group you just created;
 
-11. Type “1” to create a new expense with your friends;
+11. Type “**1**” to create a new expense with your friends;
 
-12. Enter the [name] and [amount] of the expense;
+12. Enter the [**name**] and [**amount**] of the expense;
 
-13. You could then choose whether it is a group expense;
+13. You could then choose whether it is a **group expense**;
 
 14. Type “y”, and it will show all the groups you have;
 
