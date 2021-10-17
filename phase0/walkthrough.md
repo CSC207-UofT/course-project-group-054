@@ -8,7 +8,7 @@ John also used the app to split expenses with just one other person. When John g
 
 Some Basic instructions (Please strictly follow the type of inputs as we haven’t included much exceptions catch in this project yet.):
 
-Run the class called Controller to open our app;
+Run the class called Main to open our app;
 
 Type “2” to create a new account;
 
