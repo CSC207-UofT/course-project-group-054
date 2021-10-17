@@ -1,3 +1,6 @@
+/*
+This file represents the controller class which handles the interactions between inputs and outputs.
+ */
 package controller;
 
 import java.util.*;
@@ -10,9 +13,8 @@ public class Controller {
 
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
-
-    // TODO: Replace the following dummy variable for app name
-    public static String appName = "[APP NAME]";
+    public static String appName = "Money Manager";
+    private static final Scanner sc = new Scanner(System.in);
 
     public static String[] actions = {
         "Add an expense",
@@ -21,39 +23,62 @@ public class Controller {
         "Update Profile [Coming soon]",
         "Create a new group",
         "View expenses",
+        "Pay someone [Coming soon]",
         "Log out"
     };
-
+  
+    /**
+     * While the user is logged in, have the user choose an action to perform on their account entities and perform
+     * that action.
+     * 
+     * @param inOut the user interface object
+     */
     public static void dashboard(InOut inOut) {
         while (isLoggedIn) {
-            int input = inOut.getActionView(actions); // Return an integer between 1 and the number of actions, inclusive
+            // Return an integer between 1 and the number of actions, inclusive
+            int input = inOut.getActionView(actions);
+            
             switch (input) {
-//                case 1 -> GroupManager.create_temp();
-                case 1 -> createExpense(inOut);
-                case 2 -> {
-                    StringBuilder lst = ExpenseManager.show_group(currentUser);
+                case "1" -> {
+                    inOut.sendOutput("Enter the title: ");
+                    String expenseTitle = inOut.getInput();
+                    createExpense(inOut, currentUser, expenseTitle);
+                }
+                case "2" -> {
+                    StringBuilder lst = GroupManager.showGroup(currentUser);
                     inOut.sendOutput(lst);
                 }
-                case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
-                case 4 -> UserManager.updateProfile(currentUser);
-                case 5 -> {
+                case "3" -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
+                case "4" -> inOut.sendOutput("Feature not currently implemented.");
+                case "5" -> {
                     Group g1 = inOut.createGroupView();
                     if (g1 != null) {
                         Data.groups.add(g1);
-                        inOut.outputGroups(); // For testing the code
                     }
                 }
-                case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
-                case 7 -> {
+                case "6" -> inOut.sendOutput(UserManager.getExpenses(currentUser));
+                case "7" -> {
+                    inOut.sendOutput("Enter the EUID of the expense you wish to pay");
+                    String expensePaid = inOut.getInput();
+                    ExpenseManager.payDebt(currentUser, expensePaid);
+                }
+                case "8" -> {
                     currentUser = null;
-                    isLoggedIn = Boolean.FALSE;
+                    isLoggedIn = false;
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
         }
     }
 
-    public static void createExpense(InOut inOut) {
+    /**
+     * Create the view where we interact with the functions of Expense.
+     * 
+     * @param inOut the user interface object
+     * @param u The user that is calling this function.
+     * @param expenseTitle The title of the expense
+     */
+    public static void createExpense(InOut inOut, User u, String expenseTitle) {
         List<String> people = new ArrayList<>();
         people.add(currentUser.getEmail());
 
@@ -66,16 +91,16 @@ public class Controller {
 
         // GROUP EXPENSE
         if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = ExpenseManager.show_group(currentUser);
+            StringBuilder lst = GroupManager.show_group(currentUser);
             inOut.sendOutput(lst);
             inOut.sendOutput("Enter group name: ");
             String groupName = inOut.getInput();
             try {
-                // TODO Implement this as Group.findGroup rather than directly
                 for (Group group: Data.groups) {
                     if (group.getGroupName().equals(groupName)) {
-                        if (Expense.createGroupExpense("", amount, currentUser.getUUID(), group)) {
+                        if (Expense.createGroupExpense(expenseTitle, amount, group)) {
                             inOut.sendOutput("Successfully added to your expenses.");
+                            u.updateBalance(-amount);
                         }
                         break;
                     }
@@ -107,54 +132,28 @@ public class Controller {
                     }
                 }
             } while (addMorePeople);
-            if (Expense.createExpense(amount, currentUser.getUUID(), people)) {
+            if (Expense.createExpense(expenseTitle, amount, people)) {
+                u.updateBalance(-amount);
                 inOut.sendOutput("Expense has been successfully created!");
                 inOut.sendOutput(Data.expenses);
                 inOut.sendOutput(currentUser.expenses.get(0));
             }
         } else {
-            // TODO: Handle this
             inOut.sendOutput("Please enter a valid choice.");
         }
     }
 
+    /**
+     * Authenticate the user; check if they're signed up.
+     * @param user - the user we are checking.
+     */
     public static void authenticateUser(User user) {
-        // TODO: Implement this method
-        currentUser = user; // TODO Set it as indexOf user in Data.USER insetead of directly assigning user object
+        currentUser = user;
         isLoggedIn = Boolean.TRUE;
     }
 
     /**
-     * Returns user's unique identifier through email
-     * @param email Email to search user
-     * @return UUID of user is user with given email exists in Data.USERS, "0" otherwise
-     */
-    public static String getUUID(String email) {
-        for (Person person: Data.users) {
-            try {
-                User user = (User) person;
-                if (user.getEmail().equals(email)) {
-                    return user.getUUID();
-                }
-            } catch (Exception ignored) { }
-        }
-
-        return "0";
-    }
-
-    public static User getUser(String email) {
-        try {
-            for (Person person: Data.users) {
-                if (person.getEmail().equals((email))) {
-                    return (User) person;
-                }
-            }
-        } catch (Exception ignored) { }
-        return null;
-    }
-
-    /**
-     * Function
+     * Check if the user is logged into the system or not.
      * @return true, if user is logged in. False otherwise.
      */
     public static boolean getUserStatus() {
@@ -163,30 +162,23 @@ public class Controller {
 
     /**
      * Set the current user's login status to the given value.
+     * @param isLoggedIn the new login status of the current user
      */
     public static void setUserStatus(boolean isLoggedIn) {
         Controller.isLoggedIn = isLoggedIn;
     }
 
     /**
-     * Function
+     * Get the person currently logged in.
      * @return current user
      */
     public static User getCurrentUser() {
         return currentUser;
     }
 
-    public static Expense getExpense(String expenseUID) {
-        try {
-            for (Expense expense: Data.expenses) {
-                if (expense.getEUID().equals(expenseUID)) {
-                    return expense;
-                }
-            }
-        } catch (Exception ignored) { }
-        return null;
-    }
-
+    /**
+     * Assign the status of the user to be logged out.
+     */
     public static void logoutUser() {
         currentUser = null;
         isLoggedIn = false;

@@ -5,8 +5,6 @@ package entities;
 
 import java.util.*;
 
-
-
 public class Group {
     protected String groupName;
     protected List<String> groupMembers;

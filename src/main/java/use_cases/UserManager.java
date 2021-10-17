@@ -3,19 +3,11 @@ package use_cases;
 import data.Data;
 import entities.*;
 
+/*
+This file represents the User Class manager. The entity User is changed here.
+ */
+
 public class UserManager {
-
-    public static double show_balance(Person p){
-        return p.getBalance();
-    }
-
-    public static void updateProfile(Person p) {
-
-    }
-
-    public boolean createExpense() {
-        return true;
-    }
 
     public static StringBuilder getExpenses(User user) {
         StringBuilder lst = new StringBuilder("RECENT EXPENSES\n");
@@ -27,11 +19,10 @@ public class UserManager {
             try {
                 for (Expense expense: Data.expenses) {
                     if (expense.getEUID().equals(expenseUID)) {
-                        lst.append(expense + "\n");
+                        lst.append(expense).append("\n");
                         counter++;
                     }
                 }
-//                return lst;
             } catch (Exception ignored) { }
         }
 
@@ -40,5 +31,23 @@ public class UserManager {
         }
 
         return new StringBuilder("You don't have any expenses now.");
+    }
+
+    /**
+     * Get the user based off the email provided.
+     *
+     * @param email - email of the user.
+     * @return The user associated with the email.
+     */
+    public static User getUser(String email) {
+        try {
+            for (Person person : Data.users) {
+                if (person.getEmail().equals((email))) {
+                    return (User) person;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }

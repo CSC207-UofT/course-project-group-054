@@ -4,9 +4,10 @@ import controller.*;
 import data.*;
 import entities.*;
 
-
+/*
+This is the View class which handles what the user sees in the command line.
+ */
 public class View implements InOut {
-    // TODO Transfer all the views from Controller class here
     public static Scanner sc = new Scanner(System.in);
 
     public static String[] mainMenuOptions = {"Sign in to my account", "Create a new account", "Close app"};
@@ -43,12 +44,10 @@ public class View implements InOut {
      * Login View
      */
     public void loginView() {
-        // TODO: Implement this method
         System.out.println("Enter your email: ");
         String email = sc.nextLine();
 
-        User user = Controller.getUser(email); // TODO Set it as indexOf user in Data.USER instead of directly assigning user object
-
+        User user = UserManager.getUser(email);
         if (user != null) {
             Controller.authenticateUser(user);
             System.out.println("Welcome back, " + user.getName() + "!");
@@ -59,7 +58,7 @@ public class View implements InOut {
     }
 
     /**
-     * Signup View
+     * Sign up View
      */
     public void signUpView() {
         String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
@@ -99,7 +98,7 @@ public class View implements InOut {
             System.out.println("Please select a valid option.");
             return getActionView(actions);
         }
-        if ((1 <= number) && (number <= 7)) {
+        if ((1 <= number) && (number <= actions.length)) {
             return number;
         } else {
             System.out.println("Please select a valid option.");
@@ -109,6 +108,7 @@ public class View implements InOut {
 
     /**
      * Create and return a new Group based on user input.
+     * If the user is not authenticated, the view doesn't allow new group to be created.
      * @return a new Group based on user input
      */
     public Group createGroupView() {
@@ -147,12 +147,6 @@ public class View implements InOut {
             }
         } while (addAnotherMember);
 
-        return new Group(groupName, members, new ArrayList<>(), "Edit group description in Manage Group.)");
-    }
-
-    /* For testing the code */
-    public void outputGroups() {
-        System.out.println(Data.groups);
-        System.out.println(Data.groups.get(1).getGroupName());
+        return new Group(groupName, members, new ArrayList<>(), "Your Group.");
     }
 }
