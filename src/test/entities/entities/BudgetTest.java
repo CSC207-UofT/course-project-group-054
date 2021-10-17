@@ -7,10 +7,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import entities.*;
 
 public class BudgetTest {
-
     Budget b;
     Item i;
     Group g;

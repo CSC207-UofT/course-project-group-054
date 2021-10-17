@@ -3,10 +3,8 @@ package entities;
 import org.junit.*;
 
 import static org.junit.Assert.*;
-import entities.*;
 
 public class UserTest {
-
     User u;
     User u_2;
 
@@ -21,6 +19,4 @@ public class UserTest {
         assertEquals("name", u.getName());
         assertEquals("name_2", u_2.getName());
     }
-
-
 }

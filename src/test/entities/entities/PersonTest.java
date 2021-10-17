@@ -20,17 +20,14 @@ public class PersonTest {
         assertEquals("name_2", p_2.getName());
     }
 
-
     @Test
     public void TestGetBalance() {
         assertEquals(100.01 , p.getBalance(), 0);
     }
-
 
     @Test
     public void TestGetEmail() {
         assertEquals("email", p.getEmail());
         assertEquals("email_2", p_2.getEmail());
     }
-
 }
