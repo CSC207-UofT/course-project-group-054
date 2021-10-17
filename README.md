@@ -4,6 +4,7 @@
 - Please ensure you have jdk16. Use Amazon Coretto for maximum compatibility.
 - Please ensure you have JUnit Tests added to class path and junit.jupiter
   - IntelliJ should install it on highlight in the Unit Tests.
+  - Please use JUnit 4.13.1 for maximum compatibility.
 - To test the login operation, please use the provided users in the Data class under the data package.
   - Or create a new account then log in with that email.
 
