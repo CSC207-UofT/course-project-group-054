@@ -40,7 +40,7 @@ public class Item {
         return quantity;
     }
 
-    public Expense toExpense(String payerUUID, Group group) {
-        return new Expense(name, quantity * cost, payerUUID, group.getGroupMembers(), category);
+    public Expense toExpense(Group group) {
+        return new Expense(name, quantity * cost, group.getGroupMembers());
     }
 }

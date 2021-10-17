@@ -176,11 +176,15 @@ public class Budget {
      * cost of all items of all categories in the budget.
      *
      * @return a mapping from category to the total cost of all the items of the category as a percentage of the total
-     *         cost of all items of all categories in the budget
+     *         cost of all items of all categories in the budget, or null if getTotalCost returns 0
      */
     public HashMap<String, Double> getPercentages() {
         HashMap<String, Double> percentages = new HashMap<>();
         double totalCost = getTotalCost();
+
+        if (totalCost == 0) {
+            return null;
+        }
 
         for (String category : budget.keySet()) {
             double categoryCost = 0; // the total cost of the items of the category
@@ -192,11 +196,11 @@ public class Budget {
         return percentages;
     }
 
-    public List<Expense> toExpenses(String payerUUID, Group group) {
+    public List<Expense> toExpenses(Group group) {
         List<Expense> expenses = new ArrayList<>();
         for (String category : budget.keySet()) {
             for (String item : budget.get(category).keySet()) {
-                expenses.add(budget.get(category).get(item).toExpense(payerUUID, group));
+                expenses.add(budget.get(category).get(item).toExpense(group));
             }
         }
         return expenses;
