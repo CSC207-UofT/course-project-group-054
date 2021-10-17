@@ -1,9 +1,8 @@
 package entities;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 import entities.*;
 
 public class UserTest {
@@ -11,25 +10,17 @@ public class UserTest {
     User u;
     User u_2;
 
-    @BeforeEach
-    public void setUp() {
+    @Before
+    public void TestSetUp() {
         u = new User("name", 100.01, "email");
-        u_2 = new User(100.01, "email");
+        u_2 = new User("name_2", 100.02, "email_2");
     }
 
     @Test
-    public void getName() {
+    public void TestGetName() {
         assertEquals("name", u.getName());
-        assertEquals("email", u_2.getName());
+        assertEquals("name_2", u_2.getName());
     }
 
-
-    @Test
-    public void getUID() {
-        /*
-        TODO: Implement this test
-         */
-        assertEquals(0, u.getUUID());
-    }
 
 }
