@@ -1,6 +1,8 @@
+/*
+This file represents the controller class which handles the interactions between inputs and outputs.
+ */
 package controller;
 
-//import java.sql.SQLOutput;
 import java.util.*;
 
 import use_cases.*;
@@ -12,11 +14,12 @@ public class Controller {
 
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
-
-    // TODO: Replace the following dummy variable for app name
-    public static String appName = "[APP NAME]";
+    public static String appName = "Money Manager";
     private static final Scanner sc = new Scanner(System.in);
 
+    /**
+     * Main method
+     */
     public static void main(String[] args) {
         Data.initializeData();
 
@@ -28,7 +31,12 @@ public class Controller {
 
     }
 
-    public static void createExpenseView() {
+    /**
+     * Create the view where we interact with the functions of Expense.
+     * @param u The user that is calling this function.
+     * @param expenseTitle The title of the expense
+     */
+    public static void createExpenseView(User u, String expenseTitle) {
         double amount;
         List<String> people = new ArrayList<>();
         people.add(currentUser.getEmail());
@@ -36,24 +44,22 @@ public class Controller {
         System.out.println("Enter amount: ");
         amount = Float.parseFloat(sc.nextLine());
 
-        boolean isGroupExpense;
-
         // Asking User whether expense is a group expense
         System.out.println("Group expense (y/n): ");
         String input = sc.nextLine();
 
         // GROUP EXPENSE
         if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = ExpenseManager.show_group(currentUser);
+            StringBuilder lst = GroupManager.showGroup(currentUser);
             System.out.println(lst);
             System.out.print("Enter group name: ");
             String groupName = sc.nextLine();
             try {
-                // TODO Implement this as Group.findGroup rather than directly
                 for (Group group: Data.groups) {
                     if (group.getGroupName().equals(groupName)) {
-                        if (Expense.createGroupExpense("", amount, currentUser.getUUID(), group)) {
+                        if (Expense.createGroupExpense(expenseTitle, amount, group)) {
                             System.out.println("Successfully added to your expenses.");
+                            u.updateBalance(-amount);
                         }
                         break;
                     }
@@ -61,7 +67,6 @@ public class Controller {
             } catch (Exception e) {
                 System.out.println("There was an error finding your group in our database.");
             }
-//            System.out.println("Group expenses are not currently supported.");
         }
 
         // NOT A GROUP EXPENSE
@@ -86,60 +91,31 @@ public class Controller {
                     }
                 }
             } while (addMorePeople);
-            if (Expense.createExpense(amount, currentUser.getUUID(), people)) {
+            if (Expense.createExpense(expenseTitle, amount, people)) {
+                u.updateBalance(-amount);
                 System.out.println("Expense has been successfully created!");
                 System.out.println(Data.expenses);
                 System.out.println(currentUser.expenses.get(0));
             }
         } else {
-            // TODO: Handle this
             System.out.println("Please enter a valid choice.");
         }
 
     }
 
+    /**
+     * Authenticate the user; check if they're signed up.
+     * @param user - the user we are checking.
+     */
     public static void authenticateUser(User user) {
-        // TODO: Implement this method
-        currentUser = user; // TODO Set it as indexOf user in Data.USER insetead of directly assigning user object
+        currentUser = user;
         isLoggedIn = Boolean.TRUE;
         System.out.println("Welcome back, " + currentUser.getName() + "!");
         View.dashboardView();
     }
 
-
-
-
     /**
-     * Returns user's unique identifier through email
-     * @param email Email to search user
-     * @return UUID of user is user with given email exists in Data.USERS, "0" otherwise
-     */
-    public static String getUUID(String email) {
-        for (Person person: Data.users) {
-            try {
-                User user = (User) person;
-                if (user.getEmail().equals(email)) {
-                    return user.getUUID();
-                }
-            } catch (Exception ignored) { }
-        }
-
-        return "0";
-    }
-
-    public static User getUser(String email) {
-        try {
-            for (Person person: Data.users) {
-                if (person.getEmail().equals((email))) {
-                    return (User) person;
-                }
-            }
-        } catch (Exception ignored) { }
-        return null;
-    }
-
-    /**
-     * Function
+     * Check if the user is logged into the system or not.
      * @return true, if user is logged in. False otherwise.
      */
     public static boolean getUserStatus() {
@@ -147,26 +123,16 @@ public class Controller {
     }
 
     /**
-     * Function
+     * Get the person currently logged in.
      * @return current user
      */
     public static User getCurrentUser() {
         return currentUser;
     }
 
-
-
-    public static Expense getExpense(String expenseUID) {
-        try {
-            for (Expense expense: Data.expenses) {
-                if (expense.getEUID().equals(expenseUID)) {
-                    return expense;
-                }
-            }
-        } catch (Exception ignored) { }
-        return null;
-    }
-
+    /**
+     * Assign the status of the user to be logged out.
+     */
     public static void logoutUser() {
         currentUser = null;
         isLoggedIn = false;

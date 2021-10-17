@@ -4,11 +4,13 @@ import controller.*;
 import data.*;
 import entities.*;
 import use_cases.ExpenseManager;
+import use_cases.GroupManager;
 import use_cases.UserManager;
 
-
+/*
+This is the View class which handles what the user sees in the command line.
+ */
 public class View {
-    // TODO Transfer all the views from Controller class here
     public static Scanner sc = new Scanner(System.in);
 
     /**
@@ -27,9 +29,7 @@ public class View {
             case "1" -> loginView();
             case "2" -> signUpView();
             case "3" -> System.exit(1);
-            default -> {
-                System.out.println("Please enter a valid option.");
-            }
+            default -> System.out.println("Please enter a valid option.");
         }
     }
 
@@ -38,11 +38,10 @@ public class View {
      * Login View
      */
     public static void loginView() {
-        // TODO: Implement this method
         System.out.println("Enter your email: ");
         String email = sc.nextLine();
 
-        User user = Controller.getUser(email);
+        User user = UserManager.getUser(email);
         if (user != null) {
             Controller.authenticateUser(user);
         } else {
@@ -51,7 +50,7 @@ public class View {
     }
 
     /**
-     * Login View
+     * Sign up View
      */
     public static void signUpView() {
         String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
@@ -82,26 +81,34 @@ public class View {
                     4. Update Profile [Coming soon]
                     5. Create a new group
                     6. View expenses
-                    7. Log out""");
+                    7. Pay someone [Coming Soon]
+                    8. Log out""");
             String input = sc.nextLine();
             switch (input) {
-//                case "1" -> GroupManager.create_temp();
-                case "1" -> Controller.createExpenseView();
+                case "1" ->{
+                    System.out.println("Enter the title: ");
+                    String expenseTitle = sc.nextLine();
+                    Controller.createExpenseView(Controller.getCurrentUser(), expenseTitle);
+                }
+
                 case "2" -> {
-                    StringBuilder lst = ExpenseManager.show_group(Controller.getCurrentUser());
+                    StringBuilder lst = GroupManager.showGroup(Controller.getCurrentUser());
                     System.out.println(lst);
                 }
                 case "3" -> System.out.println("Your balance is: $" + Controller.getCurrentUser().getBalance());
-                case "4" -> UserManager.updateProfile(Controller.getCurrentUser());
+                case "4" -> System.out.println("Feature not currently implemented.");
                 case "5" -> View.createGroupView();
                 case "6" -> System.out.println(UserManager.getExpenses(Controller.getCurrentUser()));
                 case "7" -> {
+                    System.out.println("Enter the EUID of the expense you wish to pay");
+                    String expensePaid = sc.nextLine();
+                    ExpenseManager.payDebt(Controller.getCurrentUser(), expensePaid);
+                }
+                case "8" -> {
                     Controller.logoutUser();
                     System.out.println("Goodbye. Have a nice day!");
                 }
-                default -> {
-                    System.out.println("Please select a valid option.");
-                }
+                default -> System.out.println("Please select a valid option.");
             }
         }
     }
@@ -109,21 +116,17 @@ public class View {
     /**
      * Create Group View
      * - View to create new groups
-     * @returns 0: if user is not authenticated, the view doesn't allow new group to be created.
+     * If the user is not authenticated, the view doesn't allow new group to be created.
      */
-    public static int createGroupView() {
+    public static void createGroupView() {
         if (!Controller.getUserStatus()) {
             System.out.println("Error: You must be authenticated to create a new group.");
-            return 0;
         }
-
 
         String gName;
         List<String> members = new ArrayList<>();
         members.add(Controller.getCurrentUser().getEmail());
 
-
-        //
         System.out.println("Enter name of the group: ");
         gName = sc.nextLine();
 
@@ -149,17 +152,11 @@ public class View {
         } while (addAnotherMember);
 
         Group g1 = new Group(
-                gName, members, new ArrayList<Expense>(), "Edit group description in Manage Group."
+                gName, members, new ArrayList<>(), "Your Group."
         );
 
         Data.groups.add(g1);
 
-        /* For testing the code */
-        System.out.println(Data.groups);
-        System.out.println(Data.groups.get(1).getGroupName());
-        /* */
-
-        return 1;
     }
 
 }

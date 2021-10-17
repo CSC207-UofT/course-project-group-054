@@ -23,18 +23,8 @@ public class Person {
         this.email = email;
     }
 
-    public Person(double balance, String email){
-        this.name = email;
-        this.balance = balance;
-        this.email = email;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getBalance() {
@@ -49,7 +39,4 @@ public class Person {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
