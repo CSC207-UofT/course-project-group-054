@@ -18,6 +18,3 @@
 - [Project Ideas](https://docs.google.com/document/d/1VQAk6e_4F3ED4pP00Pl9-hLnjafwfLhiBB_jGU9WbmA/edit#heading=h.cbvciyafl8gz)
 - Specification [See the phase0 folder]
 - [CRC Cards](https://utoronto-my.sharepoint.com/:p:/g/personal/wasee_alam_mail_utoronto_ca/EU4orkY_c35LjHMskrwIRtUBlcrT7rPn1OHK67QFkBEDwQ?e=7shx5g)
-=======
-# course-project-group-054
-course-project-group-054 created by GitHub Classroom
