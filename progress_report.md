@@ -21,6 +21,7 @@ We have **6** main classes: Person, User, Expense, Group, Controller, and View.
 - **Wasee** has worked on `Controller`, `Person`, `User`, `Group`, and `View` classes. He has also worked on the CRC Cards and specification, as well. He has implemented features such as payDebt and refined features and documentation. He has also helped debug non functional code.
 - **Subhasis** has worked on `Budget`, `Item`, `InOut`, and separated `Controller` from the `View`. He created the Budget test cases. He has worked on the CRC Cards and Specification as well.He has also helped debug non functional code.
 - **Lingyun** has worked on `Groups`, `Expense`, created tests for entities the later deleted `ExtendedGroup` and `TemporaryGroup`. Lingyun has also worked on the CRC Cards and specification.He has also helped debug non functional code.
+- **Mohamed** has worked on the CRC cards and specification. He has also helped with naming.
 
 ## Design Summary & Questions
 - Our app is designed in a way to minimise redundant storage of data. We use **unique identifiers** for expenes, users, and groups. This allows us to keep a single copy of all objects (of all types) in our central database. Then any object can be accessed and even modified by using its unique identifier.
