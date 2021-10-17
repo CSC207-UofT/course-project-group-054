@@ -34,20 +34,20 @@ https://docs.google.com/document/d/1LANp7L1RGW__yy-vadollgQmEJeXje5iBjtSXnTR4LY/
 
 13. You could then choose whether it is a **group expense**;
 
-14. Type “y”, and it will show all the groups you have;
+14. Type “**y**”, and it will show all the **groups** you have;
 
-15. Enter the [name of the group] you want to add expense to;
+15. Enter the [**name of the group**] you want to add expense to;
 
 (You’ve successfully add that expense to the group you chose);
 
-16. Type “n” if you don’t want to add the expense to an existing group;
+16. Type “**n**” if you don’t want to add the expense to an existing group;
 
-17. Then, type “y” if you want to add people to this expense, “n” otherwise.
+17. Then, type “**y**” if you want to add people to this expense, “**n**” otherwise.
 
-18. Type “6” to check all the expenses you have;
+18. Type “**6**” to check all the **expenses** you have;
 
-19. Type “3” to check the current balance;
+19. Type “**3**” to check the current **balance**;
 
-20. Type “8” to log out;
+20. Type “**8**” to log out;
 
-21. You could create a new account, sign in again, or close our app (Type “3”).
+21. You could create a new account, sign in again, or close our app (Type “**3**”).
