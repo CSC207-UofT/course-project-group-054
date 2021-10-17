@@ -16,6 +16,19 @@ We have **6** main classes: Person, User, Expense, Group, Controller, and View.
 - **`Controller`** class is responsible for handling the data and overall structure of the program. It contains many helper methods used to fetch data from the database.
 - **`View`** class contains all the views/interface the user interacts with. For example, the login command-line interface is a separate method in the View class.
 
+## Scenario Walkthrough Summary
+
+The scenario walkthrough involves creating an account, creating a new group, viewing groups, creating a new expense, checking expenses, checking the balance, and logging out.
+
+## Skeleton Program Summary
+
+The skeleton program consists of 13 classes and 2 interfaces in 5 packages:
+- **controller**: Controller, InOut (interface)
+- **data**: Data
+- **entities**: AccountFeatures (interface), Budget, Expense, Group, Item, Person, User
+- **use_cases**: ExpenseManager, GroupManager, UserManager
+- **view**: Main, View
+
 ## Member progress
 - **Rohan** has mostly worked on the `User`, `Expense`, `Controller`, and `View` classes. He worked with other team members on implementing features such as creating a group, adding an expense (group and non-group), creating a user, and logging in and authenticating the user. He has also helped debug non functional code.
 - **Wasee** has worked on `Controller`, `Person`, `User`, `Group`, and `View` classes. He has also worked on the CRC Cards and specification, as well. He has implemented features such as payDebt and refined features and documentation. He has also helped debug non functional code.
