@@ -2,10 +2,10 @@ package entities;
 
 import java.util.*;
 
-/* A subclass of Person named User.
+/**
+ * A subclass of Person named User.
  * This class is identical to Person, except that it has a UID and a list of expenses.
  */
-
 public class User extends Person implements AccountFeatures {
 
     private static final int UUID = 0;
@@ -23,7 +23,7 @@ public class User extends Person implements AccountFeatures {
         this.expenses = new ArrayList<>();
     }
 
-    public int getUUID(User u) {
+    public int getUUID() {
         return UUID;
     }
     

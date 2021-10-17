@@ -1,10 +1,10 @@
-/*
- * Below is the abstract Group class which represents the origin of our program.
- */
 package entities;
 
 import java.util.*;
 
+/**
+ * Below is the abstract Group class which represents the origin of our program.
+ */
 public class Group {
     protected String groupName;
     protected List<String> groupMembers;
@@ -13,7 +13,7 @@ public class Group {
     protected String GUID;
 
     /**
-     *Construct a group with groupName, groupMembers, expenseList, and description.
+     * Construct a group with groupName, groupMembers, expenseList, and description.
      * @param groupName the name of the group
      * @param groupMembers the members in the group
      * @param expenseList the list of expenses in the group
@@ -24,22 +24,19 @@ public class Group {
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
         this.description = description;
-        this.GUID = ""; // TODO: Generate and set GUID
+        this.GUID = "";
     }
-
-//    public int generateUID() {
-//
-//    };
 
     public String getGUID() {
         return this.GUID;
-    };
+    }
 
     public String getGroupName() {
         return this.groupName;
     }
 
     /**
+     * Return a list of strings containing emails of group members
      *
      * @return A list of strings containing emails of group members
      */
@@ -59,6 +56,4 @@ public class Group {
     public String toString() {
         return this.groupName;
     }
-
-
 }

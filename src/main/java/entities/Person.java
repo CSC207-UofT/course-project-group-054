@@ -1,11 +1,10 @@
-/*
+package entities;
+
+/**
  * Below is the Person class which represents the origin of our program.
  * This will be the superclass of User and will also be a stand in for
  * a person not in a Group.
  */
-
-package entities;
-
 public class Person {
     protected String name;
     protected double balance;
@@ -38,5 +37,4 @@ public class Person {
     public String getEmail() {
         return email;
     }
-
 }

@@ -14,7 +14,6 @@ public class Controller {
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
-    private static final Scanner sc = new Scanner(System.in);
 
     public static String[] actions = {
         "Add an expense",
@@ -63,8 +62,7 @@ public class Controller {
                     ExpenseManager.payDebt(currentUser, expensePaid);
                 }
                 case 8 -> {
-                    currentUser = null;
-                    isLoggedIn = false;
+                    logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
@@ -149,7 +147,7 @@ public class Controller {
      */
     public static void authenticateUser(User user) {
         currentUser = user;
-        isLoggedIn = Boolean.TRUE;
+        setUserStatus(true);
     }
 
     /**
@@ -181,6 +179,6 @@ public class Controller {
      */
     public static void logoutUser() {
         currentUser = null;
-        isLoggedIn = false;
+        setUserStatus(false);
     }
 }
