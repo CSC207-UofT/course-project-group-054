@@ -20,7 +20,7 @@ We have **6** main classes: Person, User, Expense, Group, Controller, and View.
 - **Rohan** has mostly worked on the `User`, `Expense`, `Controller`, and `View` classes. He worked with other team members on implementing features such as creating a group, adding an expense (group and non-group), creating a user, and logging in and authenticating the user. He has also helped debug non functional code.
 - **Wasee** has worked on `Controller`, `Person`, `User`, `Group`, and `View` classes. He has also worked on the CRC Cards and specification, as well. He has implemented features such as payDebt and refined features and documentation. He has also helped debug non functional code.
 - **Subhasis** has worked on `Budget`, `Item`, `InOut`, and separated `Controller` from the `View`. He created the Budget test cases. He has worked on the CRC Cards and Specification as well.He has also helped debug non functional code.
-- **Lingyun** has worked on `Groups`, `Expense`, created tests for entities the later deleted `ExtendedGroup` and `TemporaryGroup`. Lingyun has also worked on the CRC Cards and specification.He has also helped debug non functional code.
+- **Lingyun** has worked on `Groups`, `Expense`, created tests for entities the later deleted `ExtendedGroup` and `TemporaryGroup`. Lingyun has also worked on the CRC Cards and specification. He has also helped debug non functional code.
 - **Mohamed** has worked on the CRC cards and specification. He has also helped with naming.
 
 ## Design Summary & Questions
