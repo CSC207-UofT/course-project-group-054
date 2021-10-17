@@ -1,14 +1,13 @@
 package entities;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import entities.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class BudgetTest {
 
@@ -16,7 +15,7 @@ public class BudgetTest {
     Item i;
     Group g;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         String[] categories = {"Vegetables", "Meat"};
         b = new Budget(categories, 500, 30);
