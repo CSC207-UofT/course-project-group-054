@@ -31,4 +31,9 @@ public class User extends Person implements AccountFeatures {
     public String generateUUID() {
         return null;
     }
+
+    public boolean addExpense(Expense expense) {
+//        this.updateBalance(-expense.getAmount()); // TODO: Uncomment this line to update the balance
+        return this.expenses.add(expense.getEUID());
+    }
 }

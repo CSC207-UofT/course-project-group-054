@@ -25,6 +25,10 @@ public class Controller {
         "Pay someone [Coming soon]",
         "Log out"
     };
+
+    public enum ExpenseType {
+        GROUP, NON_GROUP
+    }
   
     /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
@@ -38,13 +42,9 @@ public class Controller {
             int input = inOut.getActionView(actions);
             
             switch (input) {
-                case 1 -> {
-                    inOut.sendOutput("Enter the title: ");
-                    String expenseTitle = inOut.getInput();
-                    createExpense(inOut, currentUser, expenseTitle);
-                }
+                case 1 -> createExpense(inOut);
                 case 2 -> {
-                    StringBuilder lst = GroupManager.showGroup(currentUser);
+                    StringBuilder lst = GroupManager.showGroups(currentUser);
                     inOut.sendOutput(lst);
                 }
                 case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
@@ -70,75 +70,62 @@ public class Controller {
     }
 
     /**
-     * Create the view where we interact with the functions of Expense.
-     * 
+     * Create either a new group expense or a new non-group expense, according to user input.
+     *
      * @param inOut the user interface object
-     * @param u The user that is calling this function.
-     * @param expenseTitle The title of the expense
      */
-    public static void createExpense(InOut inOut, User u, String expenseTitle) {
-        List<String> people = new ArrayList<>();
+    public static void createExpense(InOut inOut) {
+        String title = inOut.getExpenseTitleView();
+        double amount = inOut.getExpenseAmountView();
+        ExpenseType expenseType = inOut.getExpenseType();
+
+        try {
+            if (expenseType == ExpenseType.GROUP) {
+                createGroupExpense(inOut, title, amount);
+            } else {
+                createNonGroupExpense(inOut, title, amount);
+            }
+        } catch (NullPointerException e) {
+            inOut.outputExpenseExceptionResult();
+        }
+    }
+
+    /**
+     * Create a new group expense with the given title and amount. The expense is associated with the group that is
+     * chosen by the current user.
+     *
+     * @param inOut the user interface object
+     * @param title the title of the expense
+     * @param amount the amount of the expense
+     * @throws NullPointerException If any of the members of the group chosen by the user do not exist.
+     */
+    public static void createGroupExpense(InOut inOut, String title, double amount) throws NullPointerException {
+        String groupName = inOut.getExpenseGroupNameView(GroupManager.showGroups(currentUser));
+
+        if (ExpenseManager.createGroupExpense(title, amount, groupName, currentUser)) {
+            inOut.outputGroupExpenseCreationSuccess();
+        } else {
+            inOut.outputGroupExpenseCreationFailure();
+        }
+    }
+
+    /**
+     * Create a new non-group expense with the given title and amount. The expense is associated with the users whose
+     * email addresses are input by the current user.
+     *
+     * @param inOut the user interface object
+     * @param title the title of the expense
+     * @param amount the amount of the expense
+     * @throws NullPointerException If any of the email addresses in the list input by the user is not the email
+     *                              address of any available User.
+     */
+    public static void createNonGroupExpense(InOut inOut, String title, double amount) throws NullPointerException {
+        List<String> people = inOut.getPeopleNonGroupExpenseView();
         people.add(currentUser.getEmail());
 
-        inOut.sendOutput("Enter amount: ");
-        double amount = Float.parseFloat(inOut.getInput());
-
-        // Asking User whether expense is a group expense
-        inOut.sendOutput("Group expense (y/n): ");
-        String input = inOut.getInput();
-
-        // GROUP EXPENSE
-        if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = GroupManager.showGroup(currentUser);
-            inOut.sendOutput(lst);
-            inOut.sendOutput("Enter group name: ");
-            String groupName = inOut.getInput();
-            try {
-                for (Group group: Data.groups) {
-                    if (group.getGroupName().equals(groupName)) {
-                        if (Expense.createGroupExpense(expenseTitle, amount, group)) {
-                            inOut.sendOutput("Successfully added to your expenses.");
-                            u.updateBalance(-amount);
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                inOut.sendOutput("There was an error finding your group in our database.");
-            }
-        }
-
-        // NOT A GROUP EXPENSE
-        else if (input.equals("n") || input.equals("N")) {
-
-            boolean addMorePeople = Boolean.TRUE;
-            do {
-                inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
-                String input2 = inOut.getInput();
-                switch (input2) {
-                    case "y" -> {
-                        inOut.sendOutput("Enter user email:");
-                        people.add(inOut.getInput());
-                    }
-                    case "n" -> {
-                        if (people.size() == 0) {
-                            inOut.sendOutput("ERROR: You need to have at least one other person to share " +
-                                    "expense with.");
-                        } else {
-                            addMorePeople = Boolean.FALSE;
-                        }
-                    }
-                }
-            } while (addMorePeople);
-            if (Expense.createExpense(expenseTitle, amount, people)) {
-                u.updateBalance(-amount);
-                inOut.sendOutput("Expense has been successfully created!");
-                inOut.sendOutput(Data.expenses);
-                inOut.sendOutput(currentUser.expenses.get(0));
-            }
-        } else {
-            inOut.sendOutput("Please enter a valid choice.");
-        }
+        ExpenseManager.createExpense(title, amount, people, currentUser);
+        // TODO: should it be currentUser.expenses.get(0)?
+        inOut.outputNonGroupExpenseCreationSuccess(Data.getExpenseStrings(), currentUser.expenses.get(0), people);
     }
 
     /**

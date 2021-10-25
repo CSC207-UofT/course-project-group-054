@@ -8,7 +8,7 @@ import entities.Person;
 This is the manager for Group, we edit the entity group through this class.
  */
 public class GroupManager {
-    public static StringBuilder showGroup(Person p){
+    public static StringBuilder showGroups(Person p){
         StringBuilder lst = new StringBuilder("List of groups:\n");
         int counter = 0;
         for (Group g: Data.groups) {

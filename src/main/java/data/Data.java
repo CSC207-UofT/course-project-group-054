@@ -39,5 +39,11 @@ public class Data {
         ); // Empty group
     }
 
-
+    public static List<String> getExpenseStrings() {
+        List<String> expenseStrings = new ArrayList<>();
+        for (Expense expense : expenses) {
+            expenseStrings.add(expense.toString());
+        }
+        return expenseStrings;
+    }
 }

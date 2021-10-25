@@ -2,6 +2,8 @@ package controller;
 
 import entities.Group;
 
+import java.util.List;
+
 public interface InOut {
     String getInput();
 
@@ -16,4 +18,22 @@ public interface InOut {
     int getActionView(String[] actions);
 
     Group createGroupView();
+
+    Controller.ExpenseType getExpenseType();
+
+    String getExpenseTitleView();
+
+    double getExpenseAmountView();
+
+    String getExpenseGroupNameView(StringBuilder currentGroups);
+
+    void outputGroupExpenseCreationSuccess();
+
+    void outputGroupExpenseCreationFailure();
+
+    List<String> getPeopleNonGroupExpenseView();
+
+    void outputNonGroupExpenseCreationSuccess(List<String> expenses, String userExpense, List<String> people);
+
+    void outputExpenseExceptionResult();
 }

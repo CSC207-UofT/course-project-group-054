@@ -108,6 +108,87 @@ public class View implements InOut {
     }
 
     /**
+     * Request that the user input whether the expense to be created is a group expense or a non-group expense, and
+     * return the user's choice.
+     *
+     * @return the type of the expense
+     */
+    public Controller.ExpenseType getExpenseType() {
+        System.out.println("Group expense (y/n): ");
+        String input = sc.nextLine();
+        if (input.equalsIgnoreCase("y")) {
+            return Controller.ExpenseType.GROUP;
+        } else if (input.equalsIgnoreCase("n")) {
+            return Controller.ExpenseType.NON_GROUP;
+        } else {
+            System.out.println("Please enter a valid choice.");
+            return getExpenseType();
+        }
+    }
+
+    public String getExpenseTitleView() {
+        System.out.println("Enter the title: ");
+        return sc.nextLine();
+    }
+
+    public double getExpenseAmountView() {
+        System.out.println("Enter amount: ");
+        return Float.parseFloat(sc.nextLine());
+    }
+
+    public String getExpenseGroupNameView(StringBuilder currentGroups) {
+        System.out.println(currentGroups);
+        System.out.println("Enter group name: ");
+        return sc.nextLine();
+    }
+
+    public void outputGroupExpenseCreationSuccess() {
+        System.out.println("Successfully added to your expenses.");
+    }
+
+    public void outputGroupExpenseCreationFailure() {
+        System.out.println("There was an error finding your group in our database.");
+    }
+
+    public List<String> getPeopleNonGroupExpenseView() {
+        List<String> people = new ArrayList<>();
+        boolean addMorePeople = Boolean.TRUE;
+
+        do {
+            System.out.println("Do you want to add more people to this expense? (y/n)");
+            String input2 = sc.nextLine();
+            switch (input2) {
+                case "y" -> {
+                    System.out.println("Enter user email:");
+                    people.add(sc.nextLine());
+                }
+                case "n" -> {
+                    if (people.size() == 0) {
+                        System.out.println("ERROR: You need to have at least one other person to share this " +
+                                "expense with.");
+                    } else {
+                        addMorePeople = Boolean.FALSE;
+                    }
+                }
+            }
+        } while (addMorePeople);
+
+        return people;
+    }
+
+    public void outputNonGroupExpenseCreationSuccess(List<String> expenses, String userExpense, List<String> people) {
+        System.out.println("The expense has been successfully created!");
+        System.out.println(expenses);
+        System.out.println(userExpense);
+        System.out.println("People: " + people);
+    }
+
+    public void outputExpenseExceptionResult() {
+        System.out.println("The expense could not be created because at least one of the people with whom the expense" +
+                "was to be associated does not exist. Please try again.");
+    }
+
+    /**
      * Create and return a new Group based on user input.
      * If the user is not authenticated, the view doesn't allow new group to be created.
      * @return a new Group based on user input
