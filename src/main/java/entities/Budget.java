@@ -1,5 +1,9 @@
 package entities;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.util.*;
 
 /**
@@ -10,9 +14,10 @@ import java.util.*;
  * A budget is associated with the length of time for which the budget is active and a limit on the amount on money that
  * can be spent on items in the budget.
  */
-public class Budget {
+public class Budget implements VetoableChangeListener, PropertyChangeListener {
+    private String name;
     private final Map<String, Map<String, Item>> budget;
-    private int maxSpend;
+    private double maxSpend;
     private int timeSpan;
 
     /**
@@ -24,7 +29,8 @@ public class Budget {
      * @param timeSpan the amount of time, in days, for which the budget is active and the limit on spending given by
      *                 maxSpend applies
      */
-    public Budget(String[] categories, int maxSpend, int timeSpan) {
+    public Budget(String name, String[] categories, double maxSpend, int timeSpan) {
+        this.name = name;
         budget = new HashMap<>();
         for (String category : categories) {
             budget.put(category, new HashMap<>());
@@ -34,12 +40,20 @@ public class Budget {
         this.timeSpan = timeSpan;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Return the maximum amount of money that can be spent on items in this budget.
      *
      * @return the maximum amount of money that can be spent on items in this budget
      */
-    public int getMaxSpend() {
+    public double getMaxSpend() {
         return maxSpend;
     }
 
@@ -48,7 +62,7 @@ public class Budget {
      *
      * @param maxSpend the maximum amount on money that can be spent on items in this budget
      */
-    public void setMaxSpend(int maxSpend) {
+    public void setMaxSpend(double maxSpend) {
         this.maxSpend = maxSpend;
     }
 
@@ -84,6 +98,8 @@ public class Budget {
                 && budget.containsKey(category)
                 && !budget.get(category).containsKey(item.getName())) {
             budget.get(category).put(item.getName(), item);
+            item.addObserver((PropertyChangeListener) this); // TODO: Should this be in the Budget class?
+            item.addObserver((VetoableChangeListener) this); // TODO: Should this be in the Budget class?
             return true;
         } else {
             return false;
@@ -110,19 +126,14 @@ public class Budget {
      * Change the quantity of the item with the given name and of the given category to the given quantity.
      *
      * @param category    the category of the item
-     * @param item        the name of the item
+     * @param itemName    the name of the item
      * @param newQuantity the new quantity of the item
      * @return whether the quantity was changed
      */
-    public boolean changeQuantity(String category, String item, int newQuantity) {
-        if (budget.containsKey(category) && budget.get(category).containsKey(item)) {
-            Item oldItem = budget.get(category).get(item);
-            Item newItem = new Item(oldItem.getCategory(), oldItem.getName(), oldItem.getCost(), newQuantity);
-            budget.get(category).put(item, newItem);
-            return true;
-        } else {
-            return false;
-        }
+    public boolean changeQuantity(String category, String itemName, int newQuantity)
+            throws NullPointerException {
+        Item item = Objects.requireNonNull(getItem(category, itemName));
+        return item.setQuantity(newQuantity);
     }
 
     /**
@@ -204,5 +215,37 @@ public class Budget {
             }
         }
         return expenses;
+    }
+
+    @Override
+    public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+        switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed>
+            case "quantity" -> {
+                int newQuantity = (Integer) evt.getNewValue();
+                Item item = (Item) evt.getSource();
+                if (getTotalCost() + (newQuantity - item.getQuantity()) * item.getCost() > maxSpend) {
+                    throw new PropertyVetoException("The requested change would result in this Budget's maxSpend being "
+                            + "exceeded", evt);
+                }
+            }
+            case "cost" -> {
+                double newCost = (Double) evt.getNewValue();
+                Item item = (Item) evt.getSource();
+                if (getTotalCost() + item.getQuantity() * (newCost - item.getCost()) > maxSpend) {
+                    throw new PropertyVetoException("The requested change would result in this Budget's maxSpend being "
+                            + "exceeded", evt);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("name")) {
+            Item item = (Item) evt.getSource();
+            String category = item.getCategory();
+            budget.get(category).remove(item.getName());
+            budget.get(category).put((String) evt.getNewValue(), item);
+        }
     }
 }

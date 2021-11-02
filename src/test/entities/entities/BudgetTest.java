@@ -16,20 +16,20 @@ public class BudgetTest {
     @Before
     public void setUp() {
         String[] categories = {"Vegetables", "Meat"};
-        b = new Budget(categories, 500, 30);
+        b = new Budget("Test", categories, 500.0, 30);
         i = new Item("Vegetables", "Carrot", 2.00, 1);
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
     }
 
     @Test
     public void testGetMaxSpend() {
-        assertEquals(500, b.getMaxSpend());
+        assertEquals(500.0, b.getMaxSpend(), 0.01);
     }
 
     @Test
     public void testSetMaxSpend() {
-        b.setMaxSpend(600);
-        assertEquals(600, b.getMaxSpend());
+        b.setMaxSpend(600.0);
+        assertEquals(600.0, b.getMaxSpend(), 0.01);
     }
 
     @Test
