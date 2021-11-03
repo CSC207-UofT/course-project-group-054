@@ -219,7 +219,7 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
 
     @Override
     public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-        switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed>
+        switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed?
             case "quantity" -> {
                 int newQuantity = (Integer) evt.getNewValue();
                 Item item = (Item) evt.getSource();
