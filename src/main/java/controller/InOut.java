@@ -25,7 +25,7 @@ public interface InOut {
 
     double getExpenseAmountView();
 
-    String getExpenseGroupNameView(StringBuilder currentGroups);
+    String getGroupNameView(StringBuilder currentGroups);
 
     void outputGroupExpenseCreationSuccess();
 
@@ -36,4 +36,12 @@ public interface InOut {
     void outputNonGroupExpenseCreationSuccess(List<String> expenses, String userExpense, List<String> people);
 
     void outputExpenseExceptionResult();
+
+    String getBudgetNameView();
+
+    double getBudgetMaxSpendView();
+
+    void outputBudgetCreationSuccess();
+
+    void outputBudgetCreationFailure();
 }

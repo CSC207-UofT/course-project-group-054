@@ -1,4 +1,7 @@
-package entities;
+package entities.budget.entities;
+
+import entities.Expense;
+import entities.Group;
 
 import java.beans.*;
 
@@ -6,6 +9,7 @@ import java.beans.*;
  * An item for use with the Budget class with a category, name, cost in dollars and quantity.
  */
 public class Item {
+    private final String IUID;
     private final String category;
     private String name;
     private double cost;
@@ -16,18 +20,24 @@ public class Item {
 
     /**
      * Construct a new item with the given category, name, cost, and quantity.
-     *  @param category the category of this item
+     *
+     * @param category the category of this item
      * @param name     the name of this item
      * @param cost     the cost of this item (in dollars)
      * @param quantity the quantity of this item
      */
-    public Item(String category, String name, double cost, int quantity) {
+    public Item(String IUID, String category, String name, double cost, int quantity) {
+        this.IUID = IUID;
         this.category = category;
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
         this.observableVetoable = new VetoableChangeSupport(this);
         this.observableProperty = new PropertyChangeSupport(this);
+    }
+
+    public String getIUID() {
+        return IUID;
     }
 
     public double getCost() {

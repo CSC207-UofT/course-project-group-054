@@ -1,4 +1,7 @@
-package entities;
+package entities.budget.entities;
+
+import entities.Expense;
+import entities.Group;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,6 +18,7 @@ import java.util.*;
  * can be spent on items in the budget.
  */
 public class Budget implements VetoableChangeListener, PropertyChangeListener {
+    private final String BUID;
     private String name;
     private final Map<String, Map<String, Item>> budget;
     private double maxSpend;
@@ -29,7 +33,8 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
      * @param timeSpan the amount of time, in days, for which the budget is active and the limit on spending given by
      *                 maxSpend applies
      */
-    public Budget(String name, String[] categories, double maxSpend, int timeSpan) {
+    public Budget(String BUID, String name, String[] categories, double maxSpend, int timeSpan) {
+        this.BUID = BUID;
         this.name = name;
         budget = new HashMap<>();
         for (String category : categories) {
@@ -38,6 +43,10 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
 
         this.maxSpend = maxSpend;
         this.timeSpan = timeSpan;
+    }
+
+    public String getBUID() {
+        return BUID;
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ package controller;
 
 import java.util.*;
 
+import entities.budget.use_cases.BudgetCreationInteractor;
 import use_cases.*;
 import entities.*;
 import data.*;
@@ -23,6 +24,7 @@ public class Controller {
         "Create a new group",
         "View expenses",
         "Pay someone [Coming soon]",
+        "Add a budget",
         "Log out"
     };
 
@@ -43,10 +45,7 @@ public class Controller {
             
             switch (input) {
                 case 1 -> createExpense(inOut);
-                case 2 -> {
-                    StringBuilder lst = GroupManager.showGroups(currentUser);
-                    inOut.sendOutput(lst);
-                }
+                case 2 -> showGroups(inOut);
                 case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
                 case 4 -> inOut.sendOutput("Feature not currently implemented.");
                 case 5 -> {
@@ -61,11 +60,58 @@ public class Controller {
                     String expensePaid = inOut.getInput();
                     ExpenseManager.payDebt(currentUser, expensePaid);
                 }
-                case 8 -> {
+                case 8 -> addBudget(inOut);
+                case 9 -> {
                     logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
+                case 10 -> {
+                    Group group = selectGroup(inOut);
+                    groupDashboard(group, inOut);
+                }
             }
+        }
+    }
+
+    public static void showGroups(InOut inOut) {
+        StringBuilder lst = GroupManager.showGroups(currentUser);
+        inOut.sendOutput(lst);
+    }
+
+    public static Group selectGroup(InOut inOut) {
+        showGroups(inOut);
+        // get list of groups, not as a Group object, but a primitive
+        // output group names and return an option by getActionView
+        // get group from int
+        return null;
+    }
+
+    public static void groupDashboard(Group group, InOut inOut) { // TODO: Do not use entities in Controller
+        // getActionView
+        int input = 0;
+        switch (input) {
+            case 0 -> {
+                manageBudgets(group, inOut);
+            }
+        }
+    }
+
+    public static void manageBudgets(Group group, InOut inOut) {
+        // showBudgets, have user select a Budget using getActionView, one number per Budget (separate selectBudget method)
+        // show this budget
+        // getActionView: set maxSpend, ...
+    }
+
+    public static void addBudget(InOut inOut) {
+        String name = inOut.getBudgetNameView();
+        double maxSpend = inOut.getBudgetMaxSpendView();
+        String groupName = inOut.getGroupNameView(GroupManager.showGroups(currentUser));
+        BudgetCreationInteractor interactor = new BudgetCreationInteractor(null, null);
+
+        if (interactor.create(groupName, "", name, new String[0], maxSpend, 0)) { // TODO: eliminate categories and timeSpan?
+            inOut.outputBudgetCreationSuccess();
+        } else {
+            inOut.outputBudgetCreationFailure();
         }
     }
 
@@ -100,7 +146,7 @@ public class Controller {
      * @throws NullPointerException If any of the members of the group chosen by the user do not exist.
      */
     public static void createGroupExpense(InOut inOut, String title, double amount) throws NullPointerException {
-        String groupName = inOut.getExpenseGroupNameView(GroupManager.showGroups(currentUser));
+        String groupName = inOut.getGroupNameView(GroupManager.showGroups(currentUser));
 
         if (ExpenseManager.createGroupExpense(title, amount, groupName, currentUser)) {
             inOut.outputGroupExpenseCreationSuccess();

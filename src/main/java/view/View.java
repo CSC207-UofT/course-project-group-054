@@ -40,7 +40,6 @@ public class View implements InOut {
         System.out.println('\n');
     }
 
-
     /**
      * Login View
      */
@@ -136,7 +135,7 @@ public class View implements InOut {
         return Float.parseFloat(sc.nextLine());
     }
 
-    public String getExpenseGroupNameView(StringBuilder currentGroups) {
+    public String getGroupNameView(StringBuilder currentGroups) {
         System.out.println(currentGroups);
         System.out.println("Enter group name: ");
         return sc.nextLine();
@@ -204,7 +203,7 @@ public class View implements InOut {
         members.add(Controller.getCurrentUser().getEmail());
 
         // Input the group's name
-        System.out.println("Enter name of the group: ");
+        System.out.println("Enter the name of the group: ");
         groupName = sc.nextLine();
 
         // Input the names of the group's members
@@ -230,5 +229,31 @@ public class View implements InOut {
         } while (addAnotherMember);
 
         return new Group(groupName, members, new ArrayList<>(), "Your Group.");
+    }
+
+    public String getBudgetNameView() {
+        System.out.println("Enter the name of the budget: ");
+        return sc.nextLine();
+    }
+
+    @Override
+    public double getBudgetMaxSpendView() {
+        System.out.println("Enter the maximum amount of money that can be spent on items in this budget.");
+        System.out.println("Do not include a dollar sign. For example: 12.34");
+        String input = sc.nextLine();
+        try {
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid amount of money.");
+            return getBudgetMaxSpendView();
+        }
+    }
+
+    public void outputBudgetCreationSuccess() {
+        System.out.println("A new budget was successfully added to the given group.");
+    }
+
+    public void outputBudgetCreationFailure() {
+        System.out.println("The budget could not be added to the given group. Please try again.");
     }
 }

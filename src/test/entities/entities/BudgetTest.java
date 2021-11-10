@@ -1,5 +1,7 @@
 package entities;
 
+import entities.budget.entities.Budget;
+import entities.budget.entities.Item;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -16,8 +18,8 @@ public class BudgetTest {
     @Before
     public void setUp() {
         String[] categories = {"Vegetables", "Meat"};
-        b = new Budget("Test", categories, 500.0, 30);
-        i = new Item("Vegetables", "Carrot", 2.00, 1);
+        b = new Budget("", "Test", categories, 500.0, 30);
+        i = new Item("", "Vegetables", "Carrot", 2.00, 1);
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
     }
 
