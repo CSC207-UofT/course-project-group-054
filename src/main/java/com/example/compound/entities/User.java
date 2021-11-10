@@ -31,4 +31,8 @@ public class User extends Person implements AccountFeatures {
     public String generateUUID() {
         return null;
     }
+
+    public String toString() {
+        return this.name;
+    }
 }

@@ -37,7 +37,7 @@ public class UserManager {
      * Get the user based off the email provided.
      *
      * @param email - email of the user.
-     * @return The user associated with the email.
+     * @return The user associated with the email if it exists in the databse, null otherwise.
      */
     public static User getUser(String email) {
         try {
