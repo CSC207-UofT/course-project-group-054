@@ -131,6 +131,18 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         }
     }
 
+    public Item getItem(String IUID) {
+        for (String category : budget.keySet()) {
+            Map<String, Item> map = budget.get(category);
+            for (String itemName : map.keySet()) {
+                if (map.get(itemName).getIUID().equals(IUID)) {
+                    return map.get(itemName);
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Change the quantity of the item with the given name and of the given category to the given quantity.
      *

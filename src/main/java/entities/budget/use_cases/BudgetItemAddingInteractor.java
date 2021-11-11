@@ -14,7 +14,8 @@ public class BudgetItemAddingInteractor {
     }
 
     public boolean addItem(String BUID, Item newItem) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
-        Budget budget = this.budgetRepositoryGateway.loadBudget(BUID);
+        Budget budget = this.budgetRepositoryGateway.loadBudgetFromBUID(BUID);
+        Item item = newItem;
         return this.itemRepositoryGateway.createItem(newItem)
                 && this.budgetRepositoryGateway.addItem(budget, newItem);
     }

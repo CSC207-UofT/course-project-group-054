@@ -8,7 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface BudgetRepositoryGateway {
-    Budget loadBudget(String BUID);
+    Budget loadBudgetFromBUID(String BUID);
+
+    Budget loadBudgetFromIUID(String IUID, ItemRepositoryGateway itemRepositoryGateway);
+
+    boolean save(Budget budget);
 
     boolean createBudget(Budget budget); // TODO: Create a new data transfer object (see https://piazza.com/class/kt4hlydpsym1bz?cid=843)
 
