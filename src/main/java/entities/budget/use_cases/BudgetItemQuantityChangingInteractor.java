@@ -3,6 +3,8 @@ package entities.budget.use_cases;
 import entities.budget.entities.Budget;
 import entities.budget.entities.Item;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class BudgetItemQuantityChangingInteractor {
@@ -16,13 +18,15 @@ public class BudgetItemQuantityChangingInteractor {
     }
 
     public boolean changeItemQuantity(String IUID, int newQuantity) {
-        Budget budget = this.budgetRepositoryGateway.loadBudgetFromIUID(IUID, itemRepositoryGateway);
-        Item item;
-        try {
-            item = Objects.requireNonNull(budget.getItem(IUID)); // TODO: new overloaded method?
-        } catch (NullPointerException e) {
-            return false;
+        List<Budget> budgets = this.budgetRepositoryGateway.findAll();
+        for (Budget budget : budgets) {
+            Item item = budget.getItem(IUID);
+            if (item != null) {
+                item.setQuantity(newQuantity);
+                this.itemRepositoryGateway.save(item);
+            }
+            return true;
         }
-        return item.setQuantity(newQuantity) && this.itemRepositoryGateway.save(item);
+        return false;
     }
 }

@@ -9,11 +9,14 @@ public class BudgetMaxSpendInteractor { // TODO: Should there be two separate in
         this.budgetRepositoryGateway = budgetRepositoryGateway;
     }
 
-    public double getMaxSpend(Budget budget) {
-        return this.budgetRepositoryGateway.getMaxSpend(budget);
+    public double getMaxSpend(String BUID) {
+        Budget budget = this.budgetRepositoryGateway.findById(BUID);
+        return budget.getMaxSpend();
     }
 
-    public boolean setMaxSpend(Budget budget, double newMaxSpend) {
-        return this.budgetRepositoryGateway.setMaxSpend(budget, newMaxSpend);
+    public void setMaxSpend(String BUID, double newMaxSpend) {
+        Budget budget = this.budgetRepositoryGateway.findById(BUID);
+        budget.setMaxSpend(newMaxSpend);
+        this.budgetRepositoryGateway.save(budget);
     }
 }

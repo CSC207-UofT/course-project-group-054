@@ -39,6 +39,10 @@ public class Group {
         return this.groupName;
     }
 
+    public void addExpense(Expense expense) {
+        this.expenseList.add(expense);
+    }
+
     /**
      * Return a list of strings containing emails of group members
      *
@@ -65,12 +69,16 @@ public class Group {
         this.budgets.add(budget);
     }
 
-    public Budget getBudget(String name) {
+    public Budget getBudget(String BUID) {
         for (Budget budget : budgets) {
-            if (budget.getName().equals(name)) {
+            if (budget.getBUID().equals(BUID)) {
                 return budget;
             }
         }
         return null;
+    }
+
+    public boolean removeBudget(String BUID) {
+        return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
     }
 }

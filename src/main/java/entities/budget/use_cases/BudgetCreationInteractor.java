@@ -14,10 +14,15 @@ public class BudgetCreationInteractor {
         this.groupRepositoryGateway = groupRepositoryGateway;
     }
 
-    public boolean create(String groupName, String BUID, String name, String[] categories, double maxSpend, int timeSpan) {
-        Group group = new Group(groupName, null, null, null); // TODO: Get group from name
+    public boolean create(String GUID, String BUID, String name, String[] categories, double maxSpend, int timeSpan) {
+        Group group = this.groupRepositoryGateway.findById(GUID); // TODO: instead of GUID, maybe group name? using findAll() and then loop over to get that group
+        if (group == null) {
+            return false;
+        }
         Budget budget = new Budget(BUID, name, categories, maxSpend, timeSpan);
-        return this.budgetRepositoryGateway.createBudget(budget)
-                && this.groupRepositoryGateway.addBudget(group, budget); // TODO: Instead of passing in a Group, maybe pass in just the GUID/name instead?
+        group.addBudget(budget);
+        this.budgetRepositoryGateway.save(budget);
+        this.groupRepositoryGateway.save(group);
+        return true;
     }
 }

@@ -11,7 +11,8 @@ public class BudgetPercentagesInteractor {
         this.budgetRepositoryGateway = budgetRepositoryGateway;
     }
 
-    public HashMap<String, Double> getPercentages(Budget budget) {
-        return this.budgetRepositoryGateway.getPercentages(budget);
+    public HashMap<String, Double> getPercentages(String BUID) {
+        Budget budget = this.budgetRepositoryGateway.findById(BUID);
+        return budget.getPercentages();
     }
 }

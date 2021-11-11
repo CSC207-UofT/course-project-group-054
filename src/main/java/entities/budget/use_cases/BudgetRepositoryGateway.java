@@ -8,25 +8,31 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface BudgetRepositoryGateway {
-    Budget loadBudgetFromBUID(String BUID);
+    Budget findById(String BUID);
 
-    Budget loadBudgetFromIUID(String IUID, ItemRepositoryGateway itemRepositoryGateway);
+    List<Budget> findAll();
 
-    boolean save(Budget budget);
+    Budget save(Budget budget); // TODO: Separate methods for saving a new object and updating an existing one?
 
-    boolean createBudget(Budget budget); // TODO: Create a new data transfer object (see https://piazza.com/class/kt4hlydpsym1bz?cid=843)
+    void deleteById(String BUID);
 
-    boolean setMaxSpend(Budget budget, double newMaxSpend);
-
-    double getMaxSpend(Budget budget);
-
-    boolean addItem(Budget budget, Item newItem);
-
-    boolean removeItem(Budget budget, String IUID);
-
-    HashMap<String, Double> getPercentages(Budget budget);
-
-    List<Expense> getExpenses(Budget budget);
-
-    boolean removeBudget(String BUID);
+//    // ...
+//
+//    Budget loadBudgetFromBUID(String BUID);
+//
+//    Budget loadBudgetFromIUID(String IUID, ItemRepositoryGateway itemRepositoryGateway);
+//
+//    boolean createBudget(Budget budget); // TODO: Create a new data transfer object (see https://piazza.com/class/kt4hlydpsym1bz?cid=843)
+//
+//    boolean setMaxSpend(Budget budget, double newMaxSpend);
+//
+//    double getMaxSpend(Budget budget);
+//
+//    boolean addItem(Budget budget, Item newItem);
+//
+//    boolean removeItem(Budget budget, String IUID);
+//
+//    HashMap<String, Double> getPercentages(Budget budget);
+//
+//    List<Expense> getExpenses(Budget budget);
 }

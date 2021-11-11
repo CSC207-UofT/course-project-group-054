@@ -17,8 +17,13 @@ public class GroupAddingExpensesFromBudgetInteractor { // TODO: Should this be c
         this.groupRepositoryGateway = groupRepositoryGateway;
     }
 
-    public boolean addExpensesFromBudget(Group group, Budget budget) { // TODO: Instead of passing in a Group, maybe pass in just the GUID/name instead?
-        List<Expense> budgetExpenses = this.budgetRepositoryGateway.getExpenses(budget);
-        return this.groupRepositoryGateway.addExpenses(group, budgetExpenses);
+    public void addExpensesFromBudget(String GUID, String BUID) { // TODO: Instead of passing in a Group, maybe pass in just the GUID/name instead?
+        Group group = this.groupRepositoryGateway.findById(GUID);
+        Budget budget = group.getBudget(BUID);
+        List<Expense> budgetExpenses = budget.toExpenses(group);
+        for (Expense expense : budgetExpenses) {
+            group.addExpense(expense);
+        }
+        this.groupRepositoryGateway.save(group);
     }
 }

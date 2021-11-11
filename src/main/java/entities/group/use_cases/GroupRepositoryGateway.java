@@ -7,9 +7,18 @@ import entities.budget.entities.Budget;
 import java.util.List;
 
 public interface GroupRepositoryGateway {
-    boolean addBudget(Group group, Budget budget); // TODO: Create a new data transfer object (see https://piazza.com/class/kt4hlydpsym1bz?cid=843)
+    Group findById(String GUID);
 
-    boolean addExpenses(Group group, List<Expense> expenses);
+    List<Group> findAll();
 
-    boolean removeBudget(Group group, String BUID);
+    Group save(Group group);
+
+    void deleteById(String GUID);
+
+//    // ...
+//    boolean addBudget(Group group, Budget budget); // TODO: Create a new data transfer object (see https://piazza.com/class/kt4hlydpsym1bz?cid=843)
+//
+//    boolean addExpenses(Group group, List<Expense> expenses);
+//
+//    boolean removeBudget(Group group, String BUID);
 }
