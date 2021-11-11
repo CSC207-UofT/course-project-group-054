@@ -1,6 +1,7 @@
-package entities.budget.use_cases;
+package entities.budget.use_cases.interactors;
 
 import entities.budget.entities.Budget;
+import entities.budget.use_cases.gateways.BudgetRepositoryGateway;
 
 public class BudgetMaxSpendInteractor { // TODO: Should there be two separate interactors?
     private final BudgetRepositoryGateway budgetRepositoryGateway;

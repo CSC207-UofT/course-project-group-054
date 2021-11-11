@@ -1,6 +1,6 @@
 package entities.budget.interface_adapters;
 
-import entities.budget.use_cases.*;
+import entities.budget.use_cases.interactors.*;
 
 public class BudgetController {
     private BudgetCreationInteractor budgetCreationInteractor;

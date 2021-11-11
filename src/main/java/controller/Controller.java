@@ -5,7 +5,7 @@ package controller;
 
 import java.util.*;
 
-import entities.budget.use_cases.BudgetCreationInteractor;
+import entities.budget.use_cases.interactors.BudgetCreationInteractor;
 import use_cases.*;
 import entities.*;
 import data.*;

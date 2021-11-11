@@ -3,7 +3,7 @@ package entities.group.use_cases;
 import entities.Expense;
 import entities.Group;
 import entities.budget.entities.Budget;
-import entities.budget.use_cases.BudgetRepositoryGateway;
+import entities.budget.use_cases.gateways.BudgetRepositoryGateway;
 
 import java.util.List;
 

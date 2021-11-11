@@ -1,4 +1,4 @@
-package entities.budget.use_cases;
+package entities.budget.use_cases.gateways;
 
 import entities.Expense;
 import entities.budget.entities.Budget;

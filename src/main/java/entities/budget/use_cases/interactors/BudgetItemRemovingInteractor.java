@@ -1,7 +1,9 @@
-package entities.budget.use_cases;
+package entities.budget.use_cases.interactors;
 
 import entities.budget.entities.Budget;
 import entities.budget.entities.Item;
+import entities.budget.use_cases.gateways.BudgetRepositoryGateway;
+import entities.budget.use_cases.gateways.ItemRepositoryGateway;
 
 import java.util.List;
 
