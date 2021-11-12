@@ -196,11 +196,11 @@ public class Budget {
         return percentages;
     }
 
-    public List<Expense> toExpenses(Group group) {
+    public List<Expense> toExpenses(Group group, User payee) {
         List<Expense> expenses = new ArrayList<>();
         for (String category : budget.keySet()) {
             for (String item : budget.get(category).keySet()) {
-                expenses.add(budget.get(category).get(item).toExpense(group));
+                expenses.add(budget.get(category).get(item).toExpense(group, payee));
             }
         }
         return expenses;

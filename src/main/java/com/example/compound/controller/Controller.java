@@ -22,7 +22,7 @@ public class Controller {
         "Update Profile [Coming soon]",
         "Create a new group",
         "View expenses",
-        "Pay someone [Coming soon]",
+        "Pay someone",
         "Log out"
     };
   
@@ -41,7 +41,7 @@ public class Controller {
                 case 1 -> {
                     inOut.sendOutput("Enter the title: ");
                     String expenseTitle = inOut.getInput();
-                    createExpense(inOut, currentUser, expenseTitle);
+                    createExpenseView(inOut, currentUser, expenseTitle);
                 }
                 case 2 -> {
                     StringBuilder lst = GroupManager.showGroup(currentUser);
@@ -58,8 +58,15 @@ public class Controller {
                 case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
                 case 7 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
-                    String expensePaid = inOut.getInput();
-                    ExpenseManager.payDebt(currentUser, expensePaid);
+                    String expenseToPay = inOut.getInput();
+                    inOut.sendOutput("Enter the amount you wish to pay");
+                    String amountPaid = inOut.getInput();
+                    try {
+                        Double amount = Double.parseDouble(amountPaid);
+                        ExpenseManager.payDebt(currentUser, expenseToPay, amount);
+                    } catch(Exception E) {
+                        System.out.println("Please enter a valid amount!");
+                    }
                 }
                 case 8 -> {
                     logoutUser();
@@ -71,74 +78,93 @@ public class Controller {
 
     /**
      * Create the view where we interact with the functions of Expense.
-     * 
-     * @param inOut the user interface object
+     *  @param inOut the user interface object
      * @param u The user that is calling this function.
      * @param expenseTitle The title of the expense
      */
-    public static void createExpense(InOut inOut, User u, String expenseTitle) {
+    public static void createExpenseView(InOut inOut, User u, String expenseTitle) {
+        HashMap<Person, Double> borrowedSoFar = new HashMap<>();
+        HashMap<Person, Double> lentSoFar = new HashMap<>();
+
         List<String> people = new ArrayList<>();
         people.add(currentUser.getEmail());
 
-        inOut.sendOutput("Enter amount: ");
+        inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
         double amount = Float.parseFloat(inOut.getInput());
 
-        // Asking User whether expense is a group expense
-        inOut.sendOutput("Group expense (y/n): ");
-        String input = inOut.getInput();
-
-        // GROUP EXPENSE
-        if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = GroupManager.showGroup(currentUser);
-            inOut.sendOutput(lst);
-            inOut.sendOutput("Enter group name: ");
-            String groupName = inOut.getInput();
-            try {
-                for (Group group: Data.groups) {
-                    if (group.getGroupName().equals(groupName)) {
-                        if (Expense.createGroupExpense(expenseTitle, amount, group)) {
-                            inOut.sendOutput("Successfully added to your expenses.");
-                            u.updateBalance(-amount);
-                        }
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                inOut.sendOutput("There was an error finding your group in our database.");
-            }
+        inOut.sendOutput("Did you borrow (b) or lend (l)?");
+        boolean userBorrow = inOut.getInput().equals("b");
+        if (userBorrow){
+            u.updateBalance(-amount);
+        }
+        else{
+            u.updateBalance(amount);
         }
 
-        // NOT A GROUP EXPENSE
-        else if (input.equals("n") || input.equals("N")) {
+        boolean addMorePeople = Boolean.TRUE;
+        do {
+            inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
+            String input2 = inOut.getInput();
+            switch (input2) {
+                case "y" -> {
+                    inOut.sendOutput("Enter their name:");
+                    String name = inOut.getInput();
 
-            boolean addMorePeople = Boolean.TRUE;
-            do {
-                inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
-                String input2 = inOut.getInput();
-                switch (input2) {
-                    case "y" -> {
-                        inOut.sendOutput("Enter user email:");
-                        people.add(inOut.getInput());
+                    inOut.sendOutput("Enter user email:");
+                    String email = inOut.getInput();
+
+                    inOut.sendOutput("Did they borrow (b) or lend (l)?");
+                    String borrowOrLend = inOut.getInput();
+
+                    inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
+                    String amountUsedStr = inOut.getInput();
+                    double amountUsed = Double.parseDouble(amountUsedStr);
+
+                    boolean borrowed = borrowOrLend.equals("b");
+                    if (borrowed) {
+                        amountUsed = -amountUsed;
                     }
-                    case "n" -> {
-                        if (people.size() == 0) {
-                            inOut.sendOutput("ERROR: You need to have at least one other person to share " +
-                                    "expense with.");
-                        } else {
-                            addMorePeople = Boolean.FALSE;
+
+                    // If we find the user in the database then update bal
+                    if (UserManager.getUser(email) != null) {
+                        User user = UserManager.getUser(email);
+                        assert user != null;
+
+                        if (amount > 0){
+                            borrowedSoFar.put(user, amountUsed);
+                        }
+                        else {
+                            lentSoFar.put(user, amountUsed);
+                        }
+                        user.updateBalance(amountUsed);
+                    }
+                    // Otherwise, create a stand in person.
+                    else {
+                        Person standIn = new Person(name, amountUsed, email);
+                        if (amount > 0){
+                            borrowedSoFar.put(standIn, amountUsed);
+                        }
+                        else {
+                            lentSoFar.put(standIn, amountUsed);
                         }
                     }
+
+                    System.out.println("Add more people?");
+                    people.add(inOut.getInput());
                 }
-            } while (addMorePeople);
-            if (Expense.createExpense(expenseTitle, amount, people)) {
-                u.updateBalance(-amount);
-                inOut.sendOutput("Expense has been successfully created!");
-                inOut.sendOutput(Data.expenses);
-                inOut.sendOutput(currentUser.expenses.get(0));
+                case "n" -> {
+                    if (people.size() == 0) {
+                        inOut.sendOutput("ERROR: You need to have at least one other person to share " +
+                                "expense with.");
+                    } else {
+                        addMorePeople = Boolean.FALSE;
+                    }
+                }
             }
-        } else {
-            inOut.sendOutput("Please enter a valid choice.");
-        }
+        } while (addMorePeople);
+        currentUser.addExpense(
+                Objects.requireNonNull(
+                        Expense.createExpense(expenseTitle, amount, lentSoFar, borrowedSoFar)));
     }
 
     /**

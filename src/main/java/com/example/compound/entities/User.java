@@ -13,7 +13,6 @@ public class User extends Person implements AccountFeatures {
 
     /**
      * Construct User, giving them the given name, balance, and email.
-     *
      * @param name    the User's name
      * @param balance the User's balance (the amount owed)
      * @param email   the User's email used to contact them
@@ -34,5 +33,10 @@ public class User extends Person implements AccountFeatures {
 
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public void addExpense(Expense E) {
+        this.expenses.add(E.getEUID());
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 public class BudgetTest {
     Budget b;
     Item i;
+    User u;
     Group g;
 
     @Before
@@ -19,6 +20,7 @@ public class BudgetTest {
         b = new Budget(categories, 500, 30);
         i = new Item("Vegetables", "Carrot", 2.00, 1);
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
+        u = new User("name", 100.01, "email");
     }
 
     @Test
@@ -102,7 +104,7 @@ public class BudgetTest {
 
     @Test
     public void testToExpenses() {
-        List<Expense> expenses = b.toExpenses(g);
+        List<Expense> expenses = b.toExpenses(g, u);
         assertEquals(new ArrayList<Expense>(), expenses);
     }
 }

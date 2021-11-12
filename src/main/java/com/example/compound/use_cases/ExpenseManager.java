@@ -23,16 +23,13 @@ public class ExpenseManager {
      * @param payee - The person that pays the bill.
      * @param expenseUID - The unique identifier of expense
      */
-    public static void payDebt(Person payee, String expenseUID) {
+    public static void payDebt(Person payee, String expenseUID, Double amount) {
         Expense expense = ExpenseManager.getExpense(expenseUID);
         assert expense != null;
-        expense.settleExpense();
-
-        double amountPaid = expense.getAmount() / expense.numPeople();
+        expense.settleExpense(payee, amount);
 
         // Get and set the balance of the payee.
-        payee.updateBalance(-amountPaid); // remove the money from the payee's account.
-        expense.getPayer().updateBalance(amountPaid); // add the money to the bal of the person who paid
+        payee.updateBalance(-amount); // remove the money from the payee's account.
     }
 
 

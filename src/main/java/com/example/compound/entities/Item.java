@@ -1,5 +1,7 @@
 package com.example.compound.entities;
 
+import java.util.HashMap;
+
 /**
  * An item for use with the Budget class with a category, name, cost in dollars and quantity.
  */
@@ -40,7 +42,11 @@ public class Item {
         return quantity;
     }
 
-    public Expense toExpense(Group group) {
-        return new Expense(name, quantity * cost, group.getGroupMembers());
+    public Expense toExpense(Group group, Person payee) {
+        HashMap<Person, Double> whoPaid = new HashMap<>();
+        HashMap<Person, Double> whoBorrowed = new HashMap<>();
+        whoPaid.put(payee, quantity * cost);
+
+        return new Expense(name, quantity * cost, whoPaid, whoBorrowed);
     }
 }

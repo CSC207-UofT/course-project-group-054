@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Migrated project to Maven for Spring use." />
+    <list default="true" id="732d7925-16f6-4308-899b-d06f87f89424" name="Changes" comment="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases.">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/AccountFeatures.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/AccountFeatures.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Budget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Budget.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Budget.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Expense.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Expense.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/ExpenseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/ExpenseManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/BudgetTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/BudgetTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/ExpenseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/ExpenseTest.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +62,14 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
       <map>
@@ -65,11 +97,12 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
-  <component name="RunManager" selected="Spring Boot.CompoundApplication">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Debugging" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.example.compound.debugging.Debugging" />
       <module name="Compound" />
@@ -90,6 +123,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ExpenseTest.TestSettleExpense" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Compound" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.compound.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.compound.entities" />
+      <option name="MAIN_CLASS_NAME" value="com.example.compound.entities.ExpenseTest" />
+      <option name="METHOD_NAME" value="TestSettleExpense" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CompoundApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="Compound" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.compound.CompoundApplication" />
@@ -102,11 +151,13 @@
     <list>
       <item itemvalue="Application.Debugging" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.ExpenseTest.TestSettleExpense" />
       <item itemvalue="Spring Boot.CompoundApplication" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.ExpenseTest.TestSettleExpense" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -114,13 +165,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="" />
+      <changelist id="732d7925-16f6-4308-899b-d06f87f89424" name="Changes" comment="" />
       <created>1636324312549</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1636324312549</updated>
       <workItem from="1636324315745" duration="200000" />
       <workItem from="1636566165279" duration="6328000" />
+      <workItem from="1636676213116" duration="1872000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -152,10 +204,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Migrated project to Maven for Spring use." />
-    <option name="LAST_COMMIT_MESSAGE" value="Migrated project to Maven for Spring use." />
+    <MESSAGE value="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

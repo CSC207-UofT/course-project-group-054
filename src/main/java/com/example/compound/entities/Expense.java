@@ -16,29 +16,30 @@ public class Expense {
     private final String title;
     private double amount;
 
-    private final List<String> people;
-
-    public int numPeople() {
-        return this.people.size();
-    }
+    private final Map<Person, Double> whoPaid;
+    private final Map<Person, Double> whoBorrowed;
 
     /**
      * Construct Expense, with title, cost, payers, note, and current time
      * @param title the title of the Expense
      * @param amount the cost of the Expense
+     * @param whoPaid Map of People:AmountPaid
+     * @param whoBorrowed Map of People:AmountBorrowed
      */
-    public Expense(String title, double amount, List<String> people) {
+    //TODO: Implement multiple split types for Phase 2
+    public Expense(String title, double amount,
+                   Map<Person, Double> whoPaid,
+                   Map<Person, Double> whoBorrowed) {
         this.title = title;
         this.amount = amount;
         this.EUID = Integer.toString(Data.expenses.size() + 1);
-        this.people = people;
+        this.whoPaid = whoPaid;
+        this.whoBorrowed = whoBorrowed;
+        this.updateBalances(whoPaid);
     }
 
-    public double getAmount(){return this.amount;}
-
-
-    public User getPayer(){
-        return new User("Rohan", 100, "");
+    public double getAmount(){
+        return this.amount;
     }
 
     /**
@@ -46,55 +47,49 @@ public class Expense {
      *
      * @param expenseTitle The title of the expense
      * @param amount The amount of expense.
-     * @param people List containing emails of users associated with this expense (First email in the list is of payer).
      *
      * @return True, if expense was successfully created and handles. False otherwise.
      */
-    public static boolean createExpense(String expenseTitle, double amount, List<String> people) {
+    public static Expense createExpense(String expenseTitle, double amount,
+                                        Map<Person, Double> whoPaid,
+                                        Map<Person, Double> whoBorrowed) {
         try {
-            Expense expense = new Expense(expenseTitle, amount, people);
+            Expense expense = new Expense(expenseTitle, amount, whoPaid, whoBorrowed);
             Data.expenses.add(expense);
-            System.out.println("People: " + expense.people);
+
+            ArrayList<String> people = new ArrayList<>();
+
+            ArrayList<Person> tempLst = new ArrayList<>();
+            tempLst.addAll(whoPaid.keySet());
+            tempLst.addAll(whoBorrowed.keySet());
+
+            int i = 0;
+            for (Person p: tempLst) {
+                people.add(i, p.email);
+                System.out.println(p.email);
+                i++;
+            }
 
             for (String userEmail: people) {
                 try {
-                    Objects.requireNonNull(UserManager.getUser(userEmail)).expenses.add(expense.EUID);
+                    Objects.requireNonNull(
+                            UserManager.getUser(userEmail)).expenses.add(expense.EUID);
                 } catch (Exception ignored) { }
             }
+            return expense;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
 
-        return true;
-    }
-
-    /**
-     * Creates a new expense and adds it to every user associated with the expense.
-     * @param amount The amount of expense.
-     * @param title The title of the expense.
-     *
-     * @return True, if expense was successfully created and handles. False otherwise.
-     */
-    public static boolean createGroupExpense(String title, double amount, Group group) {
-        try {
-            Expense expense = new Expense(title, amount, group.getGroupMembers());
-            for (String userEmail: group.getGroupMembers()) {
-                try {
-//                    System.out.println(Objects.requireNonNull(Controller.getUser(people.get(0))).getName());
-                    Objects.requireNonNull(UserManager.getUser(userEmail)).expenses.add(expense.EUID);
-                } catch (Exception ignored) { }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Please enter a valid group name");
-            return false;
-        }
-        return true;
+        return null;
     }
 
     public String getEUID() {
         return this.EUID;
+    }
+
+    public int numPeople() {
+        return this.whoPaid.size() + this.whoBorrowed.size();
     }
 
     @Override
@@ -102,7 +97,15 @@ public class Expense {
         return this.EUID + "     " + this.title + "     " + this.numPeople();
     }
 
-    public void settleExpense() {
-        this.amount = 0;
+    public void settleExpense(Person p, Double amountPaid) {
+        this.amount = this.amount - amountPaid;
+        Double amount = this.whoBorrowed.get(p);
+        this.whoBorrowed.replace(p, amount - amountPaid);
+    }
+
+    public void updateBalances(Map<Person, Double> whoPaid){
+        for(Person key : whoPaid.keySet()){
+            key.balance -= whoPaid.get(key);
+        }
     }
 }
