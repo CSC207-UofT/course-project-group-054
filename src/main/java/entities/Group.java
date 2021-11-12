@@ -78,6 +78,10 @@ public class Group {
         return null;
     }
 
+    public List<Budget> getBudgets() {
+        return this.budgets;
+    }
+
     public boolean removeBudget(String BUID) {
         return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
     }
