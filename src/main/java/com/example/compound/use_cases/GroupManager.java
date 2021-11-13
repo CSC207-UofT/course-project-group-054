@@ -1,8 +1,10 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.data.Data;
+import com.example.compound.entities.Expense;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
+
+import java.util.List;
 
 /*
 This is the manager for Group, we edit the entity group through this class.
@@ -24,5 +26,10 @@ public class GroupManager {
         }
 
         return new StringBuilder("You don't have any groups now.");
+    }
+
+    public void createGroup(String groupName, List<String> groupMembers,
+                            List<Expense> expenseList, String description) {
+        this.repositoryGateway.addGroup(new Group(groupName, groupMembers, expenseList, description));
     }
 }

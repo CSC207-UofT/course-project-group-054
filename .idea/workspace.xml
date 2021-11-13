@@ -4,30 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="732d7925-16f6-4308-899b-d06f87f89424" name="Changes" comment="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases.">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="732d7925-16f6-4308-899b-d06f87f89424" name="Changes" comment="SUBHASIS and WASEE made multiple changes, modified to adhere closer to clean architecture.">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase0/crc.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase0/progress_report.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase0/specification.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/phase0/walkthrough.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/RepositoryGateway.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/AccountFeatures.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/AccountFeatures.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Budget.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/cli/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/cli/View.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/InOut.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/data/Data$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/data/Data$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/data/Data.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/AccountFeatures.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Expense.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/ExpenseManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/GroupManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/UserManager.class" beforeDir="false" />
+    </list>
+    <list id="160f39e2-f4cd-4fdd-9060-f5636ef70d96" name="Changes by chitt" comment="">
+      <change beforePath="$PROJECT_DIR$/phase1/design_document.md" beforeDir="false" afterPath="$PROJECT_DIR$/phase1/design_document.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/CompoundApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/CompoundApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/InOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/InOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/data/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/debugging/Debugging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/debugging/Debugging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Budget.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Budget.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Expense.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Expense.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/entities/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/ExpenseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/use_cases/ExpenseManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/BudgetTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/BudgetTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/ExpenseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/compound/entities/ExpenseTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +56,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -57,7 +76,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="spring" />
+        <entry key="$PROJECT_DIR$" value="Entities" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,6 +102,51 @@
       </map>
     </option>
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java">
+      <ranges>
+        <range start1="2" end1="3" start2="2" end2="2" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="10" end1="10" start2="9" end2="10" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="11" end1="12" start2="11" end2="16" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="19" end1="20" start2="23" end2="24" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="41" end1="42" start2="45" end2="47" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="43" end1="44" start2="48" end2="49" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="52" end1="52" start2="57" end2="63" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java">
+      <ranges>
+        <range start1="2" end1="3" start2="2" end2="3" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="5" end1="5" start2="5" end2="7" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="10" end1="11" start2="12" end2="19" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="13" end1="14" start2="21" end2="22" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="27" end1="27" start2="35" end2="40" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java">
+      <ranges>
+        <range start1="5" end1="6" start2="5" end2="5" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="34" end1="35" start2="33" end2="34" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="44" end1="86" start2="43" end2="43" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java">
+      <ranges>
+        <range start1="4" end1="8" start2="4" end2="4" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="15" end1="17" start2="11" end2="11" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="26" end1="27" start2="20" end2="21" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="28" end1="42" start2="22" end2="24" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="44" end1="45" start2="26" end2="26" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="46" end1="47" start2="27" end2="28" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="48" end1="60" start2="29" end2="32" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="61" end1="61" start2="33" end2="41" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="62" end1="80" start2="42" end2="60" changelist="732d7925-16f6-4308-899b-d06f87f89424" />
+        <range start1="91" end1="92" start2="71" end2="72" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="97" end1="97" start2="77" end2="78" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+        <range start1="111" end1="153" start2="92" end2="94" changelist="160f39e2-f4cd-4fdd-9060-f5636ef70d96" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectId" id="20brpUz1honTnTAoUao6hDdP7gf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -99,8 +163,17 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.example.compound.entities" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Debugging" type="Application" factoryName="Application">
@@ -172,7 +245,10 @@
       <updated>1636324312549</updated>
       <workItem from="1636324315745" duration="200000" />
       <workItem from="1636566165279" duration="6328000" />
-      <workItem from="1636676213116" duration="1872000" />
+      <workItem from="1636676213116" duration="3801000" />
+      <workItem from="1636756242511" duration="3540000" />
+      <workItem from="1636760226227" duration="8154000" />
+      <workItem from="1636838880058" duration="1035000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -188,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636582832730</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases.">
+      <created>1636679084466</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1636679084466</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +282,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -209,7 +304,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Migrated project to Maven for Spring use." />
     <MESSAGE value="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented the Pay Someone feature. Overhauled Expense.java and related entities/use cases." />
+    <MESSAGE value="SUBHASIS and WASEE made multiple changes, modified to adhere closer to clean architecture." />
+    <option name="LAST_COMMIT_MESSAGE" value="SUBHASIS and WASEE made multiple changes, modified to adhere closer to clean architecture." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -24,7 +24,7 @@ public class View implements InOut {
     }
 
     /**
-     * Menu View
+     * Welcome View
      */
     public void menuView() {
         System.out.println("Welcome to " + Controller.appName);
@@ -60,24 +60,24 @@ public class View implements InOut {
         }
     }
 
-    /**
-     * Sign up View
-     */
-    public void signUpView() {
-        String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
-        List<String> inputs = new ArrayList<>();
-
-        System.out.println("Please enter the following information and press enter. Fields marked (*) are required.");
-        for (String output: outputs) {
-            System.out.println(output);
-            String input = sc.nextLine();
-            inputs.add(input);
-        }
-
-        Data.users.add(new User(inputs.get(0),0, inputs.get(1)));
-
-        System.out.println("Thanks for signing up, " + inputs.get(0) + "! You can now log in.");
-    }
+//    /**
+//     * Sign up View
+//     */
+//    public void signUpView() {
+//        String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
+//        List<String> inputs = new ArrayList<>();
+//
+//        System.out.println("Please enter the following information and press enter. Fields marked (*) are required.");
+//        for (String output: outputs) {
+//            System.out.println(output);
+//            String input = sc.nextLine();
+//            inputs.add(input);
+//        }
+//
+//        Data.addUser(UserManager.createUser(inputs.get(0), 0, inputs.get(1)));
+//
+//
+//    }
 
     /**
      * Given a list of possible actions that the user can take, output the actions as a numbered list and request that

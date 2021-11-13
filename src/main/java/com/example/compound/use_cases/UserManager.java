@@ -17,7 +17,7 @@ public class UserManager {
 
         for (String expenseUID: user.expenses) {
             try {
-                for (Expense expense: Data.expenses) {
+                for (Expense expense: repositoryGateway.getExpenses()) {
                     if (expense.getEUID().equals(expenseUID)) {
                         lst.append(expense).append("\n");
                         counter++;
@@ -39,9 +39,10 @@ public class UserManager {
      * @param email - email of the user.
      * @return The user associated with the email if it exists in the databse, null otherwise.
      */
-    public static User getUser(String email) {
+    public User getUser(RepositoryGateway data, String email) {
+        //TODO: fix non static usages
         try {
-            for (Person person : Data.users) {
+            for (Person person : data.getPersons()) {
                 if (person.getEmail().equals((email))) {
                     return (User) person;
                 }
@@ -49,5 +50,11 @@ public class UserManager {
         } catch (Exception ignored) {
         }
         return null;
+    }
+
+    public User createUser(String name, double balance, String email) {
+        User user = new User(name, balance, email);
+        this.repositoryGateway.addPerson(user);
+        return user;
     }
 }

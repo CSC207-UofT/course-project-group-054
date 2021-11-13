@@ -8,4 +8,5 @@ public interface AccountFeatures {
     String generateUUID();
 
     void addExpense(Expense E);
+
 }

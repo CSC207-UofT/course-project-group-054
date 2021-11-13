@@ -32,7 +32,7 @@ public class Expense {
                    Map<Person, Double> whoBorrowed) {
         this.title = title;
         this.amount = amount;
-        this.EUID = Integer.toString(Data.expenses.size() + 1);
+        this.EUID = Integer.toString(Data.getExpenses().size() + 1);
         this.whoPaid = whoPaid;
         this.whoBorrowed = whoBorrowed;
         this.updateBalances(whoPaid);
