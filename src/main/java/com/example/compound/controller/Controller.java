@@ -16,14 +16,31 @@ public class Controller {
     public static String appName = "Money Manager";
 
     public static String[] actions = {
-        "Add an expense",
-        "Show groups",
-        "Check balance",
-        "Update Profile [Coming soon]",
-        "Create a new group",
-        "View expenses",
-        "Pay someone [Coming soon]",
-        "Log out"
+            "Add an expense",
+            "Show groups",
+            "Check balance",
+            "Update Profile",
+            "Create a new group",
+            "Manage Groups",
+            "View expenses",
+            "Pay someone [Coming soon]",
+            "Log out"
+    };
+    public static String[] profileActions = {
+            "Change Name",
+            "Change Email",
+            "Delete Account",
+            "Back"
+    };
+
+    public static String[] groupActions = {
+            "Edit Group Name",
+            "Add People to Group",
+            "Remove People",
+            "View GroupMembers",
+            "Leave Group",
+            "Delete Group",
+            "Back"
     };
   
     /**
@@ -44,30 +61,35 @@ public class Controller {
                     createExpense(inOut, currentUser, expenseTitle);
                 }
                 case 2 -> {
-                    StringBuilder lst = GroupManager.showGroup(currentUser);
+                    StringBuilder lst = GroupManager.showListOfGroup(currentUser);
                     inOut.sendOutput(lst);
                 }
                 case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
-                case 4 -> inOut.sendOutput("Feature not currently implemented.");
+                case 4 -> {
+                    inOut.sendOutput(UserManager.getProfile(currentUser)); // Show the user's information
+                    updateProfile(inOut);
+                }
                 case 5 -> {
                     Group g1 = inOut.createGroupView();
                     if (g1 != null) {
                         Data.groups.add(g1);
                     }
                 }
-                case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
-                case 7 -> {
+                case 6 -> updateGroup(inOut); //Manage Groups
+                case 7 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
+                case 8 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expensePaid = inOut.getInput();
                     ExpenseManager.payDebt(currentUser, expensePaid);
                 }
-                case 8 -> {
+                case 9 -> {
                     logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
         }
     }
+
 
     /**
      * Create the view where we interact with the functions of Expense.
@@ -77,9 +99,6 @@ public class Controller {
      * @param expenseTitle The title of the expense
      */
     public static void createExpense(InOut inOut, User u, String expenseTitle) {
-        List<String> people = new ArrayList<>();
-        people.add(currentUser.getEmail());
-
         inOut.sendOutput("Enter amount: ");
         double amount = Float.parseFloat(inOut.getInput());
 
@@ -89,7 +108,7 @@ public class Controller {
 
         // GROUP EXPENSE
         if (input.equals("y") || input.equals("Y")) {
-            StringBuilder lst = GroupManager.showGroup(currentUser);
+            StringBuilder lst = GroupManager.showListOfGroup(currentUser);
             inOut.sendOutput(lst);
             inOut.sendOutput("Enter group name: ");
             String groupName = inOut.getInput();
@@ -111,25 +130,8 @@ public class Controller {
         // NOT A GROUP EXPENSE
         else if (input.equals("n") || input.equals("N")) {
 
-            boolean addMorePeople = Boolean.TRUE;
-            do {
-                inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
-                String input2 = inOut.getInput();
-                switch (input2) {
-                    case "y" -> {
-                        inOut.sendOutput("Enter user email:");
-                        people.add(inOut.getInput());
-                    }
-                    case "n" -> {
-                        if (people.size() == 0) {
-                            inOut.sendOutput("ERROR: You need to have at least one other person to share " +
-                                    "expense with.");
-                        } else {
-                            addMorePeople = Boolean.FALSE;
-                        }
-                    }
-                }
-            } while (addMorePeople);
+            List<String> people = addRemovePeople(inOut, "add", "expense");
+            people.add(currentUser.getEmail());
             if (Expense.createExpense(expenseTitle, amount, people)) {
                 u.updateBalance(-amount);
                 inOut.sendOutput("Expense has been successfully created!");
@@ -139,6 +141,38 @@ public class Controller {
         } else {
             inOut.sendOutput("Please enter a valid choice.");
         }
+    }
+
+    /**
+     * A helper method that enables current user to add or remove people to an expense or a group.
+     * @param inOut The interface for the view
+     * @param addOrRemove Add or Remove
+     * @param expenseOrGroup Expense or Group
+     * @return A list of strings of people to be added or removed
+     */
+    public static List<String> addRemovePeople(InOut inOut, String addOrRemove, String expenseOrGroup) {
+        List<String> people = new ArrayList<>();
+        boolean addRemovePeople = Boolean.TRUE;
+        do {
+            inOut.sendOutput("Do you want to " + addOrRemove + " more people in your "
+                    + expenseOrGroup + "? (y/n)");
+            String input2 = inOut.getInput();
+            switch (input2) {
+                case "y" -> {
+                    inOut.sendOutput("Enter user email:");
+                    people.add(inOut.getInput());
+                }
+                case "n" -> {
+                    if (people.size() == 0 && expenseOrGroup.equals("expense")) {
+                        inOut.sendOutput("ERROR: You need to " + addOrRemove + " at least one person in your " +
+                                expenseOrGroup + ".");
+                    } else {
+                        addRemovePeople = Boolean.FALSE;
+                    }
+                }
+            }
+        } while (addRemovePeople);
+        return people;
     }
 
     /**
@@ -180,5 +214,125 @@ public class Controller {
     public static void logoutUser() {
         currentUser = null;
         setUserStatus(false);
+    }
+
+    /**
+     * While the users want to update their profile, have the user choose an action to perform on their profile
+     * and perform that action.
+     * @param inOut the user interface object
+     */
+    public static void updateProfile(InOut inOut){
+        boolean back = false;
+        while(!back){
+            int inputP = inOut.getActionView(profileActions);
+            switch (inputP){
+                case 1 -> changeName(inOut);
+                case 2 -> changeEmail(inOut);
+            /*
+            Delete Account
+             */
+                case 3 -> {
+                    Data.users.remove(currentUser);
+                    inOut.sendOutput("Your account has been successfully deleted.");
+                    back = true;
+                    isLoggedIn = false;
+                }
+                case 4 -> back = true;
+            }
+        }
+        
+    }
+
+    public static void changeName(InOut inOut) {
+        inOut.sendOutput("Please enter the new name.");
+        String name = inOut.getInput();
+        UserManager.setName(currentUser, name);
+        inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
+        inOut.sendOutput(UserManager.getProfile(currentUser));
+    }
+
+    public static void changeEmail(InOut inOut) {
+        inOut.sendOutput("Please enter the new email.");
+        String email = inOut.getInput();
+        UserManager.setEmail(currentUser, email);
+        inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
+        inOut.sendOutput(UserManager.getProfile(currentUser));
+    }
+
+
+    /**
+     * While the users want to update their group(s), have the user choose an action to perform on their group
+     * and perform that action.
+     * @param inOut the user interface object
+     */
+    private static void updateGroup(InOut inOut) {
+        boolean back = false;
+        while(!back) {
+            StringBuilder lst = GroupManager.showListOfGroup(currentUser);
+            inOut.sendOutput(lst);
+            if (lst.charAt(0) == 'Y') {
+                break;
+            }
+            inOut.sendOutput("Please select the group you wish to edit.");
+            String groupName = inOut.getInput();
+            if (!GroupManager.getListOfGroup(currentUser).contains(groupName)){
+                inOut.sendOutput("Please enter a valid group name.\n");
+                break;
+            }
+            Group g = GroupManager.getGroupByName(groupName);
+            assert g != null;
+            int inputG = inOut.getActionView(groupActions);
+            back = manageGroup(inOut, back, g, inputG);
+        }
+
+    }
+
+    /**
+     * A helper method extracted from the updateGroup method that involves all the optional actions on groups.
+     * @param inOut the user interface object
+     * @param back the while-loop "indicator"
+     * @param g the group that the user selected
+     * @param inputG the option that the user chose
+     * @return the while-loop "indicator"
+     */
+    private static boolean manageGroup(InOut inOut, boolean back, Group g, int inputG) {
+        switch (inputG){
+            case 1 -> {
+                inOut.sendOutput("Please enter the new name.");
+                String newName = inOut.getInput();
+                GroupManager.setGroupName(g, newName);
+            } //Edit Group Name
+            case 2 -> {
+                List<String> people = addRemovePeople(inOut, "add", "group");
+                for (String p: people) {
+                    GroupManager.addMember(g, p);
+                }
+            } // Add people to the group
+            case 3 -> {
+                StringBuilder members = GroupManager.showGroupMembers(g);
+                if (members.charAt(0) == 'Y') {
+                    inOut.sendOutput("You should delete the group instead.");
+                    break;
+                }
+                inOut.sendOutput("Note that invalid name would be automatically ignored.");
+                List<String> people = addRemovePeople(inOut, "remove", "group");
+                if (people.contains(currentUser.getName())){
+                    people.remove(currentUser.getName());
+                    inOut.sendOutput("You should leave or delete the group instead.");
+                }
+                for (String p: people) {
+                    try {
+                        GroupManager.removeMember(g, p);
+                    } catch (Exception ignored) {}
+                }
+            } //Remove People from the group
+            case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(g)); //View GroupMembers
+            case 5 -> //TODO: Need to update the balance of the current user.
+                    GroupManager.removeMember(g, currentUser.getEmail()); //Leave Group
+            case 6 -> //TODO: Need to update the balance of all the users in the group.
+                    Data.groups.remove(g); //Delete Group
+            case 7 -> back = true;
+        }
+        return back;
     }
 }

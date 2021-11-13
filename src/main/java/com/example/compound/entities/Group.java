@@ -56,4 +56,6 @@ public class Group {
     public String toString() {
         return this.groupName;
     }
+
+    public void setGroupName(String name) {this.groupName = name;}
 }

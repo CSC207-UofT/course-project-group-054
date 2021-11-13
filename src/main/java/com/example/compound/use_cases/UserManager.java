@@ -30,7 +30,7 @@ public class UserManager {
             return lst;
         }
 
-        return new StringBuilder("You don't have any expenses now.");
+        return new StringBuilder("You don't have any expenses now.\n");
     }
 
     /**
@@ -49,5 +49,47 @@ public class UserManager {
         } catch (Exception ignored) {
         }
         return null;
+    }
+
+    /**
+     * Get the profile of the user
+     *
+     * @param user The user that needs to get the profile.
+     * @return A string that shows the user's name, email, balance, list of expenses and groups.
+     */
+    public static StringBuilder getProfile(User user){
+        StringBuilder out = new StringBuilder();
+        out.append("Name: ").append(user.getName()).append(",\n");
+        out.append("Email: ").append(user.getEmail()).append(",\n");
+        out.append("Balance: ").append(user.getBalance()).append(",\n");
+        out.append("Expense(s): \n").append(getExpenses(user));
+        out.append(GroupManager.showListOfGroup(user));
+        return out;
+    }
+
+    /**
+     * Change the name of the user
+     * @param user The user that needs to change the name.
+     * @param name The new name of the user.
+     */
+    public static void setName(User user, String name) {
+        user.setName(name);
+    }
+
+
+    /**
+     * Change the email of the user
+     * @param user The user that needs to change the email.
+     * @param email The new email of the user.
+     */
+    public static void setEmail(User user, String email) {
+        String oldEmail = user.getEmail();
+        for (Group g: Data.groups) {
+            if (g.getGroupMembers().contains(oldEmail)) {
+                GroupManager.removeMember(g, oldEmail);
+                GroupManager.addMember(g, email);
+            } //
+        }
+        user.setEmail(email);
     }
 }

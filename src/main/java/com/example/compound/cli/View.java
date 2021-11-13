@@ -98,13 +98,13 @@ public class View implements InOut {
         try {
             number = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.out.println("Please select a valid option.");
+            System.out.println("Please select a valid option.\n");
             return getActionView(actions);
         }
         if ((1 <= number) && (number <= actions.length)) {
             return number;
         } else {
-            System.out.println("Please select a valid option.");
+            System.out.println("Please select a valid option.\n");
             return getActionView(actions);
         }
     }
