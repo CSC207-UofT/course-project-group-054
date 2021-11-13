@@ -9,14 +9,14 @@ import java.util.*;
 The class representing the data.
  */
 public class Data implements RepositoryGateway {
-    public List<Person> persons = new ArrayList<>();
+    public List<User> users = new ArrayList<>();
     public List<Expense> expenses = new ArrayList<>();
     public List<Group> groups = new ArrayList<>();
 
     public void initializeData() {
         // Creating dummy users
-        persons.add(new User("Rohan", 100, "rohan.tinna@mail.utoronto.ca"));
-        persons.add(new User("Johny", 100, "johny@example.com"));
+        users.add(new User("Rohan", 100, "rohan.tinna@mail.utoronto.ca"));
+        users.add(new User("Johny", 100, "johny@example.com"));
 
         // Creating dummy groups
         groups.add(
@@ -49,8 +49,8 @@ public class Data implements RepositoryGateway {
         this.expenses.add(expense);
     }
 
-    public void addPerson(Person person) {
-        this.persons.add(person);
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
     public List<Group> getGroups() {
@@ -61,8 +61,19 @@ public class Data implements RepositoryGateway {
         return this.expenses;
     }
 
-    public List<Person> getPersons() {
-        return this.persons;
+    public List<User> getUsers() {
+        return this.users;
     }
 
+    public int getNewGUID() {
+        return groups.size();
+    }
+
+    public int getNewEUID() {
+        return expenses.size();
+    }
+
+    public int getNewUUID() {
+        return users.size();
+    }
 }
