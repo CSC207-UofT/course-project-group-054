@@ -5,12 +5,15 @@ import com.example.compound.data.*;
 
 public class Main {
     public static void main(String[] args) {
-        Data.initializeData();
+        Data data = new Data();
+        data.initializeData();
 
         View view = new View();
+        Controller controller = new Controller(data);
 
         do {
-            view.menuView();
+            controller.menu(view);
+
         } while (Controller.getIsNotLoggedIn());
     }
 }

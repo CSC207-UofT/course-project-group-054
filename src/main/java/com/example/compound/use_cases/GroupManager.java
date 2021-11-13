@@ -10,10 +10,16 @@ import java.util.List;
 This is the manager for Group, we edit the entity group through this class.
  */
 public class GroupManager {
-    public static StringBuilder showGroup(Person p){
+    RepositoryGateway repositoryGateway;
+
+    public GroupManager(RepositoryGateway repositoryGateway) {
+        this.repositoryGateway = repositoryGateway;
+    }
+
+    public StringBuilder showGroup(Person p){
         StringBuilder lst = new StringBuilder("List of groups:\n");
         int counter = 0;
-        for (Group g: Data.groups) {
+        for (Group g: repositoryGateway.getGroups()) {
             if (g.getGroupMembers().contains(p.getEmail())) {
                 lst.append(g);
                 lst.append("\n");

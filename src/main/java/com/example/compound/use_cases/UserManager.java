@@ -1,6 +1,5 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.data.Data;
 import com.example.compound.entities.*;
 
 /*
@@ -8,8 +7,13 @@ This file represents the User Class manager. The entity User is changed here.
  */
 
 public class UserManager {
+    private final RepositoryGateway repositoryGateway;
 
-    public static StringBuilder getExpenses(User user) {
+    public UserManager(RepositoryGateway repositoryGateway) {
+        this.repositoryGateway = repositoryGateway;
+    }
+
+    public StringBuilder getExpenses(User user) {
         StringBuilder lst = new StringBuilder("RECENT EXPENSES\n");
         lst.append("EUID  Title                People\n");
         lst.append("---------------------------------\n");

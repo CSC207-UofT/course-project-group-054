@@ -5,7 +5,6 @@ package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.data.*;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
 
@@ -14,6 +13,17 @@ public class Controller {
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
+    public RepositoryGateway repositoryGateway;
+    public GroupManager groupManager;
+    public UserManager userManager;
+    public ExpenseManager expenseManager;
+
+    public Controller(RepositoryGateway repositoryGateway) {
+        this.repositoryGateway = repositoryGateway; // TODO: Take in as a parameter?
+        this.groupManager = new GroupManager(this.repositoryGateway);
+        this.userManager = new UserManager(this.repositoryGateway);
+        this.expenseManager = new ExpenseManager(this.repositoryGateway);
+    }
 
     public static String[] actions = {
         "Add an expense",
@@ -25,6 +35,44 @@ public class Controller {
         "Pay someone",
         "Log out"
     };
+    public static String[] mainMenuOptions = {
+            "Sign in to my account",
+            "Create a new account",
+            "Close app"
+    };
+
+    public void menu(InOut inOut) {
+        inOut.welcome(appName);
+        int menuInput = inOut.getActionView(mainMenuOptions);
+        switch (menuInput) {
+            case 1 -> {
+                // Login
+                String email = inOut.requestInput("your Email");
+                User user = userManager.getUser(email);
+                if (user != null) {
+                    authenticateUser(user);
+                    inOut.outputLoginSuccessView(user.getName());
+                    dashboard(inOut);
+                } else {
+                    inOut.outputLoginFailureView();
+                }
+            }
+            case 2 -> {
+                // Sign up
+                String email = inOut.requestInput("your Email");
+                String name = inOut.requestInput("your Name");
+                double balance = 0.0;
+                userManager.createUser(name, balance, email);
+                inOut.sendOutput("Thanks for signing up!");
+            }
+            case 3 -> {
+                // Create Group
+
+            }
+            case 4 -> System.exit(1);
+            default -> System.out.println("Please enter a valid option.");
+        }
+    }
   
     /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
@@ -32,7 +80,7 @@ public class Controller {
      * 
      * @param inOut the user interface object
      */
-    public static void dashboard(InOut inOut) {
+    public void dashboard(InOut inOut) {
         while (isLoggedIn) {
             // Return an integer between 1 and the number of actions, inclusive
             int input = inOut.getActionView(actions);
@@ -44,18 +92,13 @@ public class Controller {
                     createExpenseView(inOut, currentUser, expenseTitle);
                 }
                 case 2 -> {
-                    StringBuilder lst = GroupManager.showGroup(currentUser);
+                    StringBuilder lst = this.groupManager.showGroup(currentUser);
                     inOut.sendOutput(lst);
                 }
                 case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
                 case 4 -> inOut.sendOutput("Feature not currently implemented.");
-                case 5 -> {
-                    Group g1 = inOut.createGroupView();
-                    if (g1 != null) {
-                        Data.groups.add(g1);
-                    }
-                }
-                case 6 -> inOut.sendOutput(UserManager.getExpenses(currentUser));
+                case 5 -> createGroupView(inOut);
+                case 6 -> inOut.sendOutput(this.userManager.getExpenses(currentUser));
                 case 7 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expenseToPay = inOut.getInput();
@@ -63,7 +106,7 @@ public class Controller {
                     String amountPaid = inOut.getInput();
                     try {
                         Double amount = Double.parseDouble(amountPaid);
-                        ExpenseManager.payDebt(currentUser, expenseToPay, amount);
+                        expenseManager.payDebt(currentUser, expenseToPay, amount);
                     } catch(Exception E) {
                         System.out.println("Please enter a valid amount!");
                     }
@@ -77,12 +120,60 @@ public class Controller {
     }
 
     /**
+     * Create and return a new Group based on user input.
+     * If the user is not authenticated, a new group is not created.
+     * @param inOut the user interface object
+     */
+    public void createGroupView(InOut inOut) {
+        if (getIsNotLoggedIn()) {
+            inOut.outputCreateGroupAuthenticationFailure();
+        }
+
+        List<String> members = new ArrayList<>();
+        members.add(getCurrentUser().getEmail());
+
+        // Input the group's name
+        String groupName = inOut.requestInput("the new group's name");
+
+        // Input the names of the group's members
+        boolean addAnotherMember = false;
+
+        inOut.sendOutput("ADD GROUP MEMBERS:\nYou will now be asked to add group members. " +
+                "Press enter if you don't want to add any member");
+
+        // Loop while requesting to add group members.
+        do {
+            String member = inOut.requestInput("the email address of the member: ");
+            if (member.equals("")) {
+                continue;
+            }
+            members.add(member);
+
+            inOut.requestInput("whether you want to add more members (y/n)");
+
+            if (inOut.getInput().equals("y")) {
+                addAnotherMember = Boolean.TRUE;
+            } else {
+                addAnotherMember = Boolean.FALSE;
+            }
+        } while (addAnotherMember);
+
+        // Request the group's description
+        String description = inOut.requestInput("a description");
+
+        // Create and add the group to our Database
+//        Group group =
+        this.groupManager.createGroup(groupName, members, new ArrayList<>(), description);
+//        Data.groups.add(group);
+    }
+
+    /**
      * Create the view where we interact with the functions of Expense.
      *  @param inOut the user interface object
      * @param u The user that is calling this function.
      * @param expenseTitle The title of the expense
      */
-    public static void createExpenseView(InOut inOut, User u, String expenseTitle) {
+    public void createExpenseView(InOut inOut, User u, String expenseTitle) {
         HashMap<Person, Double> borrowedSoFar = new HashMap<>();
         HashMap<Person, Double> lentSoFar = new HashMap<>();
 
@@ -126,8 +217,8 @@ public class Controller {
                     }
 
                     // If we find the user in the database then update bal
-                    if (UserManager.getUser(email) != null) {
-                        User user = UserManager.getUser(email);
+                    if (userManager.getUser(email) != null) {
+                        User user = userManager.getUser(email);
                         assert user != null;
 
                         if (amount > 0){
@@ -164,7 +255,7 @@ public class Controller {
         } while (addMorePeople);
         currentUser.addExpense(
                 Objects.requireNonNull(
-                        Expense.createExpense(expenseTitle, amount, lentSoFar, borrowedSoFar)));
+                        expenseManager.createExpense(expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
     }
 
     /**

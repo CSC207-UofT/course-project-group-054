@@ -1,20 +1,19 @@
 package com.example.compound.controller;
 
-
-import com.example.compound.entities.Group;
-
 public interface InOut {
     String getInput();
 
     void sendOutput(Object s);
 
-    void menuView();
+    void welcome(String appName);
 
-    void loginView();
+    void outputLoginSuccessView(String name);
 
-    void signUpView();
+    void outputLoginFailureView();
+
+    String requestInput(String attribute);
 
     int getActionView(String[] actions);
 
-    Group createGroupView();
+    void outputCreateGroupAuthenticationFailure();
 }
