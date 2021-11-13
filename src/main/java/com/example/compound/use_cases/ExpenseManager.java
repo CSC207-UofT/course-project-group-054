@@ -31,7 +31,8 @@ public class ExpenseManager {
                                  Map<Person, Double> whoBorrowed,
                                  UserManager userManager) {
         try {
-            Expense expense = new Expense(expenseTitle, amount, whoPaid, whoBorrowed);
+            String EUID = Integer.toString(repositoryGateway.getNewEUID());
+            Expense expense = new Expense(EUID, expenseTitle, amount, whoPaid, whoBorrowed);
             repositoryGateway.addExpense(expense);
 
             ArrayList<String> people = new ArrayList<>();
@@ -51,7 +52,9 @@ public class ExpenseManager {
                 try {
                     Objects.requireNonNull(
                             userManager.getUser(userEmail)).expenses.add(expense.getEUID());
-                } catch (Exception ignored) { }
+                } catch (Exception ignored) {
+
+                }
             }
             return expense;
         } catch (Exception e) {
@@ -85,6 +88,4 @@ public class ExpenseManager {
         // Get and set the balance of the payee.
         payee.updateBalance(-amount); // remove the money from the payee's account.
     }
-
-
 }

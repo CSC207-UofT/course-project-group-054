@@ -8,11 +8,17 @@ public interface RepositoryGateway {
 
     void addExpense(Expense expense);
 
-    void addPerson(Person person);
+    void addUser(User user);
 
     List<Group> getGroups();
 
     List<Expense> getExpenses();
 
-    List<Person> getPersons();
+    List<User> getUsers();
+
+    int getNewGUID();
+
+    int getNewEUID();
+
+    int getNewUUID();
 }

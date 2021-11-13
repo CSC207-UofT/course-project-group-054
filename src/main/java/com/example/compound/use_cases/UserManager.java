@@ -43,10 +43,10 @@ public class UserManager {
      * @param email - email of the user.
      * @return The user associated with the email if it exists in the databse, null otherwise.
      */
-    public User getUser(RepositoryGateway data, String email) {
+    public User getUser(String email) {
         //TODO: fix non static usages
         try {
-            for (Person person : data.getPersons()) {
+            for (Person person : repositoryGateway.getUsers()) {
                 if (person.getEmail().equals((email))) {
                     return (User) person;
                 }
@@ -58,7 +58,7 @@ public class UserManager {
 
     public User createUser(String name, double balance, String email) {
         User user = new User(name, balance, email);
-        this.repositoryGateway.addPerson(user);
+        this.repositoryGateway.addUser(user);
         return user;
     }
 }

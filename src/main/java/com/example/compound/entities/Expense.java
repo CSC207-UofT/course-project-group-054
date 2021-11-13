@@ -9,7 +9,6 @@ import com.example.compound.data.*;
  */
 
 public class Expense {
-
     private final String EUID;
 
     private final String title;
@@ -26,12 +25,12 @@ public class Expense {
      * @param whoBorrowed Map of People:AmountBorrowed
      */
     //TODO: Implement multiple split types for Phase 2
-    public Expense(String title, double amount,
+    public Expense(String EUID, String title, double amount,
                    Map<Person, Double> whoPaid,
                    Map<Person, Double> whoBorrowed) {
+        this.EUID = EUID;
         this.title = title;
         this.amount = amount;
-        this.EUID = Integer.toString(Data.getExpenses().size() + 1);
         this.whoPaid = whoPaid;
         this.whoBorrowed = whoBorrowed;
         this.updateBalances(whoPaid);
