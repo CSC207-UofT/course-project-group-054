@@ -25,7 +25,7 @@ We have **6** main classes: Person, User, Expense, Group, Controller, and View.
 
 ## Design Summary & Questions
 - Our app is designed in a way to minimise redundant storage of data. We use **unique identifiers** for expenes, users, and groups. This allows us to keep a single copy of all objects (of all types) in our central database. Then any object can be accessed and even modified by using its unique identifier.
-- We would like help on how to create an Android app and extend our program to have an intuitive, visually appealing, and modern GUI. Also, we would like to get suggestions on how we should store our data and/or which database we should use. Any design feedback would also be of great help.
+- We would like help on how to create a web app and extend our program to have an intuitive, visually appealing, and modern GUI. Also, we would like to get suggestions on how we should store our data and/or which database we should use. Any design feedback would also be of great help.
 
 ## Plans for Phase 1 & Phase 2
 - **Storing data in actual database**: For Phase 0, we created a `Data` class to emulate a database. We did this because setting up a database requires careful consideration of what kind of database to use (SQL, noSQL, Graph, on-device storage etc.). We plan to implement a working database cloud or on-device database for next submissions.
