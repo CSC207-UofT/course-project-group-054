@@ -1,6 +1,6 @@
 # Group Report
- 
-> We make transactions almost every single day. It is therefore important to keep track of our money. Our project revolves around solving exactly this problem. We have created a money management solution which allows users to track their expenses, split them with other people, and even create groups. 
+
+> We make transactions almost every single day. It is therefore important to keep track of our money. Our project revolves around solving exactly this problem. We have created a money management solution which allows users to track their expenses, split them with other people, and even create groups.
 
 ## Specification Summary
 We designed our app such that each class is responsible for a specific task. Our data (for Phase 0 only) is stored in the `Data` class in the form of objects. Our app models real people through the `People` class, while registered users are created and stored as `User` objects.
