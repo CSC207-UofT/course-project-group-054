@@ -65,6 +65,8 @@ public class Group {
         return this.groupName;
     }
 
+    public void setGroupName(String name) {this.groupName = name;}
+
     public void addBudget(Budget budget) {
         this.budgets.add(budget);
     }

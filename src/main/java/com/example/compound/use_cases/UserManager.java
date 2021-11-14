@@ -1,5 +1,6 @@
 package com.example.compound.use_cases;
 
+import com.example.compound.data.Data;
 import com.example.compound.entities.*;
 
 /*
@@ -34,7 +35,7 @@ public class UserManager {
             return lst;
         }
 
-        return new StringBuilder("You don't have any expenses now.");
+        return new StringBuilder("You don't have any expenses now.\n");
     }
 
     /**
@@ -60,5 +61,47 @@ public class UserManager {
         User user = new User(name, balance, email);
         this.repositoryGateway.addUser(user);
         return user;
+    }
+
+    /**
+     * Get the profile of the user
+     *
+     * @param user The user that needs to get the profile.
+     * @return A string that shows the user's name, email, balance, list of expenses and groups.
+     */
+    public StringBuilder getProfile(User user, GroupManager groupManager){
+        StringBuilder out = new StringBuilder();
+        out.append("Name: ").append(user.getName()).append(",\n");
+        out.append("Email: ").append(user.getEmail()).append(",\n");
+        out.append("Balance: ").append(user.getBalance()).append(",\n");
+        out.append("Expense(s): \n").append(getExpenses(user));
+        out.append(groupManager.showListOfGroup(user));
+        return out;
+    }
+
+    /**
+     * Change the name of the user
+     * @param user The user that needs to change the name.
+     * @param name The new name of the user.
+     */
+    public static void setName(User user, String name) {
+        user.setName(name);
+    }
+
+
+    /**
+     * Change the email of the user
+     * @param user The user that needs to change the email.
+     * @param email The new email of the user.
+     */
+    public void setEmail(User user, String email) {
+        String oldEmail = user.getEmail();
+        for (Group g: repositoryGateway.getGroups()) {
+            if (g.getGroupMembers().contains(oldEmail)) {
+                GroupManager.removeMember(g, oldEmail);
+                GroupManager.addMember(g, email);
+            } //
+        }
+        user.setEmail(email);
     }
 }

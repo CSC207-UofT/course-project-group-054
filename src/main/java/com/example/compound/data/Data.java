@@ -95,6 +95,31 @@ public class Data implements RepositoryGateway {
         return this.items;
     }
 
+    @Override
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+    }
+
+    @Override
+    public void removeExpense(Expense expense) {
+        this.expenses.remove(expense);
+    }
+
+    @Override
+    public void removeUser(User user) {
+        this.users.remove(user);
+    }
+
+    @Override
+    public void removeBudget(Budget budget) {
+        this.budgets.remove(budget);
+    }
+
+    @Override
+    public void removeItem(Item item) {
+        this.items.remove(item);
+    }
+
     public int getNewGUID() {
         return groups.size();
     }

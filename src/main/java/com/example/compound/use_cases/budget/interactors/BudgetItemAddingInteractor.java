@@ -15,7 +15,7 @@ public class BudgetItemAddingInteractor {
         this.itemRepositoryGateway = itemRepositoryGateway;
     }
 
-    public void addItem(String BUID, String IUID, String category, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
+    public void addItem(String BUID, String IUID, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         Item newItem = new Item(IUID, name, cost, quantity);
         budget.addItem(newItem);

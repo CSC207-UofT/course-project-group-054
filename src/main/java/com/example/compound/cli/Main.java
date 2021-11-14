@@ -22,6 +22,6 @@ public class Main {
         do {
             controller.menu(view);
 
-        } while (Controller.getIsNotLoggedIn());
+        } while (controller.getIsNotLoggedIn());
     }
 }

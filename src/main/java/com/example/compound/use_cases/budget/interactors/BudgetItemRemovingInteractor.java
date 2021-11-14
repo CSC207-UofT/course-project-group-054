@@ -22,7 +22,7 @@ public class BudgetItemRemovingInteractor {
         for (Budget budget : budgets) {
             Item item = budget.getItem(IUID);
             if (item != null) {
-                budget.removeItem(item.getCategory(), item.getName());
+                budget.removeItem(item.getName());
                 this.itemRepositoryGateway.deleteById(IUID);
                 this.budgetRepositoryGateway.save(budget);
             }

@@ -24,6 +24,16 @@ public interface RepositoryGateway {
 
     List<Item> getItems();
 
+    void removeGroup(Group group);
+
+    void removeExpense(Expense expense);
+
+    void removeUser(User user);
+
+    void removeBudget(Budget budget);
+
+    void removeItem(Item item);
+
     int getNewGUID();
 
     int getNewEUID();
