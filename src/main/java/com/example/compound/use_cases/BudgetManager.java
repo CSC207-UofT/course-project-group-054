@@ -13,21 +13,25 @@ public class BudgetManager {
     private final BudgetRepositoryGateway budgetRepositoryGateway;
     private final GroupRepositoryGateway groupRepositoryGateway;
     private final ItemRepositoryGateway itemRepositoryGateway;
+    private final RepositoryGateway repositoryGateway;
 
     public BudgetManager(BudgetRepositoryGateway budgetRepositoryGateway,
                          GroupRepositoryGateway groupRepositoryGateway,
-                         ItemRepositoryGateway itemRepositoryGateway) {
+                         ItemRepositoryGateway itemRepositoryGateway,
+                         RepositoryGateway repositoryGateway) {
         this.budgetRepositoryGateway = budgetRepositoryGateway;
         this.groupRepositoryGateway = groupRepositoryGateway;
         this.itemRepositoryGateway = itemRepositoryGateway;
+        this.repositoryGateway = repositoryGateway;
     }
 
-    public boolean create(String GUID, String BUID, String name, String[] categories, double maxSpend, int timeSpan) {
+    public boolean create(String GUID, String name, String[] categories, double maxSpend, int timeSpan) {
         Group group = this.groupRepositoryGateway.findById(GUID); // TODO: instead of GUID, maybe group name? using findAll() and then loop over to get that group
         if (group == null) {
             return false;
         }
-        Budget budget = new Budget(BUID, name, categories, maxSpend, timeSpan);
+        String BUID = Integer.toString(this.repositoryGateway.getNewBUID());
+        Budget budget = new Budget(BUID, name, maxSpend);
         group.addBudget(budget);
         this.budgetRepositoryGateway.save(budget);
         this.groupRepositoryGateway.save(group);
@@ -37,20 +41,18 @@ public class BudgetManager {
     public List<Expense> toExpenses(String BUID, Group group, User payee, ExpenseManager expenseManager) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         List<Expense> expenses = new ArrayList<>();
-        for (String category : budget.getCategories()) {
-            for (String itemName : budget.getItemsOfCategory(category).keySet()) {
-                Item item = budget.getItemsOfCategory(category).get(itemName);
-                Expense expense = expenseManager.createExpense(item, group, payee);
-                expenses.add(expense);
-            }
+        for (String itemName : budget.getItems().keySet()) {
+            Item item = budget.getItem(itemName);
+            Expense expense = expenseManager.createExpense(item, group, payee);
+            expenses.add(expense);
         }
         return expenses;
     }
 
     public void addItem(String BUID, String IUID, String category, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
-        Item newItem = new Item(IUID, category, name, cost, quantity);
-        budget.addItem(category, newItem);
+        Item newItem = new Item(IUID, name, cost, quantity);
+        budget.addItem(newItem);
         this.itemRepositoryGateway.save(newItem); // TODO: Is a separate item repository needed?
         this.budgetRepositoryGateway.save(budget);
     }
@@ -58,7 +60,7 @@ public class BudgetManager {
     public boolean changeItemQuantity(String IUID, int newQuantity) {
         List<Budget> budgets = this.budgetRepositoryGateway.findAll();
         for (Budget budget : budgets) {
-            Item item = budget.getItem(IUID);
+            Item item = budget.getItem(IUID); // TODO: This uses the getItem(String name) method
             if (item != null) {
                 item.setQuantity(newQuantity);
                 this.itemRepositoryGateway.save(item);
@@ -73,7 +75,7 @@ public class BudgetManager {
         for (Budget budget : budgets) {
             Item item = budget.getItem(IUID);
             if (item != null) {
-                budget.removeItem(item.getCategory(), item.getName());
+                budget.removeItem(item.getName());
                 this.itemRepositoryGateway.deleteById(IUID);
                 this.budgetRepositoryGateway.save(budget);
             }

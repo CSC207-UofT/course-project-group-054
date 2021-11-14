@@ -11,7 +11,6 @@ import java.util.HashMap;
  */
 public class Item {
     private final String IUID;
-    private final String category;
     private String name;
     private double cost;
     private int quantity;
@@ -20,16 +19,14 @@ public class Item {
     private final PropertyChangeSupport observableProperty;
 
     /**
-     * Construct a new item with the given category, name, cost, and quantity.
+     * Construct a new item with the given name, cost, and quantity.
      *
-     * @param category the category of this item
      * @param name     the name of this item
      * @param cost     the cost of this item (in dollars)
      * @param quantity the quantity of this item
      */
-    public Item(String IUID, String category, String name, double cost, int quantity) {
+    public Item(String IUID, String name, double cost, int quantity) {
         this.IUID = IUID;
-        this.category = category;
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
@@ -43,10 +40,6 @@ public class Item {
 
     public double getCost() {
         return cost;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public String getName() {
