@@ -93,4 +93,36 @@ public class View implements InOut {
     public void outputCreateGroupAuthenticationFailure() {
         System.out.println("Error: You must be authenticated to create a new group.");
     }
+
+    public String getGroupNameView(StringBuilder currentGroups) {
+        System.out.println(currentGroups);
+        System.out.println("Enter group name: ");
+        return sc.nextLine();
+    }
+
+    public String getBudgetNameView() {
+        System.out.println("Enter the name of the budget: ");
+        return sc.nextLine();
+    }
+
+    @Override
+    public double getBudgetMaxSpendView() {
+        System.out.println("Enter the maximum amount of money that can be spent on items in this budget.");
+        System.out.println("Do not include a dollar sign. For example: 12.34");
+        String input = sc.nextLine();
+        try {
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid amount of money.");
+            return getBudgetMaxSpendView();
+        }
+    }
+
+    public void outputBudgetCreationSuccess() {
+        System.out.println("A new budget was successfully added to the given group.");
+    }
+
+    public void outputBudgetCreationFailure() {
+        System.out.println("The budget could not be added to the given group. Please try again.");
+    }
 }

@@ -46,9 +46,9 @@ public class UserManager {
     public User getUser(String email) {
         //TODO: fix non static usages
         try {
-            for (Person person : repositoryGateway.getUsers()) {
-                if (person.getEmail().equals((email))) {
-                    return (User) person;
+            for (User user : repositoryGateway.getUsers()) {
+                if (user.getEmail().equals((email))) {
+                    return user;
                 }
             }
         } catch (Exception ignored) {

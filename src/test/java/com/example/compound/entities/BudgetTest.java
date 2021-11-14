@@ -1,5 +1,7 @@
 package com.example.compound.entities;
 
+import com.example.compound.entities.Budget;
+import com.example.compound.entities.Item;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -17,21 +19,21 @@ public class BudgetTest {
     @Before
     public void setUp() {
         String[] categories = {"Vegetables", "Meat"};
-        b = new Budget(categories, 500, 30);
-        i = new Item("Vegetables", "Carrot", 2.00, 1);
+        b = new Budget("", "Test", categories, 500.0, 30);
+        i = new Item("", "Vegetables", "Carrot", 2.00, 1);
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
         u = new User("name", 100.01, "email");
     }
 
     @Test
     public void testGetMaxSpend() {
-        assertEquals(500, b.getMaxSpend());
+        assertEquals(500.0, b.getMaxSpend(), 0.01);
     }
 
     @Test
     public void testSetMaxSpend() {
-        b.setMaxSpend(600);
-        assertEquals(600, b.getMaxSpend());
+        b.setMaxSpend(600.0);
+        assertEquals(600.0, b.getMaxSpend(), 0.01);
     }
 
     @Test
@@ -100,11 +102,5 @@ public class BudgetTest {
         boolean returnedBoolean = b.removeItem("Vegetables", "Carrot");
         assertNull(b.getItem("Vegetables", "Carrot"));
         assertTrue(returnedBoolean);
-    }
-
-    @Test
-    public void testToExpenses() {
-        List<Expense> expenses = b.toExpenses(g, u);
-        assertEquals(new ArrayList<Expense>(), expenses);
     }
 }

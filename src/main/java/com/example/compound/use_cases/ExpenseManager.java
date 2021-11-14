@@ -4,6 +4,7 @@ import com.example.compound.entities.*;
 import com.example.compound.data.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,6 +63,15 @@ public class ExpenseManager {
         }
 
         return null;
+    }
+
+    public Expense createExpense(Item item, Group group, Person payee) {
+        HashMap<Person, Double> whoPaid = new HashMap<>();
+        HashMap<Person, Double> whoBorrowed = new HashMap<>();
+        whoPaid.put(payee, item.getQuantity() * item.getCost());
+
+        String EUID = Integer.toString(repositoryGateway.getNewEUID());
+        return new Expense(EUID, item.getName(), item.getQuantity() * item.getCost(), whoPaid, whoBorrowed);
     }
 
     public Expense getExpense(String expenseUID) {

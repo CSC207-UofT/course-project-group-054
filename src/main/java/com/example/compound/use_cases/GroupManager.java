@@ -10,7 +10,7 @@ import java.util.List;
 This is the manager for Group, we edit the entity group through this class.
  */
 public class GroupManager {
-    RepositoryGateway repositoryGateway;
+    private final RepositoryGateway repositoryGateway;
 
     public GroupManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;

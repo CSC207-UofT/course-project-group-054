@@ -7,7 +7,6 @@ import com.example.compound.data.*;
 /*
  * Below is the Expense class which represents the origin of our program.
  */
-
 public class Expense {
     private final String EUID;
 

@@ -41,6 +41,14 @@ public class Data implements RepositoryGateway {
         ); // Empty group
     }
 
+    public List<String> getExpenseStrings() {
+        List<String> expenseStrings = new ArrayList<>();
+        for (Expense expense : expenses) {
+            expenseStrings.add(expense.toString());
+        }
+        return expenseStrings;
+    }
+
     public void addGroup(Group group) {
         this.groups.add(group);
     }

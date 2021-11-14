@@ -7,6 +7,7 @@ import java.util.*;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
+import com.example.compound.use_cases.budget.interactors.BudgetCreationInteractor;
 
 public class Controller {
 
@@ -33,6 +34,7 @@ public class Controller {
         "Create a new group",
         "View expenses",
         "Pay someone",
+        "Add a budget",
         "Log out"
     };
     public static String[] mainMenuOptions = {
@@ -73,7 +75,7 @@ public class Controller {
             default -> System.out.println("Please enter a valid option.");
         }
     }
-  
+
     /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
      * that action.
@@ -111,11 +113,32 @@ public class Controller {
                         System.out.println("Please enter a valid amount!");
                     }
                 }
-                case 8 -> {
+                case 8 -> addBudget(inOut);
+                case 9 -> {
                     logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
+        }
+    }
+
+    // TODO: Call this method from a group dashboard
+    public static void manageBudgets(Group group, InOut inOut) {
+        // showBudgets, have user select a Budget using getActionView, one number per Budget (separate selectBudget method)
+        // show this budget
+        // getActionView: set maxSpend, ...
+    }
+
+    public void addBudget(InOut inOut) {
+        String name = inOut.getBudgetNameView();
+        double maxSpend = inOut.getBudgetMaxSpendView();
+        String groupName = inOut.getGroupNameView(groupManager.showGroup(currentUser));
+        BudgetCreationInteractor interactor = new BudgetCreationInteractor(null, null);
+
+        if (interactor.create(groupName, "", name, new String[0], maxSpend, 0)) { // TODO: eliminate categories and timeSpan?
+            inOut.outputBudgetCreationSuccess();
+        } else {
+            inOut.outputBudgetCreationFailure();
         }
     }
 

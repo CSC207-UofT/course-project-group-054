@@ -25,7 +25,7 @@ public class ExpenseTest {
         HashMap<Person, Double> whoBorrowed = new HashMap<>();
         whoPaid.put(u, 10.05);
 
-        e = new Expense("title", 20.01, whoPaid, whoBorrowed);
+        e = new Expense("0", "title", 20.01, whoPaid, whoBorrowed);
     }
 
     @Test

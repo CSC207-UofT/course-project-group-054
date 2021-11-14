@@ -15,5 +15,15 @@ public interface InOut {
 
     int getActionView(String[] actions);
 
+    String getGroupNameView(StringBuilder currentGroups);
+
     void outputCreateGroupAuthenticationFailure();
+
+    String getBudgetNameView();
+
+    double getBudgetMaxSpendView();
+
+    void outputBudgetCreationSuccess();
+
+    void outputBudgetCreationFailure();
 }
