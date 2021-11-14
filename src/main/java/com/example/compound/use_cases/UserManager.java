@@ -8,8 +8,13 @@ This file represents the User Class manager. The entity User is changed here.
  */
 
 public class UserManager {
+    private final RepositoryGateway repositoryGateway;
 
-    public static StringBuilder getExpenses(User user) {
+    public UserManager(RepositoryGateway repositoryGateway) {
+        this.repositoryGateway = repositoryGateway;
+    }
+
+    public StringBuilder getExpenses(User user) {
         StringBuilder lst = new StringBuilder("RECENT EXPENSES\n");
         lst.append("EUID  Title                People\n");
         lst.append("---------------------------------\n");
@@ -17,7 +22,7 @@ public class UserManager {
 
         for (String expenseUID: user.expenses) {
             try {
-                for (Expense expense: Data.expenses) {
+                for (Expense expense: repositoryGateway.getExpenses()) {
                     if (expense.getEUID().equals(expenseUID)) {
                         lst.append(expense).append("\n");
                         counter++;
@@ -37,18 +42,25 @@ public class UserManager {
      * Get the user based off the email provided.
      *
      * @param email - email of the user.
-     * @return The user associated with the email.
+     * @return The user associated with the email if it exists in the databse, null otherwise.
      */
-    public static User getUser(String email) {
+    public User getUser(String email) {
+        //TODO: fix non static usages
         try {
-            for (Person person : Data.users) {
-                if (person.getEmail().equals((email))) {
-                    return (User) person;
+            for (User user : repositoryGateway.getUsers()) {
+                if (user.getEmail().equals((email))) {
+                    return user;
                 }
             }
         } catch (Exception ignored) {
         }
         return null;
+    }
+
+    public User createUser(String name, double balance, String email) {
+        User user = new User(name, balance, email);
+        this.repositoryGateway.addUser(user);
+        return user;
     }
 
     /**
@@ -57,13 +69,13 @@ public class UserManager {
      * @param user The user that needs to get the profile.
      * @return A string that shows the user's name, email, balance, list of expenses and groups.
      */
-    public static StringBuilder getProfile(User user){
+    public StringBuilder getProfile(User user, GroupManager groupManager){
         StringBuilder out = new StringBuilder();
         out.append("Name: ").append(user.getName()).append(",\n");
         out.append("Email: ").append(user.getEmail()).append(",\n");
         out.append("Balance: ").append(user.getBalance()).append(",\n");
         out.append("Expense(s): \n").append(getExpenses(user));
-        out.append(GroupManager.showListOfGroup(user));
+        out.append(groupManager.showListOfGroup(user));
         return out;
     }
 
@@ -82,9 +94,9 @@ public class UserManager {
      * @param user The user that needs to change the email.
      * @param email The new email of the user.
      */
-    public static void setEmail(User user, String email) {
+    public void setEmail(User user, String email) {
         String oldEmail = user.getEmail();
-        for (Group g: Data.groups) {
+        for (Group g: repositoryGateway.getGroups()) {
             if (g.getGroupMembers().contains(oldEmail)) {
                 GroupManager.removeMember(g, oldEmail);
                 GroupManager.addMember(g, email);

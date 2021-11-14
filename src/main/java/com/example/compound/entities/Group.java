@@ -1,5 +1,7 @@
 package com.example.compound.entities;
 
+import com.example.compound.entities.Budget;
+
 import java.util.*;
 
 /**
@@ -11,6 +13,7 @@ public class Group {
     protected List<Expense> expenseList;
     protected String description;
     protected String GUID;
+    protected List<Budget> budgets;
 
     /**
      * Construct a group with groupName, groupMembers, expenseList, and description.
@@ -19,12 +22,13 @@ public class Group {
      * @param expenseList the list of expenses in the group
      * @param description the description of the group
      */
-    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description){
+    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description) {
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
         this.description = description;
         this.GUID = "";
+        this.budgets = new ArrayList<>();
     }
 
     public String getGUID() {
@@ -33,6 +37,10 @@ public class Group {
 
     public String getGroupName() {
         return this.groupName;
+    }
+
+    public void addExpense(Expense expense) {
+        this.expenseList.add(expense);
     }
 
     /**
@@ -51,11 +59,32 @@ public class Group {
     public String getDescription() {
         return this.description;
     }
-    
+
     @Override
     public String toString() {
         return this.groupName;
     }
 
     public void setGroupName(String name) {this.groupName = name;}
+
+    public void addBudget(Budget budget) {
+        this.budgets.add(budget);
+    }
+
+    public Budget getBudget(String BUID) {
+        for (Budget budget : budgets) {
+            if (budget.getBUID().equals(BUID)) {
+                return budget;
+            }
+        }
+        return null;
+    }
+
+    public List<Budget> getBudgets() {
+        return this.budgets;
+    }
+
+    public boolean removeBudget(String BUID) {
+        return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
+    }
 }

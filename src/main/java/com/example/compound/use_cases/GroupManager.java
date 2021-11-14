@@ -1,5 +1,6 @@
 package com.example.compound.use_cases;
 
+import com.example.compound.entities.Expense;
 import com.example.compound.data.Data;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
@@ -11,10 +12,16 @@ import java.util.List;
 This is the manager for Group, we edit the entity group through this class.
  */
 public class GroupManager {
-    public static StringBuilder showListOfGroup(Person p){
+    private final RepositoryGateway repositoryGateway;
+
+    public GroupManager(RepositoryGateway repositoryGateway) {
+        this.repositoryGateway = repositoryGateway;
+    }
+
+    public StringBuilder showListOfGroup(Person p) {
         StringBuilder lst = new StringBuilder("List of groups:\n");
         int counter = 0;
-        for (Group g: Data.groups) {
+        for (Group g: repositoryGateway.getGroups()) {
             if (g.getGroupMembers().contains(p.getEmail())) {
                 lst.append(g);
                 lst.append("\n");
@@ -29,9 +36,9 @@ public class GroupManager {
         return new StringBuilder("You don't have any groups now.\n");
     }
 
-    public static List<String> getListOfGroup(Person p){
+    public List<String> getListOfGroup(Person p){
         List<String> lst = new ArrayList<>();
-        for (Group g: Data.groups) {
+        for (Group g: repositoryGateway.getGroups()) {
             if (g.getGroupMembers().contains(p.getEmail())) {
                 lst.add(g.getGroupName());
             } //
@@ -39,8 +46,8 @@ public class GroupManager {
         return lst;
     }
 
-    public static Group getGroupByName(String name) {
-        for (Group g: Data.groups) {
+    public Group getGroupByName(String name) {
+        for (Group g: repositoryGateway.getGroups()) {
             if (g.getGroupName().equals(name)) {
                 return g;
             }
@@ -73,5 +80,10 @@ public class GroupManager {
         }
 
         return new StringBuilder("You are the only one in the group.\n");
+    }
+
+    public void createGroup(String groupName, List<String> groupMembers,
+                            List<Expense> expenseList, String description) {
+        this.repositoryGateway.addGroup(new Group(groupName, groupMembers, expenseList, description));
     }
 }
