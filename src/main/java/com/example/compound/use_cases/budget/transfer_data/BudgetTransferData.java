@@ -9,7 +9,7 @@ import java.util.Map;
 public class BudgetTransferData { // TODO: What should this be called?
     private String BUID;
     private String name;
-    private Map<String, Map<String, ItemTransferData>> budget;
+    private Map<String, ItemTransferData> budget;
     private double maxSpend;
     // TODO: eliminate timeSpan?
 
@@ -27,15 +27,11 @@ public class BudgetTransferData { // TODO: What should this be called?
         this.budget = convertBudget(budget);
     }
 
-    public Map<String, Map<String, ItemTransferData>> convertBudget(Budget budget) {
-        Map<String, Map<String, ItemTransferData>> map = new HashMap<>();
-        for (String categoryName : budget.getCategories()) {
-            Map<String, ItemTransferData> category = new HashMap<>();
-            Map<String, Item> items = budget.getItemsOfCategory(categoryName);
-            for (String itemName : items.keySet()) {
-                category.put(itemName, new ItemTransferData(items.get(itemName)));
-            }
-            map.put(categoryName, category);
+    public Map<String, ItemTransferData> convertBudget(Budget budget) {
+        Map<String, ItemTransferData> map = new HashMap<>();
+        Map<String, Item> items = budget.getItems();
+        for (String itemName : items.keySet()) {
+            map.put(itemName, new ItemTransferData(items.get(itemName)));
         }
         return map;
     }
@@ -48,7 +44,7 @@ public class BudgetTransferData { // TODO: What should this be called?
         return name;
     }
 
-    public Map<String, Map<String, ItemTransferData>> getBudget() {
+    public Map<String, ItemTransferData> getBudget() {
         return budget;
     }
 
@@ -64,7 +60,7 @@ public class BudgetTransferData { // TODO: What should this be called?
         this.name = name;
     }
 
-    public void setBudget(Map<String, Map<String, ItemTransferData>> budget) {
+    public void setBudget(Map<String, ItemTransferData> budget) {
         this.budget = budget;
     }
 
@@ -73,13 +69,9 @@ public class BudgetTransferData { // TODO: What should this be called?
     }
 
     public Budget toBudget() { // TODO: Objects of this class will be used by outer layers. This method returns an Entity object. Hypothetically, objects in outer layers could access Entities. Can this method be here?
-        String[] categories = this.budget.keySet().toArray(new String[0]);
-        Budget budget = new Budget(BUID, name, categories, maxSpend, 0);
-        for (String category : categories) {
-            Map<String, ItemTransferData> categoryItemData = this.budget.get(category);
-            for (String itemName : categoryItemData.keySet()) {
-                budget.addItem(category, categoryItemData.get(itemName).toItem());
-            }
+        Budget budget = new Budget(BUID, name, maxSpend);
+        for (String itemName : this.budget.keySet()) {
+            budget.addItem(this.budget.get(itemName).toItem());
         }
         return budget;
     }

@@ -7,10 +7,8 @@ public class CurrentBudgetManager {
     private Budget currentBudget;
     private final BudgetRepositoryGateway budgetRepositoryGateway;
 
-    public CurrentBudgetManager(String BUID, BudgetRepositoryGateway budgetRepositoryGateway) {
+    public CurrentBudgetManager(BudgetRepositoryGateway budgetRepositoryGateway) {
         this.budgetRepositoryGateway = budgetRepositoryGateway;
-        this.setCurrentBudget(BUID);
-
     }
 
     public String getCurrentBudgetUID() {

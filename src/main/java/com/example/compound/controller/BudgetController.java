@@ -1,20 +1,27 @@
 package com.example.compound.controller;
 
+import com.example.compound.use_cases.BudgetManager;
+import com.example.compound.use_cases.ExpenseManager;
+import com.example.compound.use_cases.RepositoryGateway;
 import com.example.compound.use_cases.budget.CurrentBudgetManager;
 import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
 import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
 import com.example.compound.use_cases.budget.interactors.*;
+import com.example.compound.use_cases.group.GroupAddingExpensesFromBudgetInteractor;
 import com.example.compound.use_cases.group.GroupGetBudgetNameListInteractor;
 import com.example.compound.use_cases.group.GroupRepositoryGateway;
 
 import java.util.List;
 
 public class BudgetController {
-    private boolean isInBudgetSelection;
-    private String GUID;
+    private final String GUID;
     private final BudgetRepositoryGateway budgetRepositoryGateway;
     private final GroupRepositoryGateway groupRepositoryGateway;
     private final ItemRepositoryGateway itemRepositoryGateway;
+    private final RepositoryGateway repositoryGateway;
+    private final CurrentBudgetManager currentBudgetManager;
+    private final BudgetManager budgetManager;
+    private final ExpenseManager expenseManager;
     private final String[] selectionActions = {
             "Select a budget",
             "Create a new budget",
@@ -30,18 +37,24 @@ public class BudgetController {
             "Exit"
     };
 
-    public BudgetController(boolean isInBudgetView, String GUID,
+    public BudgetController(String GUID,
                             BudgetRepositoryGateway budgetRepositoryGateway,
                             GroupRepositoryGateway groupRepositoryGateway,
-                            ItemRepositoryGateway itemRepositoryGateway) {
-        this.isInBudgetSelection = isInBudgetView;
+                            ItemRepositoryGateway itemRepositoryGateway,
+                            RepositoryGateway repositoryGateway,
+                            ExpenseManager expenseManager) {
         this.GUID = GUID;
         this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
         this.groupRepositoryGateway = groupRepositoryGateway;
         this.itemRepositoryGateway = itemRepositoryGateway;
+        this.repositoryGateway = repositoryGateway;
+        this.currentBudgetManager = new CurrentBudgetManager(budgetRepositoryGateway);
+        this.budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway, repositoryGateway);
+        this.expenseManager = expenseManager;
     }
 
-    public void selectionDashboard(BudgetInOut inOut) {
+    public void selectionDashboard(InOut inOut) {
+        boolean isInBudgetSelection = true;
         while (isInBudgetSelection) { // TODO: Variable needed? or just while (true)?
             int input = inOut.getActionView(selectionActions);
 
@@ -49,74 +62,102 @@ public class BudgetController {
             inOut.sendOutput("The budgets in this group:");
             List<String> budgets = new GroupGetBudgetNameListInteractor(budgetRepositoryGateway,
                     groupRepositoryGateway).getBudgetNameList(GUID);
-//            for (String budget : budgets) {
-//                inOut.sendOutput(budget);
-//            }
-//            inOut.sendOutput(); // Like System.out.println();
-            inOut.showBudgets(budgets);
+            inOut.sendOutput(budgets);
 
             switch (input) {
                 case 1 -> {
                     // Get budget choice
                     int budgetInput = inOut.getActionView(budgets.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
                     String budgetName = budgets.get(budgetInput - 1);
-                    String BUID = ""; // TODO: New interactor to get BUID from name?
-                    CurrentBudgetManager currentBudgetManager = new CurrentBudgetManager(BUID, budgetRepositoryGateway);
+                    String BUID = budgetManager.getBUIDFromName(budgetName);
+                    currentBudgetManager.setCurrentBudget(BUID);
                     budgetDashboard(inOut, currentBudgetManager);
                 }
                 case 2 -> {
-                    String name = inOut.getNewBudgetName();
-                    double maxSpend = inOut.getBudgetMaxSpend();
-                    new BudgetCreationInteractor(budgetRepositoryGateway, groupRepositoryGateway).create(GUID, "",
-                            name, new String[0], maxSpend, 0); // TODO: eliminate categories, timeSpan? How to create BUIDs?
-                    // TODO: Store the boolean returned by create method and depending on success/failure, output message?
+                    String name = inOut.requestInput("the name of the budget");
+                    double maxSpend = requestDouble(inOut, "the maximum amount of money that can be spent on " +
+                            "items in this budget.\nDo not include a dollar sign. For example: 12.34");
+
+                    if (budgetManager.create(GUID, name, maxSpend)) {
+                        inOut.sendOutput("A new budget was successfully added to the given group.");
+                    } else {
+                        inOut.sendOutput("The budget could not be added to the given group. Please try again.");
+                    }
                 }
-                case 3 -> {
-                    return;
-                }
+                case 3 -> isInBudgetSelection = false;
             }
         }
     }
 
-    public void budgetDashboard(BudgetInOut inOut, CurrentBudgetManager currentBudgetManager) {
+    public double requestDouble(InOut inOut, String request) {
+        String maxSpendInput = inOut.requestInput(request);
+        try {
+            return Double.parseDouble(maxSpendInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid amount of money.");
+            return requestDouble(inOut, request);
+        }
+    }
+
+    public int requestInt(InOut inOut, String request) {
+        String maxSpendInput = inOut.requestInput(request);
+        try {
+            return Integer.parseInt(maxSpendInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid amount of money.");
+            return requestInt(inOut, request);
+        }
+    }
+
+    public void budgetDashboard(InOut inOut, CurrentBudgetManager currentBudgetManager) {
         while (true) {
             // Return an integer between 1 and the number of actions, inclusive
             int input = inOut.getActionView(budgetActions);
 
             switch (input) {
                 case 1 -> {
-                    String name = inOut.getNewItemName();
-                    double cost = inOut.getNewItemCost();
-                    int quantity = inOut.getNewItemQuantity();
-                    new BudgetItemAddingInteractor(budgetRepositoryGateway, itemRepositoryGateway)
-                            .addItem(currentBudgetManager.getCurrentBudgetUID(), "", "", name, cost,
-                                    quantity);
-                    // TODO: eliminate categories? How to create IUIDs?
-                    // TODO: Output message?
+                    String name = inOut.requestInput("the item's name");
+                    double cost = requestDouble(inOut, "the item's cost");
+                    int quantity = requestInt(inOut, "the item's quantity");
+                    budgetManager.addItem(currentBudgetManager.getCurrentBudgetUID(), name, cost, quantity);
+                    inOut.sendOutput("The item was successfully created.");
                 }
                 case 2 -> {
-
+                    String IUID = getIUID(inOut, currentBudgetManager);
+                    int newQuantity = requestInt(inOut, "the new quantity");
+                    budgetManager.changeItemQuantity(IUID, newQuantity);
                 }
                 case 3 -> {
-
+                    String IUID = getIUID(inOut, currentBudgetManager);
+                    budgetManager.removeItem(IUID);
                 }
                 case 4 -> {
-                    double newMaxSpend = inOut.getBudgetMaxSpend();
+                    double newMaxSpend = requestDouble(inOut, "the new spending limit");
                     new BudgetMaxSpendInteractor(budgetRepositoryGateway)
                             .setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
                 }
                 case 5 -> {
-
+                    new GroupAddingExpensesFromBudgetInteractor(budgetRepositoryGateway, groupRepositoryGateway)
+                            .addExpensesFromBudget(GUID, currentBudgetManager.getCurrentBudgetUID(), payee, budgetManager, expenseManager);
                 }
                 case 6 -> {
-                    new BudgetRemovalInteractor(budgetRepositoryGateway, groupRepositoryGateway)
-                            .remove(GUID, currentBudgetManager.getCurrentBudgetUID());
-                    // TODO: store boolean returned by remove method and output message?
+                    if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
+                        inOut.sendOutput("The item was removed.");
+                    } else {
+                        inOut.sendOutput("The item could not be removed. Please try again.");
+                    }
                 }
                 case 7 -> {
                     return;
                 }
             }
         }
+    }
+
+    public String getIUID(InOut inOut, CurrentBudgetManager currentBudgetManager) {
+        List<String> items = budgetManager.getItems(currentBudgetManager.getCurrentBudgetUID());
+        int itemInput = inOut.getActionView(items.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
+        String itemName = items.get(itemInput - 1);
+        return budgetManager.getIUIDFromName(itemName);
     }
 }

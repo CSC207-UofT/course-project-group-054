@@ -7,19 +7,30 @@ import java.util.*;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
-import com.example.compound.use_cases.budget.interactors.BudgetCreationInteractor;
+import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.group.GroupRepositoryGateway;
 
 public class Controller {
 
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
+    private final BudgetRepositoryGateway budgetRepositoryGateway;
+    private final GroupRepositoryGateway groupRepositoryGateway;
+    private final ItemRepositoryGateway itemRepositoryGateway;
     public RepositoryGateway repositoryGateway;
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
 
-    public Controller(RepositoryGateway repositoryGateway) {
+    public Controller(BudgetRepositoryGateway budgetRepositoryGateway,
+                      GroupRepositoryGateway groupRepositoryGateway,
+                      ItemRepositoryGateway itemRepositoryGateway,
+                      RepositoryGateway repositoryGateway) {
+        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
+        this.groupRepositoryGateway = groupRepositoryGateway;
+        this.itemRepositoryGateway = itemRepositoryGateway;
         this.repositoryGateway = repositoryGateway; // TODO: Take in as a parameter?
         this.groupManager = new GroupManager(this.repositoryGateway);
         this.userManager = new UserManager(this.repositoryGateway);
@@ -34,7 +45,6 @@ public class Controller {
         "Create a new group",
         "View expenses",
         "Pay someone",
-        "Add a budget",
         "Log out"
     };
     public static String[] mainMenuOptions = {
@@ -44,7 +54,7 @@ public class Controller {
     };
 
     public void menu(InOut inOut) {
-        inOut.welcome(appName);
+        inOut.sendOutput("Welcome to " + appName);
         int menuInput = inOut.getActionView(mainMenuOptions);
         switch (menuInput) {
             case 1 -> {
@@ -53,10 +63,10 @@ public class Controller {
                 User user = userManager.getUser(email);
                 if (user != null) {
                     authenticateUser(user);
-                    inOut.outputLoginSuccessView(user.getName());
+                    inOut.sendOutput("Welcome back, " + user.getName() + "!");
                     dashboard(inOut);
                 } else {
-                    inOut.outputLoginFailureView();
+                    inOut.sendOutput("ERROR: There was a problem logging you in. Please try again.");
                 }
             }
             case 2 -> {
@@ -113,8 +123,7 @@ public class Controller {
                         System.out.println("Please enter a valid amount!");
                     }
                 }
-                case 8 -> addBudget(inOut);
-                case 9 -> {
+                case 8 -> {
                     logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
@@ -123,23 +132,9 @@ public class Controller {
     }
 
     // TODO: Call this method from a group dashboard
-    public static void manageBudgets(Group group, InOut inOut) {
-        // showBudgets, have user select a Budget using getActionView, one number per Budget (separate selectBudget method)
-        // show this budget
-        // getActionView: set maxSpend, ...
-    }
-
-    public void addBudget(InOut inOut) {
-        String name = inOut.getBudgetNameView();
-        double maxSpend = inOut.getBudgetMaxSpendView();
-        String groupName = inOut.getGroupNameView(groupManager.showGroup(currentUser));
-        BudgetCreationInteractor interactor = new BudgetCreationInteractor(null, null);
-
-        if (interactor.create(groupName, "", name, new String[0], maxSpend, 0)) { // TODO: eliminate categories and timeSpan?
-            inOut.outputBudgetCreationSuccess();
-        } else {
-            inOut.outputBudgetCreationFailure();
-        }
+    public void manageBudgets(Group group, InOut inOut) {
+        new BudgetController(group.getGUID(), budgetRepositoryGateway, groupRepositoryGateway,
+                itemRepositoryGateway, repositoryGateway, expenseManager).selectionDashboard(inOut);
     }
 
     /**
@@ -149,7 +144,7 @@ public class Controller {
      */
     public void createGroupView(InOut inOut) {
         if (getIsNotLoggedIn()) {
-            inOut.outputCreateGroupAuthenticationFailure();
+            inOut.sendOutput("Error: You must be authenticated to create a new group.");
         }
 
         List<String> members = new ArrayList<>();

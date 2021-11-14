@@ -18,46 +18,12 @@ public class View implements InOut {
     }
 
     /**
-     * Welcome View
-     */
-    public void welcome(String appName) {
-        System.out.println("Welcome to " + appName);
-    }
-
-    /**
      * Request the user to input an email address and return that email address.
      */
     public String requestInput(String attribute) {
         System.out.println("Enter " + attribute + ": ");
         return sc.nextLine();
     }
-
-    public void outputLoginSuccessView(String name) {
-        System.out.println("Welcome back, " + name + "!");
-    }
-
-    public void outputLoginFailureView() {
-        System.out.println("ERROR: There was a problem logging you in. Please try again.");
-    }
-
-//    /**
-//     * Sign up View
-//     */
-//    public void signUpView() {
-//        String[] outputs = {"Full Name (*): ", "Email (*): ", "Phone: "};
-//        List<String> inputs = new ArrayList<>();
-//
-//        System.out.println("Please enter the following information and press enter. Fields marked (*) are required.");
-//        for (String output: outputs) {
-//            System.out.println(output);
-//            String input = sc.nextLine();
-//            inputs.add(input);
-//        }
-//
-//        Data.addUser(UserManager.createUser(inputs.get(0), 0, inputs.get(1)));
-//
-//
-//    }
 
     /**
      * Given a list of possible actions that the user can take, output the actions as a numbered list and request that
@@ -88,41 +54,5 @@ public class View implements InOut {
             System.out.println("Please select a valid option.");
             return getActionView(actions);
         }
-    }
-
-    public void outputCreateGroupAuthenticationFailure() {
-        System.out.println("Error: You must be authenticated to create a new group.");
-    }
-
-    public String getGroupNameView(StringBuilder currentGroups) {
-        System.out.println(currentGroups);
-        System.out.println("Enter group name: ");
-        return sc.nextLine();
-    }
-
-    public String getBudgetNameView() {
-        System.out.println("Enter the name of the budget: ");
-        return sc.nextLine();
-    }
-
-    @Override
-    public double getBudgetMaxSpendView() {
-        System.out.println("Enter the maximum amount of money that can be spent on items in this budget.");
-        System.out.println("Do not include a dollar sign. For example: 12.34");
-        String input = sc.nextLine();
-        try {
-            return Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid amount of money.");
-            return getBudgetMaxSpendView();
-        }
-    }
-
-    public void outputBudgetCreationSuccess() {
-        System.out.println("A new budget was successfully added to the given group.");
-    }
-
-    public void outputBudgetCreationFailure() {
-        System.out.println("The budget could not be added to the given group. Please try again.");
     }
 }

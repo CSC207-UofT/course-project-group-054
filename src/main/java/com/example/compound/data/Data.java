@@ -12,6 +12,10 @@ public class Data implements RepositoryGateway {
     public List<User> users = new ArrayList<>();
     public List<Expense> expenses = new ArrayList<>();
     public List<Group> groups = new ArrayList<>();
+    public List<Budget> budgets = new ArrayList<>();
+    public List<Item> items = new ArrayList<>();
+    private int budgetCounter = 0;
+    private int itemCounter = 0;
 
     public void initializeData() {
         // Creating dummy users
@@ -61,6 +65,16 @@ public class Data implements RepositoryGateway {
         this.users.add(user);
     }
 
+    public void addBudget(Budget budget) {
+        this.budgets.add(budget);
+        this.budgetCounter++;
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
+        this.itemCounter++;
+    }
+
     public List<Group> getGroups() {
         return this.groups;
     }
@@ -73,6 +87,14 @@ public class Data implements RepositoryGateway {
         return this.users;
     }
 
+    public List<Budget> getBudgets() {
+        return this.budgets;
+    }
+
+    public List<Item> getItems() {
+        return this.items;
+    }
+
     public int getNewGUID() {
         return groups.size();
     }
@@ -83,5 +105,13 @@ public class Data implements RepositoryGateway {
 
     public int getNewUUID() {
         return users.size();
+    }
+
+    public int getNewBUID() {
+        return this.budgetCounter;
+    }
+
+    public int getNewIUID() {
+        return this.itemCounter;
     }
 }

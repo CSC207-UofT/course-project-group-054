@@ -25,7 +25,7 @@ public class BudgetManager {
         this.repositoryGateway = repositoryGateway;
     }
 
-    public boolean create(String GUID, String name, String[] categories, double maxSpend, int timeSpan) {
+    public boolean create(String GUID, String name, double maxSpend) {
         Group group = this.groupRepositoryGateway.findById(GUID); // TODO: instead of GUID, maybe group name? using findAll() and then loop over to get that group
         if (group == null) {
             return false;
@@ -33,9 +33,34 @@ public class BudgetManager {
         String BUID = Integer.toString(this.repositoryGateway.getNewBUID());
         Budget budget = new Budget(BUID, name, maxSpend);
         group.addBudget(budget);
+        this.repositoryGateway.addBudget(budget);
         this.budgetRepositoryGateway.save(budget);
         this.groupRepositoryGateway.save(group);
         return true;
+    }
+
+    public String getBUIDFromName(String name) {
+        List<Budget> budgets = repositoryGateway.getBudgets();
+        for (Budget budget : budgets) {
+            if (budget.getName().equals(name)) {
+                return budget.getBUID();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getItems(String BUID) {
+        return new ArrayList<>(this.budgetRepositoryGateway.findById(BUID).getItems().keySet());
+    }
+
+    public String getIUIDFromName(String name) {
+        List<Item> items = repositoryGateway.getItems();
+        for (Item item : items) {
+            if (item.getName().equals(name)) {
+                return item.getIUID();
+            }
+        }
+        return null;
     }
 
     public List<Expense> toExpenses(String BUID, Group group, User payee, ExpenseManager expenseManager) {
@@ -49,10 +74,12 @@ public class BudgetManager {
         return expenses;
     }
 
-    public void addItem(String BUID, String IUID, String category, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
+    public void addItem(String BUID, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
+        String IUID = Integer.toString(this.repositoryGateway.getNewIUID());
         Item newItem = new Item(IUID, name, cost, quantity);
         budget.addItem(newItem);
+        this.repositoryGateway.addItem(newItem);
         this.itemRepositoryGateway.save(newItem); // TODO: Is a separate item repository needed?
         this.budgetRepositoryGateway.save(budget);
     }
