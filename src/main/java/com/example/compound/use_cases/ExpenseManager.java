@@ -65,7 +65,7 @@ public class ExpenseManager {
         return null;
     }
 
-    public Expense createExpense(Item item, Group group) {
+    public Expense createExpense(Item item) {
         HashMap<Person, Double> whoPaid = new HashMap<>();
         HashMap<Person, Double> whoBorrowed = new HashMap<>();
 
@@ -89,10 +89,10 @@ public class ExpenseManager {
      * @param payee - The person that pays the bill.
      * @param expenseUID - The unique identifier of expense
      */
-    public void payDebt(Person payee, String expenseUID, Double amount) {
+    public void payDebt(Person payee, String expenseUID, Double amount, boolean borrowed) {
         Expense expense = getExpense(expenseUID);
         assert expense != null;
-        expense.settleExpense(payee, amount);
+        expense.settleExpense(payee, amount, borrowed);
 
         // Get and set the balance of the payee.
         payee.updateBalance(-amount); // remove the money from the payee's account.

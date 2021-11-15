@@ -52,10 +52,23 @@ public class Expense {
         return this.EUID + "     " + this.title + "     " + this.numPeople();
     }
 
-    public void settleExpense(Person p, Double amountPaid) {
+    public void settleExpense(Person p, Double amountPaid, boolean borrowed) {
         this.amount = this.amount - amountPaid;
-        Double amount = this.whoBorrowed.get(p);
-        this.whoBorrowed.replace(p, amount - amountPaid);
+
+        if (borrowed){
+            Double amount = this.whoBorrowed.get(p);
+            this.whoBorrowed.replace(p, amount - amountPaid);
+        }
+//        else{
+//            Double amount = this.whoPaid.get(p);
+//            if (amount - amountPaid < 0){
+//                System.out.println("You've entered too much!");
+//            }
+//            else{
+//                this.whoPaid.replace(p, amount - amountPaid);
+//            }
+//        }
+
     }
 
     public void updateBalances(Map<Person, Double> whoPaid){

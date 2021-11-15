@@ -40,7 +40,7 @@ public class ExpenseTest {
 
     @Test
     public void TestSettleExpense() {
-        e.settleExpense(u, 10.05);
+        e.settleExpense(u, 10.05, true);
         Assertions.assertEquals(10.01, e.getAmount(), 0);
     }
 }

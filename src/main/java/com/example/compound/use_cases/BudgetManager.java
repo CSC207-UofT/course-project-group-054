@@ -68,7 +68,7 @@ public class BudgetManager {
         List<Expense> expenses = new ArrayList<>();
         for (String itemName : budget.getItems().keySet()) {
             Item item = budget.getItem(itemName);
-            Expense expense = expenseManager.createExpense(item, group);
+            Expense expense = expenseManager.createExpense(item);
             expenses.add(expense);
         }
         return expenses;

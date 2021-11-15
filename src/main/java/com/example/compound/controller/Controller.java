@@ -5,7 +5,6 @@ package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.data.*;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
@@ -46,7 +45,7 @@ public class Controller {
             "Create a new group",
             "Manage Groups",
             "View expenses",
-            "Pay someone",
+            "Pay an expense",
             "Log out"
     };
 
@@ -135,24 +134,37 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> updateGroup(inOut); //Manage Groups
+                //TODO: Fix case 7; not properly displaying people in expenses
                 case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUser));
                 case 8 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expenseToPay = inOut.getInput();
                     inOut.sendOutput("Enter the amount you wish to pay");
-                    String amountPaid = inOut.getInput();
-                    try {
-                        Double amount = Double.parseDouble(amountPaid);
-                        expenseManager.payDebt(currentUser, expenseToPay, amount);
-                    } catch(Exception E) {
-                        System.out.println("Please enter a valid amount!");
-                    }
+                    Double amount = inputToDouble(inOut);
+                    inOut.sendOutput("Did you borrow? yes(y) or no(n)");
+                    String borrowed = inOut.getInput();
+                    expenseManager.payDebt(currentUser, expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
                     inOut.sendOutput("Goodbye. Have a nice day!");
                 }
             }
+        }
+    }
+
+    public double inputToDouble(InOut inOut){
+        /*
+        Helper method for dashboard, converts input string to a double.
+         */
+        String amountPaid = inOut.getInput();
+        try {
+            double amount;
+            amount = Double.parseDouble(amountPaid);
+            return amount;
+        } catch(Exception E) {
+            System.out.println("Please enter a valid amount!");
+            return inputToDouble(inOut);
         }
     }
 
@@ -226,13 +238,15 @@ public class Controller {
         inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
         double amount = Float.parseFloat(inOut.getInput());
 
-        inOut.sendOutput("Did you borrow (b) or lend (l)?");
+        inOut.sendOutput("Did you borrow (b) or pay (p)?");
         boolean userBorrow = inOut.getInput().equals("b");
         if (userBorrow){
-            u.updateBalance(-amount);
+            u.updateBalance(amount);
+            borrowedSoFar.put(currentUser, amount);
         }
         else{
-            u.updateBalance(amount);
+            u.updateBalance(-amount);
+            lentSoFar.put(currentUser, amount);
         }
 
         boolean addMorePeople = Boolean.TRUE;
@@ -247,7 +261,7 @@ public class Controller {
                     inOut.sendOutput("Enter user email:");
                     String email = inOut.getInput();
 
-                    inOut.sendOutput("Did they borrow (b) or lend (l)?");
+                    inOut.sendOutput("Did they borrow (b) or pay (p)?");
                     String borrowOrLend = inOut.getInput();
 
                     inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
@@ -255,16 +269,13 @@ public class Controller {
                     double amountUsed = Double.parseDouble(amountUsedStr);
 
                     boolean borrowed = borrowOrLend.equals("b");
-                    if (borrowed) {
-                        amountUsed = -amountUsed;
-                    }
 
                     // If we find the user in the database then update bal
                     if (userManager.getUser(email) != null) {
                         User user = userManager.getUser(email);
                         assert user != null;
 
-                        if (amount > 0){
+                        if (borrowed){
                             borrowedSoFar.put(user, amountUsed);
                         }
                         else {
@@ -274,17 +285,15 @@ public class Controller {
                     }
                     // Otherwise, create a stand in person.
                     else {
-                        Person standIn = new Person(name, amountUsed, email);
-                        if (amount > 0){
+                        Person standIn = this.userManager.createUser(
+                                name, 0.0, email);
+                        if (borrowed){
                             borrowedSoFar.put(standIn, amountUsed);
                         }
                         else {
                             lentSoFar.put(standIn, amountUsed);
                         }
                     }
-
-                    System.out.println("Add more people?");
-                    people.add(inOut.getInput());
                 }
                 case "n" -> {
                     if (people.size() == 0) {
@@ -298,7 +307,10 @@ public class Controller {
         } while (addMorePeople);
         currentUser.addExpense(
                 Objects.requireNonNull(
-                        expenseManager.createExpense(expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
+                        expenseManager.createExpense(
+                                expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
+        System.out.println("borrowed: " + borrowedSoFar.keySet()
+                + "lent: " + lentSoFar.keySet());
     }
 
     /**
