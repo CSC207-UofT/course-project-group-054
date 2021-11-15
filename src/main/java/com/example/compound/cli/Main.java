@@ -1,6 +1,6 @@
 package com.example.compound.cli;
 
-import com.example.compound.controller.Controller;
+import com.example.compound.controller.*;
 import com.example.compound.data.*;
 import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
 import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;

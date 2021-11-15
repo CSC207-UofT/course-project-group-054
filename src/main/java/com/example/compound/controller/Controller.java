@@ -185,15 +185,15 @@ public class Controller {
 
         // Loop while requesting to add group members.
         do {
-            String member = inOut.requestInput("the email address of the member: ");
+            String member = inOut.requestInput("the email address of the member");
             if (member.equals("")) {
                 continue;
             }
             members.add(member);
 
-            inOut.requestInput("whether you want to add more members (y/n)");
+            String input = inOut.requestInput("whether you want to add more members (y/n)");
 
-            if (inOut.getInput().equals("y")) {
+            if (input.equals("y")) {
                 addAnotherMember = Boolean.TRUE;
             } else {
                 addAnotherMember = Boolean.FALSE;
