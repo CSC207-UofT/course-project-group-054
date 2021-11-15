@@ -1,7 +1,6 @@
-package com.example.compound.use_cases.group;
+package com.example.compound.use_cases.gateways;
 
 import com.example.compound.entities.Group;
-import com.example.compound.entities.Budget;
 
 import java.util.List;
 

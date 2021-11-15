@@ -1,7 +1,7 @@
 package com.example.compound.use_cases.budget;
 
 import com.example.compound.entities.Budget;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
 
 public class CurrentBudgetManager {
     private Budget currentBudget;

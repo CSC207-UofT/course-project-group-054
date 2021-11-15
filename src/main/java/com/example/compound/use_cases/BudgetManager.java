@@ -1,9 +1,10 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.entities.*;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,5 +137,26 @@ public class BudgetManager {
         this.budgetRepositoryGateway.deleteById(BUID); // TODO: What if BUID is invalid?
         this.groupRepositoryGateway.save(group);
         return true;
+    }
+
+    public void addExpensesToGroup(String GUID, String BUID, BudgetManager budgetManager,
+                                   ExpenseManager expenseManager) {
+        Group group = this.groupRepositoryGateway.findById(GUID);
+        Budget budget = group.getBudget(BUID);
+        List<Expense> budgetExpenses = budgetManager.toExpenses(BUID, group, expenseManager);
+        for (Expense expense : budgetExpenses) {
+            group.addExpense(expense);
+        }
+        this.groupRepositoryGateway.save(group);
+    }
+
+    public List<String> getBudgetNameList(String GUID) {
+        Group group = this.groupRepositoryGateway.findById(GUID);
+        List<Budget> budgets = group.getBudgets();
+        List<String> budgetNames = new ArrayList<>();
+        for (Budget budget : budgets) {
+            budgetNames.add(budget.getName());
+        }
+        return budgetNames;
     }
 }

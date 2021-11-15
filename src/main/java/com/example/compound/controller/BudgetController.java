@@ -2,14 +2,11 @@ package com.example.compound.controller;
 
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
-import com.example.compound.use_cases.RepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.budget.CurrentBudgetManager;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.budget.interactors.*;
-import com.example.compound.use_cases.group.GroupAddingExpensesFromBudgetInteractor;
-import com.example.compound.use_cases.group.GroupGetBudgetNameListInteractor;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 import java.util.List;
 
@@ -58,20 +55,22 @@ public class BudgetController {
         while (isInBudgetSelection) { // TODO: Variable needed? or just while (true)?
             int input = inOut.getActionView(selectionActions);
 
-            // Output list of Budgets
-            inOut.sendOutput("The budgets in this group:");
-            List<String> budgets = new GroupGetBudgetNameListInteractor(budgetRepositoryGateway,
-                    groupRepositoryGateway).getBudgetNameList(GUID);
-            inOut.sendOutput(budgets);
-
             switch (input) {
                 case 1 -> {
+                    // Output list of Budgets
+                    inOut.sendOutput("The budgets in this group:");
+                    List<String> budgets = budgetManager.getBudgetNameList(GUID);
+
                     // Get budget choice
-                    int budgetInput = inOut.getActionView(budgets.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
-                    String budgetName = budgets.get(budgetInput - 1);
-                    String BUID = budgetManager.getBUIDFromName(budgetName);
-                    currentBudgetManager.setCurrentBudget(BUID);
-                    budgetDashboard(inOut, currentBudgetManager);
+                    if (budgets.size() == 0) {
+                        inOut.sendOutput("This group does not have any budgets yet.");
+                    } else {
+                        int budgetInput = inOut.getActionView(budgets.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
+                        String budgetName = budgets.get(budgetInput - 1);
+                        String BUID = budgetManager.getBUIDFromName(budgetName);
+                        currentBudgetManager.setCurrentBudget(BUID);
+                        budgetDashboard(inOut, currentBudgetManager);
+                    }
                 }
                 case 2 -> {
                     String name = inOut.requestInput("the name of the budget");
@@ -133,11 +132,10 @@ public class BudgetController {
                 }
                 case 4 -> {
                     double newMaxSpend = requestDouble(inOut, "the new spending limit");
-                    new BudgetMaxSpendInteractor(budgetRepositoryGateway)
-                            .setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
+                    budgetManager.setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
                 }
-                case 5 -> new GroupAddingExpensesFromBudgetInteractor(budgetRepositoryGateway, groupRepositoryGateway)
-                        .addExpensesFromBudget(GUID, currentBudgetManager.getCurrentBudgetUID(), budgetManager, expenseManager);
+                case 5 -> budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
+                        budgetManager, expenseManager);
                 case 6 -> {
                     if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
                         inOut.sendOutput("The item was removed.");

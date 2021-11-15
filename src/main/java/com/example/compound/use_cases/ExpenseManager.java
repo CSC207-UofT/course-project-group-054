@@ -1,7 +1,7 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.entities.*;
-import com.example.compound.data.*;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 import java.util.ArrayList;
 import java.util.HashMap;

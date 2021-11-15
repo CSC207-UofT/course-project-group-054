@@ -7,9 +7,10 @@ import java.util.*;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 public class Controller {
 
@@ -197,15 +198,15 @@ public class Controller {
 
         // Loop while requesting to add group members.
         do {
-            String member = inOut.requestInput("the email address of the member: ");
+            String member = inOut.requestInput("the email address of the member");
             if (member.equals("")) {
                 continue;
             }
             members.add(member);
 
-            inOut.requestInput("whether you want to add more members (y/n)");
+            String input = inOut.requestInput("whether you want to add more members (y/n)");
 
-            if (inOut.getInput().equals("y")) {
+            if (input.equals("y")) {
                 addAnotherMember = Boolean.TRUE;
             } else {
                 addAnotherMember = Boolean.FALSE;

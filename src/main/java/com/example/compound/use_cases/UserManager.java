@@ -1,7 +1,7 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.data.Data;
 import com.example.compound.entities.*;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 /*
 This file represents the User Class manager. The entity User is changed here.
