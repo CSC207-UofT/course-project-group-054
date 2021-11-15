@@ -39,5 +39,4 @@ The main packaging strategies we discussed are "By Layer" and "By Feature". We d
 
 ## A summary of any design patterns your group has implemented (or plans to implement).
 
-
 ## A progress report (open questions your group is struggling with, what has worked well so far with your design, a summary of what each group member has been working on and plans to work on next
