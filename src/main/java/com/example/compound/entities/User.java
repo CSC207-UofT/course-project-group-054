@@ -1,15 +1,28 @@
 package com.example.compound.entities;
 
+//import org.hibernate.annotations.Table;
+//import org.hibernate.annotations.Type;
+//import org.hibernate.annotations.TypeDef;
+
+
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.*;
 
 /**
  * A subclass of Person named User.
  * This class is identical to Person, except that it has a UID and a list of expenses.
  */
+
+//@Entity
 public class User extends Person implements AccountFeatures {
 
-    private static final int UUID = 0;
+    private final int UUID;
+    public final String username;
     public List<String> expenses;
+    private String password;
 
     /**
      * Construct User, giving them the given name, balance, and email.
@@ -20,13 +33,18 @@ public class User extends Person implements AccountFeatures {
      */
     public User(String name, double balance, String email) {
         super(name, balance, email);
+        this.UUID = 0;
+        this.username = email;
         this.expenses = new ArrayList<>();
     }
 
-    public int getUUID() {
-        return UUID;
+    public User(int uuid, String name, String email, String username, double balance, String password) {
+        super(name, balance, email);
+        this.UUID = uuid;
+        this.username = username;
+        this.password = password;
     }
-    
+
     @Override
     public String generateUUID() {
         return null;

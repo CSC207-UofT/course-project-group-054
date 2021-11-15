@@ -1,0 +1,26 @@
+package com.example.compound.repositories;
+
+import com.example.compound.entities.User;
+import com.example.compound.exceptions.UserAuthException;
+
+public interface UserRepository {
+    Integer create(String firstName, String lastName, String email, String password) throws UserAuthException;
+    User findByEmailAndPassword(String email, String password) throws UserAuthException;
+    Integer getCountByEmail(String email);
+    User findById(int id);
+}
+
+
+
+
+
+
+//import org.springframework.data.jpa.repository.JpaRepository;
+//import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+//public interface UserRepository extends JpaRepository<User, Long> {
+////    Integer create(String firstName, String lastName, String email, String password) throws UserAuthException;
+////    User findByEmailAndPassword(String email, String password) throws UserAuthException;
+////    Integer getCountByEmail(String email);
+////    User findById(Integer userId);
+//}

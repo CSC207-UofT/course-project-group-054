@@ -9,9 +9,6 @@
         <module name="Compound" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Compound" target="14" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
