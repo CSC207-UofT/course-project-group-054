@@ -4,7 +4,7 @@ import com.example.compound.data.Data;
 import com.example.compound.entities.User;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.GroupManager;
-import com.example.compound.use_cases.RepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.UserManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

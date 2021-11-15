@@ -2,14 +2,11 @@ package com.example.compound.controller;
 
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
-import com.example.compound.use_cases.RepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.budget.CurrentBudgetManager;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.budget.interactors.*;
-import com.example.compound.use_cases.group.GroupAddingExpensesFromBudgetInteractor;
-import com.example.compound.use_cases.group.GroupGetBudgetNameListInteractor;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 import java.util.List;
 
@@ -62,8 +59,7 @@ public class BudgetController {
                 case 1 -> {
                     // Output list of Budgets
                     inOut.sendOutput("The budgets in this group:");
-                    List<String> budgets = new GroupGetBudgetNameListInteractor(budgetRepositoryGateway,
-                            groupRepositoryGateway).getBudgetNameList(GUID);
+                    List<String> budgets = budgetManager.getBudgetNameList(GUID);
 
                     // Get budget choice
                     if (budgets.size() == 0) {
@@ -136,11 +132,10 @@ public class BudgetController {
                 }
                 case 4 -> {
                     double newMaxSpend = requestDouble(inOut, "the new spending limit");
-                    new BudgetMaxSpendInteractor(budgetRepositoryGateway)
-                            .setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
+                    budgetManager.setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
                 }
-                case 5 -> new GroupAddingExpensesFromBudgetInteractor(budgetRepositoryGateway, groupRepositoryGateway)
-                        .addExpensesFromBudget(GUID, currentBudgetManager.getCurrentBudgetUID(), budgetManager, expenseManager);
+                case 5 -> budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
+                        budgetManager, expenseManager);
                 case 6 -> {
                     if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
                         inOut.sendOutput("The item was removed.");

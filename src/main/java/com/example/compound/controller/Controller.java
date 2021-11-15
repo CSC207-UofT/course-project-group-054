@@ -5,12 +5,12 @@ package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.data.*;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 public class Controller {
 

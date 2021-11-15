@@ -1,4 +1,4 @@
-package com.example.compound.use_cases.budget.gateways;
+package com.example.compound.use_cases.gateways;
 
 import com.example.compound.entities.Budget;
 

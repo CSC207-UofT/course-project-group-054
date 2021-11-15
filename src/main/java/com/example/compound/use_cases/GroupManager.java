@@ -1,9 +1,9 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.entities.Expense;
-import com.example.compound.data.Data;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 import java.util.ArrayList;
 import java.util.List;

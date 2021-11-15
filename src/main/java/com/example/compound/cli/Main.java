@@ -2,9 +2,9 @@ package com.example.compound.cli;
 
 import com.example.compound.controller.*;
 import com.example.compound.data.*;
-import com.example.compound.use_cases.budget.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.budget.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.group.GroupRepositoryGateway;
+import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 public class Main {
     public static void main(String[] args) {
