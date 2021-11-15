@@ -25,12 +25,19 @@ We decided to use Spring for our web application, and have created new files and
 
 ## A brief description of how your project adheres to Clean Architecture (if you notice a violation and aren't sure how to fix it, talk about that too!)
 
-
-
 ## A brief description of how your project is consistent with the SOLID design principles (if you notice a violation and aren't sure how to fix it, talk about that too!)
+
+S - Single Responsibility Principle: All classes in our project have a single responsibility. Whether it's managing the entities(use cases), displaying the commandline (View), or translating the instructions from the commandline (Controller) they all have one explicit purpose.
+O - Open/Closed Principle: Entities can be modified to include more attributes, such as storing more user information, however modification of our entities is limited due to our use cases depending on different aspects of them.
+L - Liskov Substitution Principle: We do not have many subclasses, however the few that we do have don't violate this principle given that we change the usages. For instance replacing all instances of Person with User will not break the program.
+I - Interface Segregation: The interfaces that we do have don't possess a large amount of functions. They are all relatively small. The largest one we have is inOut which deals with input and output of information to our interface.
+D - Dependency Inversion: A future example of this principle would be with our presenter. Our use cases would rely on an output boundary and our presenter would have to implement this boundary.
 
 ## A brief description of which packaging strategies you considered, which you decided to use, and why. (see slide 7 from the packages slides)
 
+The main packaging strategies we discussed are "By Layer" and "By Feature". We decided to choose the by layer strategy because we already had a close implementation of it from Phase 0, and we felt it was the most clear for our program. Since many of our features work in tandem, we realized that grouping things by features would be difficult and suboptimal for this program. To a lesser extent we considered the "Inside/Outside" pattern because one can see creating and managing expenses as orders however we thought that the large amount of methods we would need would turn the classes into bloaters.
+
 ## A summary of any design patterns your group has implemented (or plans to implement).
+
 
 ## A progress report (open questions your group is struggling with, what has worked well so far with your design, a summary of what each group member has been working on and plans to work on next
