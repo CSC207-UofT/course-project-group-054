@@ -3,11 +3,15 @@ package com.example.compound.repositories;
 import com.example.compound.entities.User;
 import com.example.compound.exceptions.UserAuthException;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserRepository {
     Integer create(String firstName, String lastName, String email, String password) throws UserAuthException;
     User findByEmailAndPassword(String email, String password) throws UserAuthException;
     Integer getCountByEmail(String email);
     User findById(int id);
+    public List<Map<String, Object>> listAllUsers();
 }
 
 

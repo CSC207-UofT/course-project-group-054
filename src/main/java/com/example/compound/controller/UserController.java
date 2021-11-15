@@ -2,12 +2,14 @@ package com.example.compound.controller;
 
 //import com.example.compound.api.UserInteractor;
 import com.example.compound.entities.User;
+import com.example.compound.exceptions.UserAuthException;
 import com.example.compound.repositories.UserRepository;
 import com.example.compound.repositories.UserRepositoryImpl;
 import com.example.compound.use_cases.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,9 +25,9 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/users")
-    List<User> all() {
-//        return interactor.getAllUsers();
-        return null;
+    List<Map<String, Object>> all() {
+        return new ArrayList<>();
+//        return repository.listAllUsers();
     }
 
     public UserController() {
@@ -62,8 +64,13 @@ public class UserController {
     }
 
 
+    /**
+     * API POST path to create a new user in database.
+     * @param request The body of the request
+     * @return 1 iff user was successfully created, 0 otherwise.
+     */
     @PostMapping("/create-new-user")
-    public String createUser(@RequestBody Map<String, Object> request) {
+    public int createUser(@RequestBody Map<String, Object> request) {
         String name = (String) request.get("name");
         String email = (String) request.get("email");
         String username = (String) request.get("username");
@@ -73,6 +80,6 @@ public class UserController {
 
         } catch (Exception ignored) { }
 
-        return name + ", " + email + ", " + username + ", " + password;
+        return 0;
     }
 }

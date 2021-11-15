@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -31,8 +33,9 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     private static final String SQL_CREATE_USER = "INSERT INTO users(uuid, name, email, username, password, expenses, " +
-            "balance) VALUES(2, ?, ?, ?, ?, '{}', 0)";
+            "balance) VALUES(NEXTVAL('users_seq'), ?, ?, ?, ?, '{}', 0)";
     private static final String SQL_GET_USER_BY_UUID = "SELECT * FROM users WHERE uuid = ?";
+
 
 
     @Override
@@ -55,6 +58,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByEmailAndPassword(String email, String password) throws UserAuthException {
         return null;
+    }
+
+    public List<Map<String, Object>> listAllUsers() {
+        return jdbcTemplate.queryForList("SELECT * FROM users");
     }
 
     @Override
