@@ -70,6 +70,7 @@ public class Controller {
             "View GroupMembers",
             "Leave Group",
             "Delete Group",
+            "Manage Budgets",
             "Back"
     };
 
@@ -155,7 +156,6 @@ public class Controller {
         }
     }
 
-    // TODO: Call this method from a group dashboard
     public void manageBudgets(Group group, InOut inOut) {
         new BudgetController(group.getGUID(), budgetRepositoryGateway, groupRepositoryGateway,
                 itemRepositoryGateway, repositoryGateway, expenseManager).selectionDashboard(inOut);
@@ -489,7 +489,8 @@ public class Controller {
                     GroupManager.removeMember(g, currentUser.getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
                     repositoryGateway.removeGroup(g); //Delete Group
-            case 7 -> back = true;
+            case 7 -> manageBudgets(g, inOut);
+            case 8 -> back = true;
         }
         return back;
     }

@@ -136,10 +136,8 @@ public class BudgetController {
                     new BudgetMaxSpendInteractor(budgetRepositoryGateway)
                             .setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
                 }
-                case 5 -> {
-                    new GroupAddingExpensesFromBudgetInteractor(budgetRepositoryGateway, groupRepositoryGateway)
-                            .addExpensesFromBudget(GUID, currentBudgetManager.getCurrentBudgetUID(), payee, budgetManager, expenseManager);
-                }
+                case 5 -> new GroupAddingExpensesFromBudgetInteractor(budgetRepositoryGateway, groupRepositoryGateway)
+                        .addExpensesFromBudget(GUID, currentBudgetManager.getCurrentBudgetUID(), budgetManager, expenseManager);
                 case 6 -> {
                     if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
                         inOut.sendOutput("The item was removed.");

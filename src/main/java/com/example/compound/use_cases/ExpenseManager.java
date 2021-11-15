@@ -65,10 +65,9 @@ public class ExpenseManager {
         return null;
     }
 
-    public Expense createExpense(Item item, Group group, Person payee) {
+    public Expense createExpense(Item item, Group group) {
         HashMap<Person, Double> whoPaid = new HashMap<>();
         HashMap<Person, Double> whoBorrowed = new HashMap<>();
-        whoPaid.put(payee, item.getQuantity() * item.getCost());
 
         String EUID = Integer.toString(repositoryGateway.getNewEUID());
         return new Expense(EUID, item.getName(), item.getQuantity() * item.getCost(), whoPaid, whoBorrowed);

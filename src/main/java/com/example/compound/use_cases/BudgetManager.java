@@ -63,12 +63,12 @@ public class BudgetManager {
         return null;
     }
 
-    public List<Expense> toExpenses(String BUID, Group group, User payee, ExpenseManager expenseManager) {
+    public List<Expense> toExpenses(String BUID, Group group, ExpenseManager expenseManager) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         List<Expense> expenses = new ArrayList<>();
         for (String itemName : budget.getItems().keySet()) {
             Item item = budget.getItem(itemName);
-            Expense expense = expenseManager.createExpense(item, group, payee);
+            Expense expense = expenseManager.createExpense(item, group);
             expenses.add(expense);
         }
         return expenses;
