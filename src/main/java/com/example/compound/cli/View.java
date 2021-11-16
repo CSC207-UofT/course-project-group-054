@@ -3,22 +3,32 @@ import java.util.*;
 
 import com.example.compound.controller.InOut;
 
-/*
-This is the View class which handles what the user sees in the command line.
+/**
+ This is the View class which handles what the user sees in the command line.
  */
 public class View implements InOut {
     public static Scanner sc = new Scanner(System.in);
 
+    /**
+     * Return user input as a String.
+     * @return the user's input
+     */
     public String getInput() {
         return sc.nextLine();
     }
 
+    /**
+     * Print the given object.
+     * @param s the object to print
+     */
     public void sendOutput(Object s) {
         System.out.println(s);
     }
 
     /**
-     * Request the user to input an email address and return that email address.
+     * Request the user to enter input for the given attribute and return that input.
+     * @param attribute the attribute for which the user is requested to enter input
+     * @return the user's input
      */
     public String requestInput(String attribute) {
         System.out.println("Enter " + attribute + ": ");

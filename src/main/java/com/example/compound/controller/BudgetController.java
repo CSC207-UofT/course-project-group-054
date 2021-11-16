@@ -44,7 +44,12 @@ public class BudgetController {
         this.expenseManager = expenseManager;
     }
 
-    public void selectionDashboard(InOut inOut) {
+    /**
+     * Request that the user take an action relating to managing a list of budgets associated with a Group and then take
+     * the appropriate action.
+     * @param inOut the user interface object
+     */
+    public void groupBudgetsDashboard(InOut inOut) {
         boolean isInBudgetSelection = true;
         while (isInBudgetSelection) { // TODO: Variable needed? or just while (true)?
             int input = inOut.getActionView(selectionActions);
@@ -82,6 +87,12 @@ public class BudgetController {
         }
     }
 
+    /**
+     * Request that the user enter a double for the given attribute via the user interface and return the input double.
+     * @param inOut the user interface object
+     * @param request the attribute for which the user is requested to input a double
+     * @return the double input by the user
+     */
     public double requestDouble(InOut inOut, String request) {
         String maxSpendInput = inOut.requestInput(request);
         try {
@@ -92,6 +103,13 @@ public class BudgetController {
         }
     }
 
+    /**
+     * Request that the user enter an integer for the given attribute via the user interface and return the input
+     * integer.
+     * @param inOut the user interface object
+     * @param request the attribute for which the user is requested to input an integer
+     * @return the integer input by the user
+     */
     public int requestInt(InOut inOut, String request) {
         String maxSpendInput = inOut.requestInput(request);
         try {
@@ -102,6 +120,11 @@ public class BudgetController {
         }
     }
 
+    /**
+     * Request that the user take an action relating to managing a single budget and then take the appropriate action.
+     * @param inOut the user interface object
+     * @param currentBudgetManager the CurrentBudgetManager instance storing the current budget
+     */
     public void budgetDashboard(InOut inOut, CurrentBudgetManager currentBudgetManager) {
         while (true) {
             // Return an integer between 1 and the number of actions, inclusive
@@ -144,6 +167,12 @@ public class BudgetController {
         }
     }
 
+    /**
+     * Output a list of items in the current budget and return the IUID of the item chosen by the user.
+     * @param inOut the user interface object
+     * @param currentBudgetManager the CurrentBudgetManager instance storing the current budget
+     * @return the IUID of the item chosen by the user
+     */
     public String getIUID(InOut inOut, CurrentBudgetManager currentBudgetManager) {
         List<String> items = budgetManager.getItems(currentBudgetManager.getCurrentBudgetUID());
         int itemInput = inOut.getActionView(items.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
