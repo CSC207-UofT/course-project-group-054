@@ -171,7 +171,9 @@ public class Controller {
 
     public void manageBudgets(Group group, InOut inOut) {
         new BudgetController(group.getGUID(), budgetRepositoryGateway, groupRepositoryGateway,
-                itemRepositoryGateway, repositoryGateway, expenseManager).selectionDashboard(inOut);
+                itemRepositoryGateway,
+//                repositoryGateway,
+                expenseManager).selectionDashboard(inOut);
     }
 
     /**

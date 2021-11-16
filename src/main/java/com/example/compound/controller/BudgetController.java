@@ -2,7 +2,7 @@ package com.example.compound.controller;
 
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+//import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.CurrentBudgetManager;
 import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
 import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
@@ -12,10 +12,6 @@ import java.util.List;
 
 public class BudgetController {
     private final String GUID;
-    private final BudgetRepositoryGateway budgetRepositoryGateway;
-    private final GroupRepositoryGateway groupRepositoryGateway;
-    private final ItemRepositoryGateway itemRepositoryGateway;
-    private final RepositoryGateway repositoryGateway;
     private final CurrentBudgetManager currentBudgetManager;
     private final BudgetManager budgetManager;
     private final ExpenseManager expenseManager;
@@ -38,13 +34,9 @@ public class BudgetController {
                             BudgetRepositoryGateway budgetRepositoryGateway,
                             GroupRepositoryGateway groupRepositoryGateway,
                             ItemRepositoryGateway itemRepositoryGateway,
-                            RepositoryGateway repositoryGateway,
+//                            RepositoryGateway repositoryGateway,
                             ExpenseManager expenseManager) {
         this.GUID = GUID;
-        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
-        this.groupRepositoryGateway = groupRepositoryGateway;
-        this.itemRepositoryGateway = itemRepositoryGateway;
-        this.repositoryGateway = repositoryGateway;
         this.currentBudgetManager = new CurrentBudgetManager(budgetRepositoryGateway);
         this.budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway
 //                , repositoryGateway
