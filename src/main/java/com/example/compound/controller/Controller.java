@@ -257,47 +257,7 @@ public class Controller {
             inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
             String input2 = inOut.getInput();
             switch (input2) {
-                case "y" -> {
-                    inOut.sendOutput("Enter their name:");
-                    String name = inOut.getInput();
-
-                    inOut.sendOutput("Enter user email:");
-                    String email = inOut.getInput();
-
-                    inOut.sendOutput("Did they borrow (b) or pay (p)?");
-                    String borrowOrLend = inOut.getInput();
-
-                    inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
-                    String amountUsedStr = inOut.getInput();
-                    double amountUsed = Double.parseDouble(amountUsedStr);
-
-                    boolean borrowed = borrowOrLend.equals("b");
-
-                    // If we find the user in the database then update bal
-                    if (userManager.getUser(email) != null) {
-                        User user = userManager.getUser(email);
-                        assert user != null;
-
-                        if (borrowed){
-                            borrowedSoFar.put(user, amountUsed);
-                        }
-                        else {
-                            lentSoFar.put(user, amountUsed);
-                        }
-                        user.updateBalance(amountUsed);
-                    }
-                    // Otherwise, create a stand in person.
-                    else {
-                        Person standIn = this.userManager.createUser(
-                                name, 0.0, email);
-                        if (borrowed){
-                            borrowedSoFar.put(standIn, amountUsed);
-                        }
-                        else {
-                            lentSoFar.put(standIn, amountUsed);
-                        }
-                    }
-                }
+                case "y" -> caseYHelper(inOut, borrowedSoFar, lentSoFar);
                 case "n" -> {
                     if (people.size() == 0) {
                         inOut.sendOutput("ERROR: You need to have at least one other person to share " +
@@ -314,6 +274,54 @@ public class Controller {
                                 expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
         System.out.println("borrowed: " + borrowedSoFar.keySet()
                 + "lent: " + lentSoFar.keySet());
+    }
+
+    /**
+     * A helper method for case Y in the above createExpenseView.
+     * @param inOut the the user interface object
+     * @param borrowedSoFar A map that stores people that borrowed so far
+     * @param lentSoFar A map that stores people that lent so far
+     */
+    private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
+        inOut.sendOutput("Enter their name:");
+        String name = inOut.getInput();
+
+        inOut.sendOutput("Enter user email:");
+        String email = inOut.getInput();
+
+        inOut.sendOutput("Did they borrow (b) or pay (p)?");
+        String borrowOrLend = inOut.getInput();
+
+        inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
+        String amountUsedStr = inOut.getInput();
+        double amountUsed = Double.parseDouble(amountUsedStr);
+
+        boolean borrowed = borrowOrLend.equals("b");
+
+        // If we find the user in the database then update bal
+        if (userManager.getUser(email) != null) {
+            User user = userManager.getUser(email);
+            assert user != null;
+
+            if (borrowed){
+                borrowedSoFar.put(user, amountUsed);
+            }
+            else {
+                lentSoFar.put(user, amountUsed);
+            }
+            user.updateBalance(amountUsed);
+        }
+        // Otherwise, create a stand in person.
+        else {
+            Person standIn = this.userManager.createUser(
+                    name, 0.0, email);
+            if (borrowed){
+                borrowedSoFar.put(standIn, amountUsed);
+            }
+            else {
+                lentSoFar.put(standIn, amountUsed);
+            }
+        }
     }
 
     /**
