@@ -9,7 +9,8 @@ public interface GroupRepositoryGateway {
 
     List<Group> findAll();
 
-    Group save(Group group);
+    // Returns a new GUID
+    String save(Group group);
 
     void deleteById(String GUID);
 
