@@ -27,6 +27,13 @@ public class BudgetManager {
 //        this.repositoryGateway = repositoryGateway;
     }
 
+    /**
+     * Create a new Budget with the given name and limit on spending and associate it with the group with the given GUID.
+     * @param GUID the UID of the group with which the new Budget is to be associated
+     * @param name the name of the budget
+     * @param maxSpend the budget's limit on spending
+     * @return whether the Budget was added successfully
+     */
     public boolean create(String GUID, String name, double maxSpend) {
         Group group = this.groupRepositoryGateway.findById(GUID); // TODO: instead of GUID, maybe group name? using findAll() and then loop over to get that group
         if (group == null) {
@@ -41,6 +48,11 @@ public class BudgetManager {
         return true;
     }
 
+    /**
+     * Return the BUID of the budget with the given name.
+     * @param name the name of the budget
+     * @return the BUID of the budget with the given name
+     */
     public String getBUIDFromName(String name) {
         List<Budget> budgets = budgetRepositoryGateway.findAll();
         for (Budget budget : budgets) {
@@ -51,10 +63,20 @@ public class BudgetManager {
         return null;
     }
 
+    /**
+     * Return a list of the names of the items in the budget with the given BUID.
+     * @param BUID the UID of the budget
+     * @return a list of the names of the items in the budget with the given BUID
+     */
     public List<String> getItems(String BUID) {
         return new ArrayList<>(this.budgetRepositoryGateway.findById(BUID).getItems().keySet());
     }
 
+    /**
+     * Return the IUID of the item with the given name.
+     * @param name the name of the item
+     * @return the IUID of the item with the given name
+     */
     public String getIUIDFromName(String name) {
         List<Item> items = itemRepositoryGateway.findAll();
         for (Item item : items) {
@@ -65,6 +87,12 @@ public class BudgetManager {
         return null;
     }
 
+    /**
+     * Return a list of expenses generated from the items in the budget with the given BUID
+     * @param BUID the UID of the budget
+     * @param expenseManager the current ExpenseManager instance
+     * @return a list of expenses generated from the items in the budget with the given BUID
+     */
     public List<Expense> toExpenses(String BUID, ExpenseManager expenseManager) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         List<Expense> expenses = new ArrayList<>();
@@ -76,6 +104,14 @@ public class BudgetManager {
         return expenses;
     }
 
+    /**
+     * Add an item with the given name, cost, and quantity to the Budget with the given BUID.
+     * @param BUID the BUID of the budget
+     * @param name the name of the item
+     * @param cost the cost of the item
+     * @param quantity the quantity of the item
+     * @return the IUID of the new Item
+     */
     public String addItem(String BUID, String name, double cost, int quantity) { // TODO: Instead of passing in a Budget, maybe pass in just the BUID/name instead?
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
 //        String IUID = Integer.toString(this.repositoryGateway.getNewIUID());
@@ -87,6 +123,12 @@ public class BudgetManager {
         return IUID;
     }
 
+    /**
+     * Change the quantity of the item with the given UID to the given value
+     * @param IUID the UID of the item
+     * @param newQuantity the new quantity of the item
+     * @return whether the item's quantity was changed
+     */
     public boolean changeItemQuantity(String IUID, int newQuantity) {
         List<Budget> budgets = this.budgetRepositoryGateway.findAll();
         for (Budget budget : budgets) {
@@ -100,6 +142,11 @@ public class BudgetManager {
         return false;
     }
 
+    /**
+     * Remove the item with the given UID
+     * @param IUID the UID of the item
+     * @return whether the item was removed
+     */
     public boolean removeItem(String IUID) {
         List<Budget> budgets = this.budgetRepositoryGateway.findAll();
         for (Budget budget : budgets) {
@@ -114,22 +161,45 @@ public class BudgetManager {
         return false;
     }
 
+    /**
+     * Get the spending limit of the budget with the given BUID.
+     * @param BUID the UID of the budget
+     * @return the spending limit of the budget
+     */
     public double getMaxSpend(String BUID) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         return budget.getMaxSpend();
     }
 
+    /**
+     * Ser the spending limit of the budget with the given BUID to the given value.
+     * @param BUID the UID of the budget
+     * @param newMaxSpend the new spending limit
+     */
     public void setMaxSpend(String BUID, double newMaxSpend) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         budget.setMaxSpend(newMaxSpend);
         this.budgetRepositoryGateway.save(budget);
     }
 
+    /**
+     * Return a mapping from item name to the cost of the item as a percentage of the total cost of all items in the
+     * budget with the given UID.
+     * @param BUID the UID of the budget
+     * @return a mapping from item name to the cost of the item as a percentage of the total cost of all items in the
+     *         budget, or null if the Budget's getTotalCost returns 0
+     */
     public HashMap<String, Double> getPercentages(String BUID) {
         Budget budget = this.budgetRepositoryGateway.findById(BUID);
         return budget.getPercentages();
     }
 
+    /**
+     * Remove the budget with the given BUID from the group with the given GUID.
+     * @param GUID the GUID of the group
+     * @param BUID the BUID of the budget
+     * @return whether the budget was removed successfully
+     */
     public boolean remove(String GUID, String BUID) { // TODO: Instead of passing in the GUID, maybe pass in the name instead?
         Group group = this.groupRepositoryGateway.findById(GUID); // TODO: What if GUID is invalid?
         boolean removed = group.removeBudget(BUID);
@@ -141,6 +211,13 @@ public class BudgetManager {
         return true;
     }
 
+    /**
+     * For each expense in the list of expenses generated from the items in the budget with the given BUID, add that
+     * expense to the group with the given GUID.
+     * @param GUID the UID of the group
+     * @param BUID the UID of the budget
+     * @param expenseManager the current ExpenseManager instance
+     */
     public void addExpensesToGroup(String GUID, String BUID, ExpenseManager expenseManager) {
         Group group = this.groupRepositoryGateway.findById(GUID);
         List<Expense> budgetExpenses = toExpenses(BUID, expenseManager);
@@ -150,6 +227,11 @@ public class BudgetManager {
         this.groupRepositoryGateway.save(group);
     }
 
+    /**
+     * Return a list of the names of the budgets associated with the group with the given GUID.
+     * @param GUID the GUID of the group
+     * @return a list of the names of the budgets associated with the group with the given GUID
+     */
     public List<String> getBudgetNameList(String GUID) {
         Group group = this.groupRepositoryGateway.findById(GUID);
         List<Budget> budgets = group.getBudgets();
