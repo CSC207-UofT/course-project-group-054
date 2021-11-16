@@ -14,8 +14,6 @@ In phase zero, the ability to store who borrowed/lent what amount was not saved,
 
 In phase zero, our app relied solely on the command line. Since then, we have made progress regarding the front end of our app using Spring, HTML, CSS, and Javascript.
 
-## OPTIONAL: Diagram of Code
-
 ## A description of any major design decisions your group has made (along with brief explanations of why you made them).
 
 In our original specification, budgets were associated with users, but they are now associated with groups instead because the items in budgets can be converted into expenses, and associating budgets with groups allows those expenses to be shared with others in the group.
@@ -38,7 +36,9 @@ We have not yet created InputBoundary or OutputBoundary interfaces that the use 
 
 ## A brief description of how your project is consistent with the SOLID design principles (if you notice a violation and aren't sure how to fix it, talk about that too!)
 
-S - Single Responsibility Principle: All classes in our project have a single responsibility. Whether it's managing the entities(use cases), displaying the command line (View), or translating the instructions from the command line (Controller) they all have one explicit purpose.
+S - Single Responsibility Principle: The classes in our project generally have a single responsibility. Whether it's managing the entities (use cases), displaying the command line (View), or translating the instructions from the command line (Controller) they have one explicit purpose.
+
+However, we plan to split up certain long classes, such as Controller.
 
 O - Open/Closed Principle: Entities can be modified to include more attributes, such as storing more user information, however modification of our entities is limited due to our use cases depending on different aspects of them.
 
@@ -61,6 +61,7 @@ We implemented the Observer design pattern for Budget and Item because a Budget 
 ### Open questions
 
 - Is there any alternative to having a switch statement in Budget's vetoableChange method? If not, is it a code smell in this context? (Note: we will implement the advice we received in Phase 2.)
+- Some parts of the program now use the database, while others throw exceptions because they do not use the database yet. How can the database be integrated with parts of the program with which it has not been integrated yet? We plan to find an answer to this question in Phase 2.
 
 ### What has worked well so far with our design
 
