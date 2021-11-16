@@ -9,7 +9,8 @@ public interface BudgetRepositoryGateway {
 
     List<Budget> findAll();
 
-    Budget save(Budget budget); // TODO: Separate methods for saving a new object and updating an existing one?
+    // Returns a new BUID
+    String save(Budget budget); // TODO: Separate methods for saving a new object and updating an existing one?
 
     void deleteById(String BUID);
 

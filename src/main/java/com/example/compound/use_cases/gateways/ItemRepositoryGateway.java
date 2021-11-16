@@ -9,7 +9,8 @@ public interface ItemRepositoryGateway {
 
     List<Item> findAll();
 
-    Item save(Item item);
+    // Returns a new IUID
+    String save(Item item);
 
     void deleteById(String IUID);
 

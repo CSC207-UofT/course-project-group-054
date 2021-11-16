@@ -29,14 +29,26 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         budget = new HashMap<>();
     }
 
+    /**
+     * Return the unique ID of this budget.
+     * @return the unique ID of this budget
+     */
     public String getBUID() {
         return BUID;
     }
 
+    /**
+     * Return the name of this budget.
+     * @return the name of this budget
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of this budget to the given value.
+     * @param name this budget's new name
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -90,6 +102,7 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         return budget.getOrDefault(item, null);
     }
 
+    // TODO: Fix this
 //    public Item getItem(String IUID) {
 //        for (String itemName : budget.keySet()) {
 //            if (budget.get(itemName).getIUID().equals(IUID)) {
@@ -99,6 +112,10 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
 //        return null;
 //    }
 
+    /**
+     * Return a mapping from the names of items in this budget to those Item objects.
+     * @return a mapping from the names of items in this budget to those Item objects
+     */
     public Map<String, Item> getItems() {
         return budget;
     }
@@ -167,6 +184,12 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         return percentages;
     }
 
+    /**
+     * Checks whether the given PropertyChangeEvent relating to an Item object in this Budget satisfies this Budget's
+     * constraints, and if not, throws a PropertyVetoException.
+     * @param evt the PropertyChangeEvent triggered by a change to an Item in this Budget
+     * @throws PropertyVetoException if the requested change would result in this Budget's maxSpend being exceeded
+     */
     @Override
     public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
         switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed?
@@ -189,6 +212,10 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         }
     }
 
+    /**
+     * Responds to the given PropertyChangeEvent relating to an Item object in this Budget.
+     * @param evt the PropertyChangeEvent triggered by a change to an Item in this Budget
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("name")) {

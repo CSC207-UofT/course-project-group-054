@@ -1,10 +1,6 @@
 package com.example.compound.entities;
 
-import com.example.compound.entities.Expense;
-import com.example.compound.entities.Group;
-
 import java.beans.*;
-import java.util.HashMap;
 
 /**
  * An item for use with the Budget class with a category, name, cost in dollars and quantity.
