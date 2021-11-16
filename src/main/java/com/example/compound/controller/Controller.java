@@ -173,7 +173,7 @@ public class Controller {
         new BudgetController(group.getGUID(), budgetRepositoryGateway, groupRepositoryGateway,
                 itemRepositoryGateway,
 //                repositoryGateway,
-                expenseManager).selectionDashboard(inOut);
+                expenseManager).groupBudgetsDashboard(inOut);
     }
 
     /**
@@ -278,7 +278,7 @@ public class Controller {
 
     /**
      * A helper method for case Y in the above createExpenseView.
-     * @param inOut the the user interface object
+     * @param inOut the user interface object
      * @param borrowedSoFar A map that stores people that borrowed so far
      * @param lentSoFar A map that stores people that lent so far
      */
@@ -504,7 +504,8 @@ public class Controller {
                 for (String p: people) {
                     try {
                         GroupManager.removeMember(g, p);
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
             } //Remove People from the group
             case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(g)); //View GroupMembers
