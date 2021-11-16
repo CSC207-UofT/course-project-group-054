@@ -3,7 +3,7 @@ package com.example.compound.controller;
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.use_cases.budget.CurrentBudgetManager;
+import com.example.compound.use_cases.CurrentBudgetManager;
 import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
 import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
 import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
@@ -46,7 +46,9 @@ public class BudgetController {
         this.itemRepositoryGateway = itemRepositoryGateway;
         this.repositoryGateway = repositoryGateway;
         this.currentBudgetManager = new CurrentBudgetManager(budgetRepositoryGateway);
-        this.budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway, repositoryGateway);
+        this.budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway
+//                , repositoryGateway
+        );
         this.expenseManager = expenseManager;
     }
 
@@ -135,7 +137,7 @@ public class BudgetController {
                     budgetManager.setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend);
                 }
                 case 5 -> budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
-                        budgetManager, expenseManager);
+                        expenseManager);
                 case 6 -> {
                     if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
                         inOut.sendOutput("The item was removed.");
