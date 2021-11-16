@@ -13,6 +13,18 @@ public class Expense {
     private final String title;
     private double amount;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public Map<Person, Double> getWhoPaid() {
+        return whoPaid;
+    }
+
+    public Map<Person, Double> getWhoBorrowed() {
+        return whoBorrowed;
+    }
+
     private final Map<Person, Double> whoPaid;
     private final Map<Person, Double> whoBorrowed;
 
@@ -53,21 +65,21 @@ public class Expense {
     }
 
     public void settleExpense(Person p, Double amountPaid, boolean borrowed) {
-        this.amount = this.amount - amountPaid;
+        this.amount -= amountPaid;
 
         if (borrowed){
             Double amount = this.whoBorrowed.get(p);
             this.whoBorrowed.replace(p, amount - amountPaid);
         }
-//        else{
-//            Double amount = this.whoPaid.get(p);
-//            if (amount - amountPaid < 0){
-//                System.out.println("You've entered too much!");
-//            }
-//            else{
-//                this.whoPaid.replace(p, amount - amountPaid);
-//            }
-//        }
+        else{
+            Double amount = this.whoPaid.get(p);
+            if (amount - amountPaid < 0){
+                System.out.println("You've entered too much!");
+            }
+            else{
+                this.whoPaid.replace(p, amount - amountPaid);
+            }
+        }
 
     }
 
