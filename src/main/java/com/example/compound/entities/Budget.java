@@ -12,7 +12,7 @@ import java.util.*;
  * A budget has a limit on the amount on money that can be spent on items in the budget.
  */
 public class Budget implements VetoableChangeListener, PropertyChangeListener {
-    private final String BUID;
+    private String BUID;
     private String name;
     private double maxSpend;
     private final Map<String, Item> budget;
@@ -35,6 +35,14 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
      */
     public String getBUID() {
         return BUID;
+    }
+
+    /**
+     * Set this budget's BUID to the given value.
+     * @param BUID this budget's new BUID
+     */
+    public void setBUID(String BUID) {
+        this.BUID = BUID;
     }
 
     /**

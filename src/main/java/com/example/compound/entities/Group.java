@@ -35,6 +35,10 @@ public class Group {
         return this.GUID;
     }
 
+    public void setGUID(String GUID) {
+        this.GUID = GUID;
+    }
+
     public String getGroupName() {
         return this.groupName;
     }

@@ -61,7 +61,7 @@ We implemented the Observer design pattern for Budget and Item because a Budget 
 ### Open questions
 
 - Is there any alternative to having a switch statement in Budget's vetoableChange method? If not, is it a code smell in this context? (Note: we will implement the advice we received in Phase 2.)
-- Some parts of the program now use the database, while others throw exceptions because they do not use the database yet. How can the database be integrated with parts of the program with which it has not been integrated yet? We plan to find an answer to this question in Phase 2.
+- Some parts of the program now use the database, while others do not use the database yet. How can the database be integrated with parts of the program with which it has not been integrated yet? We plan to find an answer to this question in Phase 2.
 
 ### What has worked well so far with our design
 

@@ -14,6 +14,7 @@ public class Data implements RepositoryGateway {
     public List<Group> groups = new ArrayList<>();
     public List<Budget> budgets = new ArrayList<>();
     public List<Item> items = new ArrayList<>();
+    private int groupCounter = 0;
     private int budgetCounter = 0;
     private int itemCounter = 0;
 
@@ -23,7 +24,7 @@ public class Data implements RepositoryGateway {
         users.add(new User("Johny", 100.0, "johny@example.com"));
 
         // Creating dummy groups
-        groups.add(
+        addGroup(
                 new Group("One Direction", new ArrayList<>() {
                     {
                         add("rohan.tinna@mail.utoronto.ca");
@@ -32,7 +33,7 @@ public class Data implements RepositoryGateway {
                 }, new ArrayList<>(), "")
         ); // Group with 2 users
 
-        groups.add(
+        addGroup(
                 new Group("Avengers", new ArrayList<>() {
                     {
                         add("rohan.tinna@mail.utoronto.ca");
@@ -40,7 +41,7 @@ public class Data implements RepositoryGateway {
                 }, new ArrayList<>(), "")
         ); // Group with 1 user
 
-        groups.add(
+        addGroup(
                 new Group("Impossible Group", new ArrayList<>(), new ArrayList<>(), "")
         ); // Empty group
     }
@@ -55,6 +56,9 @@ public class Data implements RepositoryGateway {
 
     public void addGroup(Group group) {
         this.groups.add(group);
+        String GUID = Integer.toString(this.groupCounter);
+        group.setGUID(GUID);
+        this.groupCounter++;
     }
 
     public void addExpense(Expense expense) {
@@ -65,14 +69,21 @@ public class Data implements RepositoryGateway {
         this.users.add(user);
     }
 
-    public void addBudget(Budget budget) {
+    public String addBudget(Budget budget) {
         this.budgets.add(budget);
+        String BUID = Integer.toString(this.budgetCounter);
+        budget.setBUID(BUID);
         this.budgetCounter++;
+        System.out.println(budget.getName());
+        return BUID;
     }
 
-    public void addItem(Item item) {
+    public String addItem(Item item) {
         this.items.add(item);
+        String IUID = Integer.toString(this.itemCounter);
+        item.setIUID(IUID);
         this.itemCounter++;
+        return IUID;
     }
 
     public List<Group> getGroups() {
@@ -93,6 +104,26 @@ public class Data implements RepositoryGateway {
 
     public List<Item> getItems() {
         return this.items;
+    }
+
+    public Budget findByBUID(String BUID) {
+        for (Budget b : budgets) {
+            if (b.getBUID().equals(BUID)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    public Group findByGUID(String GUID) {
+        System.out.println("h"+groups);
+        for (Group g : groups) {
+            System.out.println("a"+g.getGUID());
+            if (g.getGUID().equals(GUID)) {
+                return g;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -116,12 +147,50 @@ public class Data implements RepositoryGateway {
     }
 
     @Override
+    public void removeBudget(String BUID) {
+        budgets.removeIf(budget -> budget.getBUID().equals(BUID));
+    }
+
+    @Override
+    public void updateGroup(Group group) {
+        for (Group g : groups) {
+            if (g.getGUID().equals(group.getGUID())) {
+                groups.remove(g);
+                groups.add(group);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void updateBudget(Budget budget) {
+        for (Budget b : budgets) {
+            if (b.getBUID().equals(budget.getBUID())) {
+                budgets.remove(b);
+                budgets.add(b);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void updateItem(Item item) {
+        for (Item i : items) {
+            if (i.getIUID().equals(item.getIUID())) {
+                items.remove(i);
+                items.add(item);
+                return;
+            }
+        }
+    }
+
+    @Override
     public void removeItem(Item item) {
         this.items.remove(item);
     }
 
     public int getNewGUID() {
-        return groups.size();
+        return this.groupCounter;
     }
 
     public int getNewEUID() {

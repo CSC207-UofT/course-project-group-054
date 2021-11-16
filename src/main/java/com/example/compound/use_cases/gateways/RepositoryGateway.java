@@ -10,9 +10,9 @@ public interface RepositoryGateway {
 
     void addUser(User user);
 
-    void addBudget(Budget budget);
+    String addBudget(Budget budget);
 
-    void addItem(Item item);
+    String addItem(Item item);
 
     List<Group> getGroups();
 
@@ -24,6 +24,10 @@ public interface RepositoryGateway {
 
     List<Item> getItems();
 
+    Budget findByBUID(String BUID);
+
+    Group findByGUID(String GUID);
+
     void removeGroup(Group group);
 
     void removeExpense(Expense expense);
@@ -33,6 +37,14 @@ public interface RepositoryGateway {
     void removeBudget(Budget budget);
 
     void removeItem(Item item);
+
+    void removeBudget(String BUID);
+
+    void updateGroup(Group group);
+
+    void updateBudget(Budget budget);
+
+    void updateItem(Item item);
 
     int getNewGUID();
 

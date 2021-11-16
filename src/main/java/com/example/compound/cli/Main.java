@@ -16,7 +16,7 @@ public class Main {
         ItemRepositoryGateway itemRepositoryGateway = null;
 
         View view = new View();
-        Controller controller = new Controller(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway,
+        Controller controller = new Controller(//budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway,
                 data);
 
         do {

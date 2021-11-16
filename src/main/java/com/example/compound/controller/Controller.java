@@ -7,8 +7,8 @@ import java.util.*;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
-import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
+//import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
+//import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
@@ -17,21 +17,21 @@ public class Controller {
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
-    private final BudgetRepositoryGateway budgetRepositoryGateway;
-    private final GroupRepositoryGateway groupRepositoryGateway;
-    private final ItemRepositoryGateway itemRepositoryGateway;
+//    private final BudgetRepositoryGateway budgetRepositoryGateway;
+//    private final GroupRepositoryGateway groupRepositoryGateway;
+//    private final ItemRepositoryGateway itemRepositoryGateway;
     public RepositoryGateway repositoryGateway;
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
 
-    public Controller(BudgetRepositoryGateway budgetRepositoryGateway,
-                      GroupRepositoryGateway groupRepositoryGateway,
-                      ItemRepositoryGateway itemRepositoryGateway,
+    public Controller(//BudgetRepositoryGateway budgetRepositoryGateway,
+//                      GroupRepositoryGateway groupRepositoryGateway,
+//                      ItemRepositoryGateway itemRepositoryGateway,
                       RepositoryGateway repositoryGateway) {
-        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
-        this.groupRepositoryGateway = groupRepositoryGateway;
-        this.itemRepositoryGateway = itemRepositoryGateway;
+//        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
+//        this.groupRepositoryGateway = groupRepositoryGateway;
+//        this.itemRepositoryGateway = itemRepositoryGateway;
         this.repositoryGateway = repositoryGateway; // TODO: Take in as a parameter?
         this.groupManager = new GroupManager(this.repositoryGateway);
         this.userManager = new UserManager(this.repositoryGateway);
@@ -98,11 +98,11 @@ public class Controller {
                 userManager.createUser(name, balance, email);
                 inOut.sendOutput("Thanks for signing up!");
             }
-            case 3 -> {
-                // Create Group
-
-            }
-            case 4 -> System.exit(1);
+//            case 3 -> {
+//                // Create Group
+//
+//            }
+            case 3 -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
     }
@@ -170,9 +170,8 @@ public class Controller {
     }
 
     public void manageBudgets(Group group, InOut inOut) {
-        new BudgetController(group.getGUID(), budgetRepositoryGateway, groupRepositoryGateway,
-                itemRepositoryGateway,
-//                repositoryGateway,
+        new BudgetController(group.getGUID(), // budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway,
+                repositoryGateway,
                 expenseManager).groupBudgetsDashboard(inOut);
     }
 
