@@ -64,7 +64,9 @@ We implemented the Observer design pattern for Budget and Item because a Budget 
 
 ### What has worked well so far with our design
 
-- 
+- Our classes are open for extension and closed for modifications. We can easily add on functionality but fundamentally changing a class may prove difficult.
+- Our design is primed for an extension into a strong integration with a database.
+- Our design allows us to test different aspects of our code more easily. (Since it is well organized)
 
 ### Member progress and plans
 
