@@ -1,11 +1,14 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.data.Data;
+//import com.example.compound.data.Data;
+import com.example.compound.entities.Budget;
 import com.example.compound.entities.Group;
-//import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
-//import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
-//import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.entities.Item;
+import com.example.compound.repositories.BudgetRepository;
+import com.example.compound.repositories.GroupRepository;
+import com.example.compound.repositories.ItemRepository;
+import com.example.compound.use_cases.gateways.RepositoryGatewayI;
+//import com.example.compound.use_cases.gateways.RepositoryGateway;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -17,10 +20,10 @@ import java.util.ArrayList;
  * implemented.
  */
 public class CurrentBudgetManagerTest {
-//    BudgetRepositoryGateway budgetRepositoryGateway;
-//    GroupRepositoryGateway groupRepositoryGateway;
-//    ItemRepositoryGateway itemRepositoryGateway;
-    RepositoryGateway repositoryGateway;
+    RepositoryGatewayI<Budget> budgetRepositoryGateway;
+    RepositoryGatewayI<Group> groupRepositoryGateway;
+    RepositoryGatewayI<Item> itemRepositoryGateway;
+//    RepositoryGateway repositoryGateway;
     BudgetManager budgetManager;
     Group g;
     String BUID;
@@ -28,24 +31,23 @@ public class CurrentBudgetManagerTest {
 
     @Before
     public void setUp() {
-        // TODO: Implement the gateways
-//        budgetRepositoryGateway = null;
-//        groupRepositoryGateway = null;
-//        itemRepositoryGateway = null;
-        repositoryGateway = new Data();
+        budgetRepositoryGateway = new BudgetRepository();
+        groupRepositoryGateway = new GroupRepository();
+        itemRepositoryGateway = new ItemRepository();
+//        repositoryGateway = new Data();
 
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
 
-//        budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
-        budgetManager = new BudgetManager(repositoryGateway);
-//        groupRepositoryGateway.save(g);
-        repositoryGateway.addGroup(g);
+        budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
+//        budgetManager = new BudgetManager(repositoryGateway);
+        groupRepositoryGateway.save(g);
+//        repositoryGateway.addGroup(g);
 
         budgetManager.create(g.getGUID(), "name", 3.0);
         BUID = budgetManager.getBUIDFromName("name");
 
-//        currentBudgetManager = new CurrentBudgetManager(budgetRepositoryGateway);
-        currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
+        currentBudgetManager = new CurrentBudgetManager(budgetRepositoryGateway);
+//        currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
         currentBudgetManager.setCurrentBudget(BUID);
     }
 

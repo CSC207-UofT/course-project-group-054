@@ -1,21 +1,22 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.entities.Budget;
-//import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.gateways.RepositoryGatewayI;
+//import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 /**
  * A use case that stores the Budget being currently used by the program.
  */
 public class CurrentBudgetManager {
     private Budget currentBudget;
-//    private final BudgetRepositoryGateway budgetRepositoryGateway;
-    private final RepositoryGateway repositoryGateway;
+    private final RepositoryGatewayI<Budget> budgetRepositoryGateway;
+//    private final RepositoryGateway repositoryGateway;
 
-    public CurrentBudgetManager(//BudgetRepositoryGateway budgetRepositoryGateway,
-                                RepositoryGateway repositoryGateway) {
-//        this.budgetRepositoryGateway = budgetRepositoryGateway;
-        this.repositoryGateway = repositoryGateway;
+    public CurrentBudgetManager(RepositoryGatewayI<Budget> budgetRepositoryGateway
+//                                RepositoryGateway repositoryGateway
+    ) {
+        this.budgetRepositoryGateway = budgetRepositoryGateway;
+//        this.repositoryGateway = repositoryGateway;
     }
 
     /**
@@ -31,7 +32,7 @@ public class CurrentBudgetManager {
      * @param BUID the new UID of the Budget that the program is to use
      */
     public void setCurrentBudget(String BUID) {
-//        this.currentBudget = this.budgetRepositoryGateway.findById(BUID);
-        this.currentBudget = this.repositoryGateway.findByBUID(BUID);
+        this.currentBudget = this.budgetRepositoryGateway.findByUID(BUID);
+//        this.currentBudget = this.repositoryGateway.findByBUID(BUID);
     }
 }
