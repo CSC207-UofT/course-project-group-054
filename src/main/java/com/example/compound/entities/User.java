@@ -18,10 +18,8 @@ import java.util.*;
 
 //@Entity
 public class User extends Person implements AccountFeatures {
-
-    private final int UUID;
-    public final String username;
-    public List<String> expenses;
+    private final int UUID; // TODO: Use this
+    public List<String> expenses; // TODO: Make private, add methods
     private String password;
 
     /**
@@ -30,23 +28,28 @@ public class User extends Person implements AccountFeatures {
      * @param balance the User's balance (the amount owed)
      * @param email   the User's email used to contact them
      */
-    public User(String name, double balance, String email) {
+    public User(String name, double balance, String email, String password) {
+        this(0, name, email, balance, password); // TODO: Should this constructor with no UUID ever be used?
+    }
+
+    public User(int uuid, String name, String email, double balance, String password) {
         super(name, balance, email);
-        this.UUID = 0;
-        this.username = email;
+        this.UUID = uuid;
+        this.password = password;
         this.expenses = new ArrayList<>();
     }
 
-    public User(int uuid, String name, String email, String username, double balance, String password) {
-        super(name, balance, email);
-        this.UUID = uuid;
-        this.username = username;
+    public String getPassword() { // TODO: Add test in UserTest
+        return password;
+    }
+
+    public void setPassword(String password) { // TODO: Add test in UserTest
         this.password = password;
     }
 
     @Override
     public String generateUUID() {
-        return null;
+        return null; // TODO: Maybe remove this and have a repository generate a UUID
     }
 
     public String toString() {
@@ -57,4 +60,6 @@ public class User extends Person implements AccountFeatures {
     public void addExpense(Expense E) {
         this.expenses.add(E.getEUID());
     }
+
+    // TODO: removeExpense?
 }

@@ -89,10 +89,12 @@ public class Controller {
             }
             case 2 -> {
                 // Sign up
-                String email = inOut.requestInput("your Email");
-                String name = inOut.requestInput("your Name");
+                String email = inOut.requestInput("your email");
+                String name = inOut.requestInput("your name");
+                String password = inOut.requestInput("your password");
+                // TODO: Confirm password
                 double balance = 0.0;
-                userManager.createUser(name, balance, email);
+                userManager.createUser(name, balance, email, password);
                 inOut.sendOutput("Thanks for signing up!");
             }
 //            case 3 -> {
@@ -310,7 +312,7 @@ public class Controller {
         // Otherwise, create a stand in person.
         else {
             Person standIn = this.userManager.createUser(
-                    name, 0.0, email);
+                    name, 0.0, email, ""); // TODO: PersonManager.createPerson?
             if (borrowed){
                 borrowedSoFar.put(standIn, amountUsed);
             }
