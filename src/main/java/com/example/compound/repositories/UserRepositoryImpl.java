@@ -79,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository {
             rs.getInt("uuid"),
             rs.getString("name"),
             rs.getString("email"),
-//            rs.getString("username"), // TODO: username was removed
+            rs.getString("username"),
             rs.getDouble("balance"),
             rs.getString("password")));
 }

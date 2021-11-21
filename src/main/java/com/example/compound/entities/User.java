@@ -19,22 +19,26 @@ import java.util.*;
 //@Entity
 public class User extends Person implements AccountFeatures {
     private final int UUID; // TODO: Use this
+    public final String username; // TODO: Make private, add methods
     public List<String> expenses; // TODO: Make private, add methods
     private String password;
 
     /**
      * Construct User, giving them the given name, balance, and email.
-     * @param name    the User's name
-     * @param balance the User's balance (the amount owed)
-     * @param email   the User's email used to contact them
+     * @param name     the User's name
+     * @param balance  the User's balance (the amount owed)
+     * @param email    the User's email used to contact them
+     * @param password the User's password
      */
     public User(String name, double balance, String email, String password) {
-        this(0, name, email, balance, password); // TODO: Should this constructor with no UUID ever be used?
+        // TODO: Take in a distinct username
+        this(0, name, email, email, balance, password); // TODO: Should this constructor with no UUID ever be used?
     }
 
-    public User(int uuid, String name, String email, double balance, String password) {
+    public User(int uuid, String name, String email, String username, double balance, String password) {
         super(name, balance, email);
         this.UUID = uuid;
+        this.username = username;
         this.password = password;
         this.expenses = new ArrayList<>();
     }
