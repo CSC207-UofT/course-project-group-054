@@ -106,19 +106,18 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
      * @return the item with the given name and of the given category, or null if the given category or item is not in
      *         this budget
      */
-    public Item getItem(String item) {
+    public Item getItemByName(String item) {
         return budget.getOrDefault(item, null);
     }
 
-    // TODO: Fix this
-//    public Item getItem(String IUID) {
-//        for (String itemName : budget.keySet()) {
-//            if (budget.get(itemName).getIUID().equals(IUID)) {
-//                return budget.get(itemName);
-//            }
-//        }
-//        return null;
-//    }
+    public Item getItemByIUID(String IUID) {
+        for (String itemName : budget.keySet()) {
+            if (budget.get(itemName).getIUID().equals(IUID)) {
+                return budget.get(itemName);
+            }
+        }
+        return null;
+    }
 
     /**
      * Return a mapping from the names of items in this budget to those Item objects.
@@ -137,7 +136,7 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
      */
     public boolean changeQuantity(String itemName, int newQuantity)
             throws NullPointerException {
-        Item item = Objects.requireNonNull(getItem(itemName));
+        Item item = Objects.requireNonNull(getItemByName(itemName));
         return item.setQuantity(newQuantity);
     }
 

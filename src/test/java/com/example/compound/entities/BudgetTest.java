@@ -56,20 +56,20 @@ public class BudgetTest {
     @Test
     public void testAddItemWithinMaxSpend() {
         assertTrue(b.addItem(i1));
-        assertEquals(i1, b.getItem("Carrot"));
+        assertEquals(i1, b.getItemByName("Carrot"));
         b.removeItem("Carrot");
     }
 
     @Test
     public void testAddItemExceedingMaxSpend() {
         assertFalse(b.addItem(i2));
-        assertNull(b.getItem("Item"));
+        assertNull(b.getItemByName("Item"));
     }
 
     @Test
     public void testGetItem() {
         b.addItem(i1);
-        Item returnedItem = b.getItem("Carrot");
+        Item returnedItem = b.getItemByName("Carrot");
         assertEquals(i1, returnedItem);
         b.removeItem("Carrot");
     }
@@ -88,7 +88,7 @@ public class BudgetTest {
     public void testChangeQuantityWithinMaxSpend() {
         b.addItem(i1);
         boolean returnedBoolean = b.changeQuantity("Carrot", 5);
-        assertEquals(5, b.getItem("Carrot").getQuantity());
+        assertEquals(5, b.getItemByName("Carrot").getQuantity());
         assertTrue(returnedBoolean);
         b.removeItem("Carrot");
     }
@@ -120,7 +120,7 @@ public class BudgetTest {
     public void testRemoveItem() {
         b.addItem(i1);
         boolean returnedBoolean = b.removeItem("Carrot");
-        assertNull(b.getItem("Carrot"));
+        assertNull(b.getItemByName("Carrot"));
         assertTrue(returnedBoolean);
     }
 

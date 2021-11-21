@@ -107,7 +107,7 @@ public class BudgetManager {
 
         List<Expense> expenses = new ArrayList<>();
         for (String itemName : budget.getItems().keySet()) {
-            Item item = budget.getItem(itemName);
+            Item item = budget.getItemByName(itemName);
             Expense expense = expenseManager.createExpense(item);
             expenses.add(expense);
         }
@@ -148,7 +148,7 @@ public class BudgetManager {
         List<Budget> budgets = this.budgetRepositoryGateway.findAll();
 //        List<Budget> budgets = this.repositoryGateway.getBudgets();
         for (Budget budget : budgets) {
-            Item item = budget.getItem(IUID); // TODO: This uses the getItem(String name) method
+            Item item = budget.getItemByIUID(IUID);
             if (item != null) {
                 item.setQuantity(newQuantity);
                 this.itemRepositoryGateway.save(item);
@@ -168,7 +168,7 @@ public class BudgetManager {
         List<Budget> budgets = this.budgetRepositoryGateway.findAll();
 //        List<Budget> budgets = this.repositoryGateway.getBudgets();
         for (Budget budget : budgets) {
-            Item item = budget.getItem(IUID);
+            Item item = budget.getItemByName(IUID);
             if (item != null) {
                 budget.removeItem(item.getName());
                 this.itemRepositoryGateway.deleteById(IUID);
