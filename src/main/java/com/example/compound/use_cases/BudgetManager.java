@@ -150,11 +150,13 @@ public class BudgetManager {
         for (Budget budget : budgets) {
             Item item = budget.getItemByIUID(IUID);
             if (item != null) {
-                item.setQuantity(newQuantity);
+                boolean changed = budget.changeQuantity(IUID, newQuantity);
                 this.itemRepositoryGateway.save(item);
 //                this.repositoryGateway.updateItem(item);
+                return changed;
+            } else {
+                return false;
             }
-            return true;
         }
         return false;
     }
@@ -170,7 +172,7 @@ public class BudgetManager {
         for (Budget budget : budgets) {
             Item item = budget.getItemByName(IUID);
             if (item != null) {
-                budget.removeItem(item.getName());
+                budget.removeItem(item.getIUID());
                 this.itemRepositoryGateway.deleteById(IUID);
 //                this.repositoryGateway.removeItem(item);
                 this.budgetRepositoryGateway.save(budget);

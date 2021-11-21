@@ -40,20 +40,6 @@ public class ItemTest {
     }
 
     @Test
-    public void testAddObserverPropertyChangeListener() {
-        propertyChangeListener = evt -> {
-            throw new RuntimeException("");
-        };
-        i.addObserver(propertyChangeListener);
-        try {
-            i.setName("");
-        } catch (RuntimeException e) {
-            return;
-        }
-        fail();
-    }
-
-    @Test
     public void testAddObserverVetoableChangeListener() {
         vetoableChangeListener = evt -> {
             throw new PropertyVetoException("", evt);

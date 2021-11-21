@@ -1,9 +1,8 @@
 package com.example.compound.entities;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
 import java.util.*;
 
 /**
@@ -11,7 +10,7 @@ import java.util.*;
  *
  * A budget has a limit on the amount on money that can be spent on items in the budget.
  */
-public class Budget implements VetoableChangeListener, PropertyChangeListener {
+public class Budget implements VetoableChangeListener {
     private String BUID;
     private String name;
     private double maxSpend;
@@ -89,10 +88,9 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
     public boolean addItem(Item item) {
         // If adding item to this budget would result in this budget's total cost exceeding maxSpend, do not add item
         if ((this.getTotalCost() + item.getQuantity() * item.getCost() <= this.maxSpend)
-                && !budget.containsKey(item.getName())) {
-            budget.put(item.getName(), item);
-            item.addObserver((PropertyChangeListener) this); // TODO: Should this be in the Budget class?
-            item.addObserver((VetoableChangeListener) this); // TODO: Should this be in the Budget class?
+                && (getItemByIUID(item.getIUID()) == null) && (getItemByName(item.getName()) == null)) {
+            budget.put(item.getIUID(), item);
+            item.addObserver(this); // TODO: Should this be in the Budget class?
             return true;
         } else {
             return false;
@@ -100,20 +98,23 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
     }
 
     /**
-     * Return the item with the given name and of the given category.
-     *
-     * @param item the name of the item
-     * @return the item with the given name and of the given category, or null if the given category or item is not in
-     *         this budget
+     * Return the item with the given UID.
+     * @param IUID the UID of the item
+     * @return the item with the given UID, or null if the given item is not in this budget
      */
-    public Item getItemByName(String item) {
-        return budget.getOrDefault(item, null);
+    public Item getItemByIUID(String IUID) {
+        return budget.getOrDefault(IUID, null);
     }
 
-    public Item getItemByIUID(String IUID) {
-        for (String itemName : budget.keySet()) {
-            if (budget.get(itemName).getIUID().equals(IUID)) {
-                return budget.get(itemName);
+    /**
+     * Return the item with the given name.
+     * @param name the name of the item
+     * @return the item with the given name, or null if the given item is not in this budget
+     */
+    public Item getItemByName(String name) {
+        for (String itemIUID : budget.keySet()) {
+            if (budget.get(itemIUID).getName().equals(name)) {
+                return budget.get(itemIUID);
             }
         }
         return null;
@@ -129,26 +130,23 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
 
     /**
      * Change the quantity of the item with the given name to the given quantity.
-     *
      * @param itemName    the name of the item
      * @param newQuantity the new quantity of the item
      * @return whether the quantity was changed
      */
-    public boolean changeQuantity(String itemName, int newQuantity)
-            throws NullPointerException {
+    public boolean changeQuantity(String itemName, int newQuantity) throws NullPointerException {
         Item item = Objects.requireNonNull(getItemByName(itemName));
         return item.setQuantity(newQuantity);
     }
 
     /**
-     * Remove the item with the given name from this budget.
-     *
-     * @param item     the name of the item to be removed
+     * Remove the item with the given IUID from this budget.
+     * @param IUID     the IUID of the item to be removed
      * @return whether the given item was removed
      */
-    public boolean removeItem(String item) {
-        if (budget.containsKey(item)) {
-            budget.remove(item);
+    public boolean removeItem(String IUID) {
+        if (budget.containsKey(IUID)) {
+            budget.remove(IUID);
             return true;
         } else {
             return false;
@@ -157,13 +155,12 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
 
     /**
      * Return the total cost of all items in this budget.
-     *
      * @return the total cost of all items in this budget
      */
     public double getTotalCost() {
         double totalCost = 0;
-        for (String itemName : budget.keySet()) {
-            totalCost += budget.get(itemName).getCost() * budget.get(itemName).getQuantity();
+        for (String itemIUID : budget.keySet()) {
+            totalCost += budget.get(itemIUID).getCost() * budget.get(itemIUID).getQuantity();
         }
         return totalCost;
     }
@@ -171,7 +168,6 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
     /**
      * Return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
      * budget.
-     *
      * @return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
      *         budget, or null if getTotalCost returns 0
      */
@@ -183,10 +179,10 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
             return null;
         }
 
-        for (String itemName : budget.keySet()) {
-            Item item = budget.get(itemName);
+        for (String itemIUID : budget.keySet()) {
+            Item item = budget.get(itemIUID);
             double itemCost = item.getCost() * item.getQuantity();
-            percentages.put(itemName, itemCost / totalCost);
+            percentages.put(item.getName(), itemCost / totalCost);
         }
         return percentages;
     }
@@ -216,19 +212,6 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
                             + "exceeded", evt);
                 }
             }
-        }
-    }
-
-    /**
-     * Responds to the given PropertyChangeEvent relating to an Item object in this Budget.
-     * @param evt the PropertyChangeEvent triggered by a change to an Item in this Budget
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("name")) {
-            Item item = (Item) evt.getSource();
-            budget.remove(item.getName());
-            budget.put((String) evt.getNewValue(), item);
         }
     }
 }
