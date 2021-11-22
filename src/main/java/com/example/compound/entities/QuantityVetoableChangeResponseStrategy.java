@@ -20,7 +20,7 @@ public class QuantityVetoableChangeResponseStrategy implements VetoableChangeRes
             throws PropertyVetoException {
         int newQuantity = (Integer) evt.getNewValue();
         if (totalCost + (newQuantity - item.getQuantity()) * item.getCost() > maxSpend) {
-            throw new PropertyVetoException("The requested change to this Budget's quantity would result in this"
+            throw new PropertyVetoException("The requested change to this Budget's quantity would result in this "
                     + "Budget's spending limit being exceeded", evt);
         }
     }
