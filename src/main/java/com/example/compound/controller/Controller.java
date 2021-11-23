@@ -463,25 +463,25 @@ public class Controller {
      * A helper method extracted from the updateGroup method that involves all the optional actions on groups.
      * @param inOut the user interface object
      * @param back the while-loop "indicator"
-     * @param CGM the group that the user selected
+     * @param currentGroupManager the group that the user selected
      * @param inputG the option that the user chose
      * @return the while-loop "indicator"
      */
-    public boolean manageGroup(InOut inOut, boolean back, CurrentGroupManager CGM, int inputG) {
+    public boolean manageGroup(InOut inOut, boolean back, CurrentGroupManager currentGroupManager, int inputG) {
         switch (inputG){
             case 1 -> {
                 inOut.sendOutput("Please enter the new name.");
                 String newName = inOut.getInput();
-                GroupManager.setGroupName(CGM.getCurrentGroup(), newName);
+                GroupManager.setGroupName(currentGroupManager.getCurrentGroup(), newName);
             } //Edit Group Name
             case 2 -> {
                 List<String> people = addRemovePeople(inOut, "add");
                 for (String p: people) {
-                    GroupManager.addMember(CGM.getCurrentGroup(), p);
+                    GroupManager.addMember(currentGroupManager.getCurrentGroup(), p);
                 }
             } // Add people to the group
             case 3 -> {
-                StringBuilder members = GroupManager.showGroupMembers(CGM.getCurrentGroup());
+                StringBuilder members = GroupManager.showGroupMembers(currentGroupManager.getCurrentGroup());
                 if (members.charAt(0) == 'Y') {
                     inOut.sendOutput("You should delete the group instead.");
                     break;
@@ -494,17 +494,17 @@ public class Controller {
                 }
                 for (String p: people) {
                     try {
-                        GroupManager.removeMember(CGM.getCurrentGroup(), p);
+                        GroupManager.removeMember(currentGroupManager.getCurrentGroup(), p);
                     } catch (Exception ignored) {
                     }
                 }
             } //Remove People from the group
-            case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(CGM.getCurrentGroup())); //View GroupMembers
+            case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(currentGroupManager.getCurrentGroup())); //View GroupMembers
             case 5 -> //TODO: Need to update the balance of the current user.
-                    GroupManager.removeMember(CGM.getCurrentGroup(), currentUser.getEmail()); //Leave Group
+                    GroupManager.removeMember(currentGroupManager.getCurrentGroup(), currentUser.getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
-                    repositoryGateway.removeGroup(CGM.getCurrentGroup()); //Delete Group
-            case 7 -> new BudgetController(CGM.getCurrentGroup().getGUID(), repositoryGateway,
+                    repositoryGateway.removeGroup(currentGroupManager.getCurrentGroup()); //Delete Group
+            case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(), repositoryGateway,
                     expenseManager).groupBudgetsDashboard(inOut);
             case 8 -> back = true;
         }
