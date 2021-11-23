@@ -116,9 +116,7 @@ public class Data implements RepositoryGateway {
     }
 
     public Group findByGUID(String GUID) {
-        System.out.println("h"+groups);
         for (Group g : groups) {
-            System.out.println("a"+g.getGUID());
             if (g.getGUID().equals(GUID)) {
                 return g;
             }

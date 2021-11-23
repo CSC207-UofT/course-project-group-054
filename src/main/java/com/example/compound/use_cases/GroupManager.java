@@ -1,5 +1,7 @@
 package com.example.compound.use_cases;
 
+import com.example.compound.controller.BudgetController;
+import com.example.compound.controller.InOut;
 import com.example.compound.entities.Expense;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
@@ -46,15 +48,6 @@ public class GroupManager {
         return lst;
     }
 
-    public Group getGroupByName(String name) {
-        for (Group g: repositoryGateway.getGroups()) {
-            if (g.getGroupName().equals(name)) {
-                return g;
-            }
-        }
-        return null;
-    }
-
     public static void removeMember(Group g, String oldEmail) {
         g.getGroupMembers().remove(oldEmail);
     }
@@ -86,4 +79,20 @@ public class GroupManager {
                             List<Expense> expenseList, String description) {
         this.repositoryGateway.addGroup(new Group(groupName, groupMembers, expenseList, description));
     }
+
+    /**
+     * Return the GUID of the group with the given name.
+     * @param name the name of the group
+     * @return the GUID of the group with the given name
+     */
+    public String getGUIDFromName(String name) {
+        List<Group> groups = repositoryGateway.getGroups();
+        for (Group group : groups) {
+            if (group.getGroupName().equals(name)) {
+                return group.getGUID();
+            }
+        }
+        return null;
+    }
+
 }

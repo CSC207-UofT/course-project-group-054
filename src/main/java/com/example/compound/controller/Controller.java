@@ -5,12 +5,12 @@ package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.entities.*;
+import com.example.compound.entities.User;
+import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
 //import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
 //import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
 
 public class Controller {
 
@@ -24,6 +24,7 @@ public class Controller {
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
+    CurrentGroupManager currentGroupManager;
 
     public Controller(//BudgetRepositoryGateway budgetRepositoryGateway,
 //                      GroupRepositoryGateway groupRepositoryGateway,
@@ -36,6 +37,7 @@ public class Controller {
         this.groupManager = new GroupManager(this.repositoryGateway);
         this.userManager = new UserManager(this.repositoryGateway);
         this.expenseManager = new ExpenseManager(this.repositoryGateway);
+        this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
     }
 
     public static String[] actions = {
@@ -169,11 +171,6 @@ public class Controller {
         }
     }
 
-    public void manageBudgets(Group group, InOut inOut) {
-        new BudgetController(group.getGUID(), // budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway,
-                repositoryGateway,
-                expenseManager).groupBudgetsDashboard(inOut);
-    }
 
     /**
      * Create and return a new Group based on user input.
@@ -323,37 +320,7 @@ public class Controller {
         }
     }
 
-    /**
-     * A helper method that enables current user to add or remove people to an expense or a group.
-     * @param inOut The interface for the view
-     * @param addOrRemove Add or Remove
-     * @param expenseOrGroup Expense or Group
-     * @return A list of strings of people to be added or removed
-     */
-    public List<String> addRemovePeople(InOut inOut, String addOrRemove, String expenseOrGroup) {
-        List<String> people = new ArrayList<>();
-        boolean addRemovePeople = Boolean.TRUE;
-        do {
-            inOut.sendOutput("Do you want to " + addOrRemove + " more people in your "
-                    + expenseOrGroup + "? (y/n)");
-            String input2 = inOut.getInput();
-            switch (input2) {
-                case "y" -> {
-                    inOut.sendOutput("Enter user email:");
-                    people.add(inOut.getInput());
-                }
-                case "n" -> {
-                    if (people.size() == 0 && expenseOrGroup.equals("expense")) {
-                        inOut.sendOutput("ERROR: You need to " + addOrRemove + " at least one person in your " +
-                                expenseOrGroup + ".");
-                    } else {
-                        addRemovePeople = Boolean.FALSE;
-                    }
-                }
-            }
-        } while (addRemovePeople);
-        return people;
-    }
+
 
     /**
      * Authenticate the user; check if they're signed up.
@@ -459,62 +426,89 @@ public class Controller {
                 inOut.sendOutput("Please enter a valid group name.\n");
                 break;
             }
-            Group g = groupManager.getGroupByName(groupName);
-            assert g != null;
+            String GUID = groupManager.getGUIDFromName(groupName);
+            currentGroupManager.setCurrentGroup(GUID);
             int inputG = inOut.getActionView(groupActions);
-            back = manageGroup(inOut, back, g, inputG);
+            back = manageGroup(inOut, false, currentGroupManager, inputG);
         }
 
     }
 
     /**
+     * A helper method that enables current user to add or remove people to a group.
+     * @param inOut The interface for the view
+     * @param addOrRemove Add or Remove
+     * @return A list of strings of people to be added or removed
+     */
+    private List<String> addRemovePeople(InOut inOut, String addOrRemove) {
+        List<String> people = new ArrayList<>();
+        boolean addRemovePeople = Boolean.TRUE;
+        do {
+            inOut.sendOutput("Do you want to " + addOrRemove + " more people in your "
+                    + "group" + "? (y/n)");
+            String input2 = inOut.getInput();
+            switch (input2) {
+                case "y" -> {
+                    inOut.sendOutput("Enter user email:");
+                    people.add(inOut.getInput());
+                }
+                case "n" -> addRemovePeople = Boolean.FALSE;
+            }
+        } while (addRemovePeople);
+        return people;
+    }
+
+
+    /**
      * A helper method extracted from the updateGroup method that involves all the optional actions on groups.
      * @param inOut the user interface object
      * @param back the while-loop "indicator"
-     * @param g the group that the user selected
+     * @param CGM the group that the user selected
      * @param inputG the option that the user chose
      * @return the while-loop "indicator"
      */
-    private boolean manageGroup(InOut inOut, boolean back, Group g, int inputG) {
+    public boolean manageGroup(InOut inOut, boolean back, CurrentGroupManager CGM, int inputG) {
         switch (inputG){
             case 1 -> {
                 inOut.sendOutput("Please enter the new name.");
                 String newName = inOut.getInput();
-                GroupManager.setGroupName(g, newName);
+                GroupManager.setGroupName(CGM.getCurrentGroup(), newName);
             } //Edit Group Name
             case 2 -> {
-                List<String> people = addRemovePeople(inOut, "add", "group");
+                List<String> people = addRemovePeople(inOut, "add");
                 for (String p: people) {
-                    GroupManager.addMember(g, p);
+                    GroupManager.addMember(CGM.getCurrentGroup(), p);
                 }
             } // Add people to the group
             case 3 -> {
-                StringBuilder members = GroupManager.showGroupMembers(g);
+                StringBuilder members = GroupManager.showGroupMembers(CGM.getCurrentGroup());
                 if (members.charAt(0) == 'Y') {
                     inOut.sendOutput("You should delete the group instead.");
                     break;
                 }
                 inOut.sendOutput("Note that invalid name would be automatically ignored.");
-                List<String> people = addRemovePeople(inOut, "remove", "group");
+                List<String> people = addRemovePeople(inOut, "remove");
                 if (people.contains(currentUser.getName())){
                     people.remove(currentUser.getName());
                     inOut.sendOutput("You should leave or delete the group instead.");
                 }
                 for (String p: people) {
                     try {
-                        GroupManager.removeMember(g, p);
+                        GroupManager.removeMember(CGM.getCurrentGroup(), p);
                     } catch (Exception ignored) {
                     }
                 }
             } //Remove People from the group
-            case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(g)); //View GroupMembers
+            case 4 -> inOut.sendOutput(GroupManager.showGroupMembers(CGM.getCurrentGroup())); //View GroupMembers
             case 5 -> //TODO: Need to update the balance of the current user.
-                    GroupManager.removeMember(g, currentUser.getEmail()); //Leave Group
+                    GroupManager.removeMember(CGM.getCurrentGroup(), currentUser.getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
-                    repositoryGateway.removeGroup(g); //Delete Group
-            case 7 -> manageBudgets(g, inOut);
+                    repositoryGateway.removeGroup(CGM.getCurrentGroup()); //Delete Group
+            case 7 -> new BudgetController(CGM.getCurrentGroup().getGUID(), repositoryGateway,
+                    expenseManager).groupBudgetsDashboard(inOut);
             case 8 -> back = true;
         }
         return back;
     }
+
 }
