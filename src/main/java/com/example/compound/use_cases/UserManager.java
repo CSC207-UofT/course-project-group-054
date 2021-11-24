@@ -57,8 +57,8 @@ public class UserManager {
         return null;
     }
 
-    public User createUser(String name, double balance, String email) {
-        User user = new User(name, balance, email);
+    public User createUser(String name, double balance, String email, String password) {
+        User user = new User(name, balance, email, password);
         this.repositoryGateway.addUser(user);
         return user;
     }
