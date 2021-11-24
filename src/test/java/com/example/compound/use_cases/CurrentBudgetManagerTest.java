@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 /**
- * A test class for Current BudgetManager. The tests in this class should pass when the repository gateways are
+ * A test class for CurrentBudgetManager. The tests in this class should pass when the repository gateways are
  * implemented.
  */
 public class CurrentBudgetManagerTest {

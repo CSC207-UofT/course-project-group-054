@@ -195,22 +195,25 @@ public class Budget implements VetoableChangeListener {
      */
     @Override
     public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-        switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed?
+        VetoableChangeResponseStrategy strategy;
+        Item item = (Item) evt.getSource();
+        double totalCost = getTotalCost();
+        switch (evt.getPropertyName()) {
             case "quantity" -> {
-                int newQuantity = (Integer) evt.getNewValue();
-                Item item = (Item) evt.getSource();
-                if (getTotalCost() + (newQuantity - item.getQuantity()) * item.getCost() > maxSpend) {
-                    throw new PropertyVetoException("The requested change would result in this Budget's maxSpend being "
-                            + "exceeded", evt);
-                }
+                /*
+                 If an Item's quantity was changed, ensure that the change does not exceed this Budget's spending
+                 limit by throwing an exception otherwise
+                */
+                strategy = new QuantityVetoableChangeResponseStrategy();
+                strategy.respond(evt, item, totalCost, maxSpend);
             }
             case "cost" -> {
-                double newCost = (Double) evt.getNewValue();
-                Item item = (Item) evt.getSource();
-                if (getTotalCost() + item.getQuantity() * (newCost - item.getCost()) > maxSpend) {
-                    throw new PropertyVetoException("The requested change would result in this Budget's maxSpend being "
-                            + "exceeded", evt);
-                }
+                /*
+                 If an Item's cost was changed, ensure that the change does not exceed this Budget's spending limit by
+                 throwing an exception otherwise
+                */
+                strategy = new CostVetoableChangeResponseStrategy();
+                strategy.respond(evt, item, totalCost, maxSpend);
             }
         }
     }
