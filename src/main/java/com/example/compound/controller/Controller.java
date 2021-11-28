@@ -13,8 +13,6 @@ import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 public class Controller {
-
-    private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
 //    private final BudgetRepositoryGateway budgetRepositoryGateway;
@@ -24,6 +22,7 @@ public class Controller {
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
+    public CurrentUserManager currentUserManager;
 
     public Controller(//BudgetRepositoryGateway budgetRepositoryGateway,
 //                      GroupRepositoryGateway groupRepositoryGateway,
@@ -36,6 +35,7 @@ public class Controller {
         this.groupManager = new GroupManager(this.repositoryGateway);
         this.userManager = new UserManager(this.repositoryGateway);
         this.expenseManager = new ExpenseManager(this.repositoryGateway);
+        this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
     }
 
     public static String[] actions = {
@@ -71,10 +71,11 @@ public class Controller {
             case 1 -> {
                 // Login
                 String email = inOut.requestInput("your Email");
-                User user = userManager.getUser(email);
-                if (user != null) {
-                    authenticateUser(user);
-                    inOut.sendOutput("Welcome back, " + user.getName() + "!");
+                // set the current user
+                currentUserManager.setCurrentUser(userManager.getUser(email));
+                if (this.currentUserManager.getCurrentUser() != null) {
+                    authenticateUser(this.currentUserManager.getCurrentUser() );
+                    inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
                 } else {
                     inOut.sendOutput("ERROR: There was a problem logging you in. Please try again.");
@@ -112,24 +113,24 @@ public class Controller {
                 case 1 -> {
                     inOut.sendOutput("Enter the title: ");
                     String expenseTitle = inOut.getInput();
-                    createExpenseView(inOut, currentUser, expenseTitle);
+                    createExpenseView(inOut, currentUserManager.getCurrentUser(), expenseTitle);
                 }
                 case 2 -> {
-                    StringBuilder lst = this.groupManager.showListOfGroup(currentUser);
+                    StringBuilder lst = this.groupManager.showListOfGroup(currentUserManager.getCurrentUser());
                     inOut.sendOutput(lst);
                 }
-                case 3 -> inOut.sendOutput("Your balance is: $" + currentUser.getBalance());
+                case 3 -> inOut.sendOutput("Your balance is: $" + currentUserManager.getCurrentUser().getBalance());
                 case 4 -> {
-                    inOut.sendOutput(userManager.getProfile(currentUser, groupManager)); // Show the user's information
+                    inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager)); // Show the user's information
                     updateProfile(inOut);
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(repositoryGateway, currentUser, expenseManager);
+                    GroupController groupController = new GroupController(repositoryGateway, currentUserManager.getCurrentUser(), expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
-                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUser));
+                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
                 case 8 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expenseToPay = inOut.getInput();
@@ -137,7 +138,7 @@ public class Controller {
                     Double amount = inputToDouble(inOut);
                     inOut.sendOutput("Did you borrow? yes(y) or no(n)");
                     String borrowed = inOut.getInput();
-                    expenseManager.payDebt(currentUser, expenseToPay, amount, borrowed.equals("y"));
+                    expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
@@ -223,7 +224,7 @@ public class Controller {
         HashMap<Person, Double> lentSoFar = new HashMap<>();
 
         List<String> people = new ArrayList<>();
-        people.add(currentUser.getEmail());
+        people.add(currentUserManager.getCurrentUser().getEmail());
 
         inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
         double amount = Float.parseFloat(inOut.getInput());
@@ -232,11 +233,11 @@ public class Controller {
         boolean userBorrow = inOut.getInput().equals("b");
         if (userBorrow){
             u.updateBalance(amount);
-            borrowedSoFar.put(currentUser, amount);
+            borrowedSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
         else{
             u.updateBalance(-amount);
-            lentSoFar.put(currentUser, amount);
+            lentSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
 
         boolean addMorePeople = Boolean.TRUE;
@@ -255,7 +256,7 @@ public class Controller {
                 }
             }
         } while (addMorePeople);
-        currentUser.addExpense(
+        currentUserManager.getCurrentUser().addExpense(
                 Objects.requireNonNull(
                         expenseManager.createExpense(
                                 expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
@@ -318,7 +319,7 @@ public class Controller {
      * @param user - the user we are checking.
      */
     public void authenticateUser(User user) {
-        currentUser = user;
+        currentUserManager.setCurrentUser(user);
         setUserStatus(true);
     }
 
@@ -343,14 +344,15 @@ public class Controller {
      * @return current user
      */
     public User getCurrentUser() {
-        return currentUser;
+        return currentUserManager.getCurrentUser();
     }
 
     /**
      * Assign the status of the user to be logged out.
      */
     public void logoutUser() {
-        currentUser = null;
+        // set current user to null
+        currentUserManager.resetCurrentUser();
         setUserStatus(false);
     }
 
@@ -370,7 +372,7 @@ public class Controller {
             Delete Account
              */
                 case 3 -> {
-                    repositoryGateway.removeUser(currentUser);
+                    repositoryGateway.removeUser(currentUserManager.getCurrentUser());
                     inOut.sendOutput("Your account has been successfully deleted.");
                     back = true;
                     isLoggedIn = false;
@@ -388,9 +390,9 @@ public class Controller {
     public void changeName(InOut inOut) {
         inOut.sendOutput("Please enter the new name.");
         String name = inOut.getInput();
-        UserManager.setName(currentUser, name);
+        UserManager.setName(currentUserManager.getCurrentUser(), name);
         inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
-        inOut.sendOutput(userManager.getProfile(currentUser, groupManager));
+        inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
     }
 
     /**
@@ -400,9 +402,9 @@ public class Controller {
     public void changeEmail(InOut inOut) {
         inOut.sendOutput("Please enter the new email.");
         String email = inOut.getInput();
-        userManager.setEmail(currentUser, email);
+        userManager.setEmail(currentUserManager.getCurrentUser(), email);
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
-        inOut.sendOutput(userManager.getProfile(currentUser, groupManager));
+        inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
     }
 
 
