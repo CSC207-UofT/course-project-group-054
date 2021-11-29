@@ -63,10 +63,9 @@ public class Controller {
             "Close app"
     };
 
-
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
-        int menuInput = inOut.getActionView(mainMenuOptions);
+        int menuInput = inOut.getOptionView(mainMenuOptions);
         switch (menuInput) {
             case 1 -> {
                 // Login
@@ -106,7 +105,7 @@ public class Controller {
     public void dashboard(InOut inOut) {
         while (isLoggedIn) {
             // Return an integer between 1 and the number of actions, inclusive
-            int input = inOut.getActionView(actions);
+            int input = inOut.getOptionView(actions);
 
             switch (input) {
                 case 1 -> {
@@ -161,7 +160,6 @@ public class Controller {
             return inputToDouble(inOut);
         }
     }
-
 
     /**
      * Create and return a new Group based on user input.
@@ -311,8 +309,6 @@ public class Controller {
         }
     }
 
-
-
     /**
      * Authenticate the user; check if they're signed up.
      * @param user - the user we are checking.
@@ -362,7 +358,7 @@ public class Controller {
     public void updateProfile(InOut inOut){
         boolean back = false;
         while(!back){
-            int inputP = inOut.getActionView(profileActions);
+            int inputP = inOut.getOptionView(profileActions);
             switch (inputP){
                 case 1 -> changeName(inOut);
                 case 2 -> changeEmail(inOut);
@@ -404,8 +400,4 @@ public class Controller {
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUser, groupManager));
     }
-
-
-
-
 }

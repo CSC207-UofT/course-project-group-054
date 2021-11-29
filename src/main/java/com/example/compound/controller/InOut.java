@@ -7,5 +7,5 @@ public interface InOut {
 
     String requestInput(String attribute);
 
-    int getActionView(String[] actions);
+    int getOptionView(String[] choices);
 }

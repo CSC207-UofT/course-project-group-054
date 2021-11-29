@@ -55,7 +55,7 @@ public class GroupController {
             }
             String GUID = groupManager.getGUIDFromName(groupName);
             currentGroupManager.setCurrentGroup(GUID);
-            int inputG = inOut.getActionView(groupActions);
+            int inputG = inOut.getOptionView(groupActions);
             back = manageGroup(inOut, inputG);
         }
 

@@ -51,9 +51,8 @@ public class BudgetController {
      * @param inOut the user interface object
      */
     public void groupBudgetsDashboard(InOut inOut) {
-        boolean isInBudgetSelection = true;
-        while (isInBudgetSelection) { // TODO: Variable needed? or just while (true)?
-            int input = inOut.getActionView(selectionActions);
+        while (true) {
+            int input = inOut.getOptionView(selectionActions);
 
             switch (input) {
                 case 1 -> {
@@ -65,7 +64,7 @@ public class BudgetController {
                     if (budgets.size() == 0) {
                         inOut.sendOutput("This group does not have any budgets yet.");
                     } else {
-                        int budgetInput = inOut.getActionView(budgets.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
+                        int budgetInput = inOut.getOptionView(budgets.toArray(new String[0]));
                         String budgetName = budgets.get(budgetInput - 1);
                         String BUID = budgetManager.getBUIDFromName(budgetName);
                         currentBudgetManager.setCurrentBudget(BUID);
@@ -83,7 +82,9 @@ public class BudgetController {
                         inOut.sendOutput("The budget could not be added to the given group. Please try again.");
                     }
                 }
-                case 3 -> isInBudgetSelection = false;
+                case 3 -> {
+                    return;
+                }
             }
         }
     }
@@ -129,7 +130,7 @@ public class BudgetController {
     public void budgetDashboard(InOut inOut, CurrentBudgetManager currentBudgetManager) {
         while (true) {
             // Return an integer between 1 and the number of actions, inclusive
-            int input = inOut.getActionView(budgetActions);
+            int input = inOut.getOptionView(budgetActions);
 
             switch (input) {
                 case 1 -> {
@@ -176,7 +177,7 @@ public class BudgetController {
      */
     public String getIUID(InOut inOut, CurrentBudgetManager currentBudgetManager) {
         List<String> items = budgetManager.getItems(currentBudgetManager.getCurrentBudgetUID());
-        int itemInput = inOut.getActionView(items.toArray(new String[0])); // TODO: Currently, prints to choose an action; change to choose a budget; change to getChoiceView?
+        int itemInput = inOut.getOptionView(items.toArray(new String[0]));
         String itemName = items.get(itemInput - 1);
         return budgetManager.getIUIDFromName(itemName);
     }
