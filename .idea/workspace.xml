@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Added User support for Databases">
+    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Added API path (POST) to create user using JSON Request Body.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/helloworld.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +24,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -68,6 +74,9 @@
       </map>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
   <component name="ProjectId" id="20brpUz1honTnTAoUao6hDdP7gf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -91,6 +100,12 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/public" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.CompoundApplication">
     <configuration name="Debugging" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.example.compound.debugging.Debugging" />
@@ -112,6 +127,36 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="BudgetTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Compound" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.compound.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.compound.entities" />
+      <option name="MAIN_CLASS_NAME" value="com.example.compound.entities.BudgetTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CompoundApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Compound" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.compound.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.compound" />
+      <option name="MAIN_CLASS_NAME" value="com.example.compound.CompoundApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CompoundApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="Compound" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.compound.CompoundApplication" />
@@ -124,10 +169,14 @@
     <list>
       <item itemvalue="Application.Debugging" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.CompoundApplicationTests" />
+      <item itemvalue="JUnit.BudgetTest" />
       <item itemvalue="Spring Boot.CompoundApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CompoundApplicationTests" />
+        <item itemvalue="JUnit.BudgetTest" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
       </list>
@@ -145,7 +194,13 @@
       <workItem from="1636566165279" duration="6328000" />
       <workItem from="1636832845883" duration="3805000" />
       <workItem from="1636866007838" duration="14216000" />
-      <workItem from="1636949359347" duration="3304000" />
+      <workItem from="1636949359347" duration="4020000" />
+      <workItem from="1637017771265" duration="2868000" />
+      <workItem from="1637033400544" duration="30000" />
+      <workItem from="1637069593210" duration="851000" />
+      <workItem from="1637071592617" duration="284000" />
+      <workItem from="1637438332101" duration="2145000" />
+      <workItem from="1638215410777" duration="1123000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -168,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636950579542</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added API path (POST) to create user using JSON Request Body.">
+      <created>1636955972149</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1636955972149</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,7 +251,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Migrated project to Maven for Spring use." />
     <MESSAGE value="Added User support for Databases" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added User support for Databases" />
+    <MESSAGE value="Added API path (POST) to create user using JSON Request Body." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added API path (POST) to create user using JSON Request Body." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

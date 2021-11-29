@@ -25,8 +25,10 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/users")
-    List<Map<String, Object>> all() {
-        return new ArrayList<>();
+    List<String> all() {
+        List<String> users = new ArrayList<>();
+        users.add("new user");
+        return users;
 //        return repository.listAllUsers();
     }
 
