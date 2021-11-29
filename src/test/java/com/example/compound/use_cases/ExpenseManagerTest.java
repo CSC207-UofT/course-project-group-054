@@ -82,6 +82,6 @@ public class ExpenseManagerTest {
     @Test
     public void testPayDebtLend(){
         em.payDebt(u, "0", 5.0, false);
-        assert u2.getBalance() == 95.0;
+        assert u.getBalance() == 95.0;
     }
 }

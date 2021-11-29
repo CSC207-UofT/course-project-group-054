@@ -5,10 +5,6 @@ package com.example.compound.entities;
 //import org.hibernate.annotations.TypeDef;
 
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.*;
 
 /**
@@ -32,7 +28,7 @@ public class User extends Person implements AccountFeatures {
      */
     public User(String name, double balance, String email) {
         super(name, balance, email);
-        this.UUID = 0;
+        this.UUID = this.generateUUID();
         this.username = email;
         this.expenses = new ArrayList<>();
     }
@@ -45,8 +41,13 @@ public class User extends Person implements AccountFeatures {
     }
 
     @Override
-    public String generateUUID() {
-        return null;
+    //TODO: Create a proper UUID Algorithm
+    /*
+    Generate a Unique User ID.
+     */
+    public int generateUUID() {
+        Random random = new Random();
+        return random.nextInt(100) + 1;
     }
 
     public String toString() {
@@ -56,5 +57,9 @@ public class User extends Person implements AccountFeatures {
     @Override
     public void addExpense(Expense E) {
         this.expenses.add(E.getEUID());
+    }
+
+    public int getUUID() {
+        return this.UUID;
     }
 }

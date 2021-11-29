@@ -206,4 +206,14 @@ public class Data implements RepositoryGateway {
     public int getNewIUID() {
         return this.itemCounter;
     }
+
+    @Override
+    public User findByUUID(String UUID) {
+        for (User u : users) {
+            if (String.valueOf(u.getUUID()).equals(UUID)) {
+                return u;
+            }
+        }
+        return null;
+    }
 }
