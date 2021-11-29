@@ -109,8 +109,7 @@ public class Controller {
 
             switch (input) {
                 case 1 -> {
-                    inOut.sendOutput("Enter the title: ");
-                    String expenseTitle = inOut.getInput();
+                    String expenseTitle = inOut.requestInput("the title");
                     createExpenseView(inOut, currentUser, expenseTitle);
                 }
                 case 2 -> {
@@ -130,12 +129,9 @@ public class Controller {
                 //TODO: Fix case 7; not properly displaying people in expenses
                 case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUser));
                 case 8 -> {
-                    inOut.sendOutput("Enter the EUID of the expense you wish to pay");
-                    String expenseToPay = inOut.getInput();
-                    inOut.sendOutput("Enter the amount you wish to pay");
-                    Double amount = inputToDouble(inOut);
-                    inOut.sendOutput("Did you borrow? yes(y) or no(n)");
-                    String borrowed = inOut.getInput();
+                    String expenseToPay = inOut.requestInput("the EUID of the expense you wish to pay");
+                    Double amount = requestDouble(inOut, "the amount you wish to pay");
+                    String borrowed = inOut.requestInput("whether you borrowed: 'y' for yes or 'n' for no");
                     expenseManager.payDebt(currentUser, expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
@@ -146,18 +142,20 @@ public class Controller {
         }
     }
 
-    public double inputToDouble(InOut inOut){
-        /*
-        Helper method for dashboard, converts input string to a double.
-         */
-        String amountPaid = inOut.getInput();
+    /**
+     * A helper method that requests the user to enter input for the given attribute and converts the input string
+     * returned by the given user interface object to a double.
+     * @param inOut     the user interface object
+     * @param attribute the attribute for which the user interface object requests the user to enter input
+     * @return the double input by the user
+     */
+    private double requestDouble(InOut inOut, String attribute) { // TODO: Similar to requestDouble in BudgetController; new superclass?
+        String input = inOut.requestInput(attribute);
         try {
-            double amount;
-            amount = Double.parseDouble(amountPaid);
-            return amount;
-        } catch(Exception E) {
-            System.out.println("Please enter a valid amount!");
-            return inputToDouble(inOut);
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            inOut.sendOutput("Please enter a valid amount!");
+            return requestDouble(inOut, attribute);
         }
     }
 
@@ -223,11 +221,8 @@ public class Controller {
         List<String> people = new ArrayList<>();
         people.add(currentUser.getEmail());
 
-        inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
-        double amount = Float.parseFloat(inOut.getInput());
-
-        inOut.sendOutput("Did you borrow (b) or pay (p)?");
-        boolean userBorrow = inOut.getInput().equals("b");
+        double amount = requestDouble(inOut, "amount borrowed/lent: (0.00)");
+        boolean userBorrow = inOut.requestInput("whether you borrowed (b) or paid (p)").equals("b");
         if (userBorrow){
             u.updateBalance(amount);
             borrowedSoFar.put(currentUser, amount);
@@ -268,20 +263,13 @@ public class Controller {
      * @param lentSoFar A map that stores people that lent so far
      */
     private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
-        inOut.sendOutput("Enter their name:");
-        String name = inOut.getInput();
+        String name = inOut.requestInput("their name");
+        String email = inOut.requestInput("user email");
 
-        inOut.sendOutput("Enter user email:");
-        String email = inOut.getInput();
-
-        inOut.sendOutput("Did they borrow (b) or pay (p)?");
-        String borrowOrLend = inOut.getInput();
-
-        inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
-        String amountUsedStr = inOut.getInput();
-        double amountUsed = Double.parseDouble(amountUsedStr);
-
+        String borrowOrLend = inOut.requestInput("whether they borrowed (b) or paid (p)");
         boolean borrowed = borrowOrLend.equals("b");
+
+        double amountUsed = requestDouble(inOut, "the amount borrowed/lent: (0.00)");
 
         // If we find the user in the database then update bal
         if (userManager.getUser(email) != null) {
@@ -382,8 +370,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeName(InOut inOut) {
-        inOut.sendOutput("Please enter the new name.");
-        String name = inOut.getInput();
+        String name = inOut.requestInput("the new name");
         UserManager.setName(currentUser, name);
         inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUser, groupManager));
@@ -394,8 +381,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeEmail(InOut inOut) {
-        inOut.sendOutput("Please enter the new email.");
-        String email = inOut.getInput();
+        String email = inOut.requestInput("the new email");
         userManager.setEmail(currentUser, email);
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUser, groupManager));

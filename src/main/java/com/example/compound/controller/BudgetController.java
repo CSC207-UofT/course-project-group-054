@@ -90,18 +90,19 @@ public class BudgetController {
     }
 
     /**
-     * Request that the user enter a double for the given attribute via the user interface and return the input double.
-     * @param inOut the user interface object
-     * @param request the attribute for which the user is requested to input a double
+     * A helper method that requests the user to enter input for the given attribute and converts the input string
+     * returned by the given user interface object to a double.
+     * @param inOut     the user interface object
+     * @param attribute the attribute for which the user interface object requests the user to enter input
      * @return the double input by the user
      */
-    public double requestDouble(InOut inOut, String request) {
-        String maxSpendInput = inOut.requestInput(request);
+    private double requestDouble(InOut inOut, String attribute) {
+        String input = inOut.requestInput(attribute);
         try {
-            return Double.parseDouble(maxSpendInput);
+            return Double.parseDouble(input);
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid amount of money.");
-            return requestDouble(inOut, request);
+            inOut.sendOutput("Please enter a valid amount!");
+            return requestDouble(inOut, attribute);
         }
     }
 
