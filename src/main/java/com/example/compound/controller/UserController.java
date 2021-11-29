@@ -1,10 +1,14 @@
 package com.example.compound.controller;
 
 //import com.example.compound.api.UserInteractor;
+import com.example.compound.data.Data;
 import com.example.compound.entities.User;
 import com.example.compound.exceptions.UserAuthException;
 import com.example.compound.repositories.UserRepository;
 import com.example.compound.repositories.UserRepositoryImpl;
+import com.example.compound.use_cases.ExpenseManager;
+import com.example.compound.use_cases.GroupManager;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +27,13 @@ public class UserController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+
+    // TODO: Move to constructor?
+    public RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
+//        this.repositoryGateway = repositoryGateway;
+    public GroupManager groupManager = new GroupManager(this.repositoryGateway);
+    public UserManager userManager = new UserManager(this.repositoryGateway);
+    public ExpenseManager expenseManager = new ExpenseManager(this.repositoryGateway);
 
     @GetMapping("/users")
     List<String> all() {
@@ -57,7 +68,7 @@ public class UserController {
             return "ERROR: Provide a valid email";
         }
 
-        User user = UserManager.getUser(email);
+        User user = userManager.getUser(email);
         if (user != null) {
             return user.toString();
         } else {

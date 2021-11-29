@@ -6,4 +6,6 @@ public interface AccountFeatures {
      * @return an integer representing the UID (unique integer).
      */
     String generateUUID();
+
+    void addExpense(Expense E);
 }

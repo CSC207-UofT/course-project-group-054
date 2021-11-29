@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CompoundApplication {
 
     public static void main(String[] args) {
-        Data.initializeData();
+        Data data = new Data();
+        data.initializeData();
         SpringApplication.run(CompoundApplication.class, args);
     }
 

@@ -11,7 +11,7 @@ public interface UserRepository {
     User findByEmailAndPassword(String email, String password) throws UserAuthException;
     Integer getCountByEmail(String email);
     User findById(int id);
-    public List<Map<String, Object>> listAllUsers();
+    List<Map<String, Object>> listAllUsers();
 }
 
 
