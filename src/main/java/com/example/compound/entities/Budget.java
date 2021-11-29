@@ -170,29 +170,6 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
     }
 
     /**
-     * Return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
-     * budget.
-     *
-     * @return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
-     *         budget, or null if getTotalCost returns 0
-     */
-    public HashMap<String, Double> getPercentages() {
-        HashMap<String, Double> percentages = new HashMap<>();
-        double totalCost = getTotalCost();
-
-        if (totalCost == 0) {
-            return null;
-        }
-
-        for (String itemName : budget.keySet()) {
-            Item item = budget.get(itemName);
-            double itemCost = item.getCost() * item.getQuantity();
-            percentages.put(itemName, itemCost / totalCost);
-        }
-        return percentages;
-    }
-
-    /**
      * Checks whether the given PropertyChangeEvent relating to an Item object in this Budget satisfies this Budget's
      * constraints, and if not, throws a PropertyVetoException.
      * @param evt the PropertyChangeEvent triggered by a change to an Item in this Budget

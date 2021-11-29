@@ -27,7 +27,7 @@ public class BudgetController {
             "Remove an item",
             "Change the spending limit",
             "Convert the items in this budget into expenses and add them to the group",
-            "Delete this budget", // TODO: Eliminate percentages method in Budget and interactor if eliminating categories?
+            "Delete this budget",
             "Exit"
     };
 

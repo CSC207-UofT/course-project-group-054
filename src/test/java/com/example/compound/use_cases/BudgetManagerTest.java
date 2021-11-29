@@ -103,12 +103,6 @@ public class BudgetManagerTest {
     }
 
     @Test
-    public void testGetPercentages() {
-        budgetManager.addItem(BUID, "itemName", 5.00, 6);
-        assertEquals(1.0, budgetManager.getPercentages(BUID).get("itemName"), 0.01);
-    }
-
-    @Test
     public void testRemove() {
         assertTrue(budgetManager.remove(g.getGUID(), BUID));
     }

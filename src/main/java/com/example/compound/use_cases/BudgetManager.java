@@ -206,19 +206,6 @@ public class BudgetManager {
     }
 
     /**
-     * Return a mapping from item name to the cost of the item as a percentage of the total cost of all items in the
-     * budget with the given UID.
-     * @param BUID the UID of the budget
-     * @return a mapping from item name to the cost of the item as a percentage of the total cost of all items in the
-     *         budget, or null if the Budget's getTotalCost returns 0
-     */
-    public HashMap<String, Double> getPercentages(String BUID) {
-//        Budget budget = this.budgetRepositoryGateway.findById(BUID);
-        Budget budget = this.repositoryGateway.findByBUID(BUID);
-        return budget.getPercentages();
-    }
-
-    /**
      * Remove the budget with the given BUID from the group with the given GUID.
      * @param GUID the GUID of the group
      * @param BUID the BUID of the budget
