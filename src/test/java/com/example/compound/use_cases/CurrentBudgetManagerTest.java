@@ -1,14 +1,14 @@
 package com.example.compound.use_cases;
 
 //import com.example.compound.data.Data;
-import com.example.compound.entities.Budget;
 import com.example.compound.entities.Group;
-import com.example.compound.entities.Item;
 import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
  * implemented.
  */
 public class CurrentBudgetManagerTest {
-    RepositoryGatewayI<Budget> budgetRepositoryGateway;
+    RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
     RepositoryGatewayI<Group> groupRepositoryGateway;
-    RepositoryGatewayI<Item> itemRepositoryGateway;
+    RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
 //    RepositoryGateway repositoryGateway;
     BudgetManager budgetManager;
     Group g;

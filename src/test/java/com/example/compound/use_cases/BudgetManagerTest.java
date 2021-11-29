@@ -1,13 +1,13 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.data.Data;
-import com.example.compound.entities.Budget;
 import com.example.compound.entities.Group;
-import com.example.compound.entities.Item;
 import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;
 import com.example.compound.use_cases.gateways.*;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
  * A test class for BudgetManager. The tests in this class should pass when the repository gateways are implemented.
  */
 public class BudgetManagerTest {
-    RepositoryGatewayI<Budget> budgetRepositoryGateway;
+    RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
     RepositoryGatewayI<Group> groupRepositoryGateway;
-    RepositoryGatewayI<Item> itemRepositoryGateway;
+    RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
     BudgetManager budgetManager;
     ExpenseManager expenseManager;
     RepositoryGateway repositoryGateway; // TODO: Remove this when ExpenseManager uses an ExpenseRepositoryGateway
@@ -102,12 +102,6 @@ public class BudgetManagerTest {
     public void testSetMaxSpend() {
         budgetManager.setMaxSpend(BUID, 5.0);
         assertEquals(5.0, budgetManager.getMaxSpend(BUID), 0.01);
-    }
-
-    @Test
-    public void testGetPercentages() {
-        budgetManager.addItem(BUID, "itemName", 5.00, 6);
-        assertEquals(1.0, budgetManager.getPercentages(BUID).get("itemName"), 0.01);
     }
 
     @Test

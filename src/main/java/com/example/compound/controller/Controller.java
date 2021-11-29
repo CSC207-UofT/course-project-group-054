@@ -8,23 +8,25 @@ import java.util.*;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 public class Controller {
 
     private static User currentUser;
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
-    private final RepositoryGatewayI<Budget> budgetRepository;
+    private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final RepositoryGatewayI<Group> groupRepository;
-    private final RepositoryGatewayI<Item> itemRepository;
+    private final RepositoryGatewayI<ItemTransferData> itemRepository;
     public RepositoryGateway repositoryGateway;
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
 
-    public Controller(RepositoryGatewayI<Budget> budgetRepository,
+    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
                       RepositoryGatewayI<Group> groupRepository,
-                      RepositoryGatewayI<Item> itemRepository,
+                      RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
         this.groupRepository = groupRepository;
