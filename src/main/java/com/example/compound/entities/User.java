@@ -5,17 +5,12 @@ package com.example.compound.entities;
 //import org.hibernate.annotations.TypeDef;
 
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.*;
 
 /**
  * A subclass of Person named User.
  * This class is identical to Person, except that it has a UID and a list of expenses.
  */
-
 //@Entity
 public class User extends Person implements AccountFeatures {
     private final int UUID; // TODO: Use this
@@ -32,7 +27,7 @@ public class User extends Person implements AccountFeatures {
      */
     public User(String name, double balance, String email, String password) {
         // TODO: Take in a distinct username
-        this(0, name, email, email, balance, password); // TODO: Should this constructor with no UUID ever be used?
+        this(this.generateUUID(), name, email, email, balance, password); // TODO: Should this constructor ever be used?
     }
 
     public User(int uuid, String name, String email, String username, double balance, String password) {
@@ -52,8 +47,13 @@ public class User extends Person implements AccountFeatures {
     }
 
     @Override
-    public String generateUUID() {
-        return null; // TODO: Maybe remove this and have a repository generate a UUID
+    //TODO: Create a proper UUID Algorithm, perhaps in the repository
+    /*
+    Generate a Unique User ID.
+     */
+    public int generateUUID() {
+        Random random = new Random();
+        return random.nextInt(100) + 1;
     }
 
     public String toString() {
@@ -66,4 +66,8 @@ public class User extends Person implements AccountFeatures {
     }
 
     // TODO: removeExpense?
+
+    public int getUUID() {
+        return this.UUID;
+    }
 }

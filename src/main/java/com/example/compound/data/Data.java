@@ -116,9 +116,7 @@ public class Data implements RepositoryGateway {
     }
 
     public Group findByGUID(String GUID) {
-        System.out.println("h"+groups);
         for (Group g : groups) {
-            System.out.println("a"+g.getGUID());
             if (g.getGUID().equals(GUID)) {
                 return g;
             }
@@ -207,5 +205,15 @@ public class Data implements RepositoryGateway {
 
     public int getNewIUID() {
         return this.itemCounter;
+    }
+
+    @Override
+    public User findByUUID(String UUID) {
+        for (User u : users) {
+            if (String.valueOf(u.getUUID()).equals(UUID)) {
+                return u;
+            }
+        }
+        return null;
     }
 }
