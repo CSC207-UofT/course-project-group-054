@@ -72,7 +72,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(int id) {
         System.out.println("I'm here" + id);
-        return jdbcTemplate.queryForObject(SQL_GET_USER_BY_UUID, new Object[]{id}, userRowMapper);
+        // changed from: return jdbcTemplate.queryForObject(SQL_GET_USER_BY_UUID, new Object[]{id}, userRowMapper);
+        return jdbcTemplate.queryForObject(SQL_GET_USER_BY_UUID, userRowMapper, id); // TODO: Is this right?
     }
 
     private final RowMapper<User> userRowMapper = ((rs, rowNum) -> new User(
