@@ -8,30 +8,30 @@ import java.util.*;
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
-//import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
-//import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.use_cases.gateways.*;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
-//    private final BudgetRepositoryGateway budgetRepositoryGateway;
-//    private final GroupRepositoryGateway groupRepositoryGateway;
-//    private final ItemRepositoryGateway itemRepositoryGateway;
+    private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
+    private final RepositoryGatewayI<Group> groupRepository;
+    private final RepositoryGatewayI<ItemTransferData> itemRepository;
     public RepositoryGateway repositoryGateway;
     public GroupManager groupManager;
     public UserManager userManager;
     public ExpenseManager expenseManager;
     public CurrentUserManager currentUserManager;
 
-    public Controller(//BudgetRepositoryGateway budgetRepositoryGateway,
-//                      GroupRepositoryGateway groupRepositoryGateway,
-//                      ItemRepositoryGateway itemRepositoryGateway,
+    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
+                      RepositoryGatewayI<Group> groupRepository,
+                      RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
-//        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
-//        this.groupRepositoryGateway = groupRepositoryGateway;
-//        this.itemRepositoryGateway = itemRepositoryGateway;
-        this.repositoryGateway = repositoryGateway; // TODO: Take in as a parameter?
+        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
+        this.groupRepository = groupRepository;
+        this.itemRepository = itemRepository;
+        this.repositoryGateway = repositoryGateway;
         this.groupManager = new GroupManager(this.repositoryGateway);
         this.userManager = new UserManager(this.repositoryGateway);
         this.expenseManager = new ExpenseManager(this.repositoryGateway);
@@ -83,10 +83,12 @@ public class Controller {
             }
             case 2 -> {
                 // Sign up
-                String email = inOut.requestInput("your Email");
-                String name = inOut.requestInput("your Name");
+                String email = inOut.requestInput("your email");
+                String name = inOut.requestInput("your name");
+                String password = inOut.requestInput("your password");
+                // TODO: Confirm password
                 double balance = 0.0;
-                userManager.createUser(name, balance, email);
+                userManager.createUser(name, balance, email, password);
                 inOut.sendOutput("Thanks for signing up!");
             }
 //            case 3 -> {
@@ -162,7 +164,6 @@ public class Controller {
             return inputToDouble(inOut);
         }
     }
-
 
     /**
      * Create and return a new Group based on user input.
@@ -302,7 +303,7 @@ public class Controller {
         // Otherwise, create a stand in person.
         else {
             Person standIn = this.userManager.createUser(
-                    name, 0.0, email);
+                    name, 0.0, email, ""); // TODO: PersonManager.createPerson?
             if (borrowed){
                 borrowedSoFar.put(standIn, amountUsed);
             }
@@ -311,8 +312,6 @@ public class Controller {
             }
         }
     }
-
-
 
     /**
      * Authenticate the user; check if they're signed up.
@@ -406,8 +405,4 @@ public class Controller {
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
     }
-
-
-
-
 }

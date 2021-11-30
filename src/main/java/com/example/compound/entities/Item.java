@@ -1,6 +1,8 @@
 package com.example.compound.entities;
 
-import java.beans.*;
+import java.beans.VetoableChangeListener;
+import java.beans.VetoableChangeSupport;
+import java.beans.PropertyVetoException;
 
 /**
  * An item for use with the Budget class with a category, name, cost in dollars and quantity.
@@ -12,7 +14,6 @@ public class Item {
     private int quantity;
 
     private final VetoableChangeSupport observableVetoable;
-    private final PropertyChangeSupport observableProperty;
 
     /**
      * Construct a new item with the given UID, name, cost, and quantity.
@@ -27,7 +28,6 @@ public class Item {
         this.cost = cost;
         this.quantity = quantity;
         this.observableVetoable = new VetoableChangeSupport(this);
-        this.observableProperty = new PropertyChangeSupport(this);
     }
 
     /**
@@ -80,22 +80,11 @@ public class Item {
     }
 
     /**
-     * Make the given PropertChangeListener object an observer of this Item so that objects containing that object can
-     * track changes in this Item's name.
-     * @param observer the PropertyChangeListener object that is to be made an observer of this Item
-     */
-    public void addObserver(PropertyChangeListener observer) {
-        observableProperty.addPropertyChangeListener(observer);
-    }
-
-    /**
      * Set this Item's name to the given value.
      * @param newName this Item's new name
      */
     public void setName(String newName) {
-        String oldName = this.name;
         this.name = newName;
-        observableProperty.firePropertyChange("name", oldName, newName);
     }
 
     /**

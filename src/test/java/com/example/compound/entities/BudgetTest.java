@@ -14,21 +14,25 @@ public class BudgetTest {
     Budget b;
     Item i1;
     Item i2;
-    User u;
     Group g;
 
     @Before
     public void setUp() {
-        b = new Budget("", "Test", 500.0);
-        i1 = new Item("", "Carrot", 2.00, 1);
-        i2 = new Item("", "Pickle", 5000.00, 500);
+        b = new Budget("1", "Test", 500.0);
+        i1 = new Item("1", "Carrot", 2.00, 1);
+        i2 = new Item("2", "Pickle", 5000.00, 500);
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
-        u = new User("name", 100.01, "email");
     }
 
     @Test
     public void testGetBUID() {
-        assertEquals("", b.getBUID());
+        assertEquals("1", b.getBUID());
+    }
+
+    @Test
+    public void testSetBUID() {
+        b.setBUID("2");
+        assertEquals("2", b.getBUID());
     }
 
     @Test
@@ -56,22 +60,29 @@ public class BudgetTest {
     @Test
     public void testAddItemWithinMaxSpend() {
         assertTrue(b.addItem(i1));
-        assertEquals(i1, b.getItem("Carrot"));
-        b.removeItem("Carrot");
+        assertEquals(i1, b.getItemByName("Carrot"));
+        b.removeItem(i1.getIUID());
     }
 
     @Test
     public void testAddItemExceedingMaxSpend() {
         assertFalse(b.addItem(i2));
-        assertNull(b.getItem("Item"));
+        assertNull(b.getItemByName("Item"));
     }
 
     @Test
-    public void testGetItem() {
+    public void testGetItemByIUID() {
         b.addItem(i1);
-        Item returnedItem = b.getItem("Carrot");
+        Item returnedItem = b.getItemByIUID("1");
         assertEquals(i1, returnedItem);
-        b.removeItem("Carrot");
+        b.removeItem(i1.getIUID());
+    }
+    @Test
+    public void testGetItemByName() {
+        b.addItem(i1);
+        Item returnedItem = b.getItemByName("Carrot");
+        assertEquals(i1, returnedItem);
+        b.removeItem(i1.getIUID());
     }
 
     @Test
@@ -79,25 +90,33 @@ public class BudgetTest {
         b.addItem(i1);
         Map<String, Item> returnedItems = b.getItems();
         HashMap<String, Item> expected = new HashMap<>();
-        expected.put(i1.getName(), i1);
+        expected.put(i1.getIUID(), i1);
         assertEquals(expected, returnedItems);
-        b.removeItem("Carrot");
+        b.removeItem(i1.getIUID());
     }
 
     @Test
     public void testChangeQuantityWithinMaxSpend() {
         b.addItem(i1);
         boolean returnedBoolean = b.changeQuantity("Carrot", 5);
-        assertEquals(5, b.getItem("Carrot").getQuantity());
+        assertEquals(5, b.getItemByName("Carrot").getQuantity());
         assertTrue(returnedBoolean);
-        b.removeItem("Carrot");
+        b.removeItem(i1.getIUID());
     }
 
     @Test
     public void testChangeQuantityExceedingMaxSpend() {
         b.addItem(i1);
         assertFalse(b.changeQuantity("Carrot", 50000));
-        b.removeItem("Carrot");
+        b.removeItem(i1.getIUID());
+    }
+
+    @Test
+    public void testRemoveItem() {
+        b.addItem(i1);
+        boolean returnedBoolean = b.removeItem(i1.getIUID());
+        assertNull(b.getItemByName("Carrot"));
+        assertTrue(returnedBoolean);
     }
 
     @Test
@@ -117,15 +136,7 @@ public class BudgetTest {
     }
 
     @Test
-    public void testRemoveItem() {
-        b.addItem(i1);
-        boolean returnedBoolean = b.removeItem("Carrot");
-        assertNull(b.getItem("Carrot"));
-        assertTrue(returnedBoolean);
-    }
-
-    @Test
-    public void testVetoableChange() {
+    public void testVetoableChangeQuantity() {
         b.addItem(i1);
         PropertyChangeEvent event = new PropertyChangeEvent(i1, "quantity", 1, 5000);
         try {
@@ -137,10 +148,14 @@ public class BudgetTest {
     }
 
     @Test
-    public void testPropertyChange() {
+    public void testVetoableChangeCost() {
         b.addItem(i1);
-        PropertyChangeEvent event = new PropertyChangeEvent(i1, "name", "", "Changed Carrot");
-        b.propertyChange(event);
-        assertEquals(i1, b.getItems().get("Changed Carrot"));
+        PropertyChangeEvent event = new PropertyChangeEvent(i1, "cost", 2.00, 5000.0);
+        try {
+            b.vetoableChange(event);
+        } catch (PropertyVetoException e) {
+            return;
+        }
+        fail();
     }
 }

@@ -2,10 +2,12 @@ package com.example.compound.use_cases;
 
 import com.example.compound.data.Data;
 import com.example.compound.entities.Group;
-//import com.example.compound.use_cases.gateways.BudgetRepositoryGateway;
-//import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
-//import com.example.compound.use_cases.gateways.ItemRepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+import com.example.compound.repositories.BudgetRepository;
+import com.example.compound.repositories.GroupRepository;
+import com.example.compound.repositories.ItemRepository;
+import com.example.compound.use_cases.gateways.*;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -16,9 +18,9 @@ import java.util.ArrayList;
  * A test class for BudgetManager. The tests in this class should pass when the repository gateways are implemented.
  */
 public class BudgetManagerTest {
-//    BudgetRepositoryGateway budgetRepositoryGateway;
-//    GroupRepositoryGateway groupRepositoryGateway;
-//    ItemRepositoryGateway itemRepositoryGateway;
+    RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
+    RepositoryGatewayI<Group> groupRepositoryGateway;
+    RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
     BudgetManager budgetManager;
     ExpenseManager expenseManager;
     RepositoryGateway repositoryGateway; // TODO: Remove this when ExpenseManager uses an ExpenseRepositoryGateway
@@ -28,17 +30,17 @@ public class BudgetManagerTest {
     @Before
     public void setUp() {
         // TODO: Implement the gateways
-//        budgetRepositoryGateway = null;
-//        groupRepositoryGateway = null;
-//        itemRepositoryGateway = null;
+        budgetRepositoryGateway = new BudgetRepository();
+        groupRepositoryGateway = new GroupRepository();
+        itemRepositoryGateway = new ItemRepository();
         repositoryGateway = new Data();
 
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
 
-//        budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
-        budgetManager = new BudgetManager(repositoryGateway);
-//        groupRepositoryGateway.save(g);
-        repositoryGateway.addGroup(g);
+        budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
+//        budgetManager = new BudgetManager(repositoryGateway);
+        groupRepositoryGateway.save(g);
+//        repositoryGateway.addGroup(g);
 
         budgetManager.create(g.getGUID(), "name", 300.0);
         BUID = budgetManager.getBUIDFromName("name");
@@ -100,12 +102,6 @@ public class BudgetManagerTest {
     public void testSetMaxSpend() {
         budgetManager.setMaxSpend(BUID, 5.0);
         assertEquals(5.0, budgetManager.getMaxSpend(BUID), 0.01);
-    }
-
-    @Test
-    public void testGetPercentages() {
-        budgetManager.addItem(BUID, "itemName", 5.00, 6);
-        assertEquals(1.0, budgetManager.getPercentages(BUID).get("itemName"), 0.01);
     }
 
     @Test

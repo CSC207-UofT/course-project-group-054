@@ -18,7 +18,7 @@ public class ExpenseTest {
     @Before
     public void TestSetUp() {
         p = new Person("name", 100.01, "email");
-        u = new User("name", 100.01, "email");
+        u = new User("name", 100.01, "email", "password");
 
         HashMap<Person, Double> whoPaid = new HashMap<>();
         whoPaid.put(p, 20.01);
