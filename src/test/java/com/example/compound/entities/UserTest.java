@@ -10,8 +10,8 @@ public class UserTest {
 
     @Before
     public void TestSetUp() {
-        u = new User("name", 100.01, "email");
-        u_2 = new User("name_2", 100.02, "email_2");
+        u = new User("name", 100.01, "email", "password");
+        u_2 = new User("name_2", 100.02, "email_2", "password_2");
     }
 
     @Test

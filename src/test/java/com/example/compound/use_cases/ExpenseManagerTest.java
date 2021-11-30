@@ -24,8 +24,8 @@ public class ExpenseManagerTest {
         d = new Data();
         i = new Item("0", "title", 10.0, 2);
 
-        u = new User("name", 100.0, "email@email.com");
-        u2 = new User("name2", 100.0, "email2@email.com");
+        u = new User("name", 100.0, "email@email.com", "password");
+        u2 = new User("name2", 100.0, "email2@email.com", "password2");
         d.addUser(u);
         d.addUser(u2);
 
@@ -82,6 +82,6 @@ public class ExpenseManagerTest {
     @Test
     public void testPayDebtLend(){
         em.payDebt(u, "0", 5.0, false);
-        assert u2.getBalance() == 95.0;
+        assert u.getBalance() == 95.0;
     }
 }

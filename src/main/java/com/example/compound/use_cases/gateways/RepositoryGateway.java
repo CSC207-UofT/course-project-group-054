@@ -55,4 +55,6 @@ public interface RepositoryGateway {
     int getNewBUID();
 
     int getNewIUID();
+
+    User findByUUID(String UUID);
 }
