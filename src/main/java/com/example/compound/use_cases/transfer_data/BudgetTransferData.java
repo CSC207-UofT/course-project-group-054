@@ -12,11 +12,14 @@ public class BudgetTransferData { // TODO: What should this be called?
     private Map<String, ItemTransferData> budget;
     private double maxSpend;
 
-    public BudgetTransferData(String BUID, String name, double maxSpend) {
+    public BudgetTransferData(String BUID, String name, double maxSpend, Integer[] IUIDs) {
         this.BUID = BUID;
         this.name = name;
         this.maxSpend = maxSpend;
         this.budget = new HashMap<>();
+        for (int IUID : IUIDs) {
+            budget.put(Integer.toString(IUID), null);
+        }
     }
 
     public BudgetTransferData(Budget budget) {

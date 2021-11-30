@@ -43,10 +43,20 @@ CREATE SEQUENCE expenses_seq increment 1 start 1000;
 CREATE SEQUENCE groups_seq increment 1 start 1;
 
 
-CREATE TABLE budget(
-
+CREATE TABLE budgets(
+    buid INTEGER PRIMARY KEY NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    maxSpend DOUBLE PRECISION NOT NULL,
+    items INTEGER[]
 );
 
 CREATE TABLE items(
-
+    iuid INTEGER PRIMARY KEY NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    cost DOUBLE PRECISION NOT NULL,
+    quantity INTEGER NOT NULL
 );
+
+
+CREATE SEQUENCE budget_seq increment 1 start 1;
+CREATE SEQUENCE items_seq increment 1 start 1;

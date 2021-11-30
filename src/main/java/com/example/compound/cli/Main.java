@@ -12,7 +12,10 @@ public class Main {
         data.initializeData();
 
         View view = new View();
-        Controller controller = new Controller(new BudgetRepository(), new GroupRepository(), new ItemRepository(),
+        ItemRepository itemRepository = new ItemRepository(); // TODO: RepositoryGatewayI<ItemTransferData> itemRepository = ...?
+        BudgetRepository budgetRepository = new BudgetRepository(itemRepository);
+        GroupRepository groupRepository = new GroupRepository();
+        Controller controller = new Controller(budgetRepository, groupRepository, itemRepository,
                 data);
 
         do {

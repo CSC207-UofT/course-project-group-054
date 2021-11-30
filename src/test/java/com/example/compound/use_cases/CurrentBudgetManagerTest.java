@@ -31,9 +31,9 @@ public class CurrentBudgetManagerTest {
 
     @Before
     public void setUp() {
-        budgetRepositoryGateway = new BudgetRepository();
-        groupRepositoryGateway = new GroupRepository();
         itemRepositoryGateway = new ItemRepository();
+        budgetRepositoryGateway = new BudgetRepository(itemRepositoryGateway);
+        groupRepositoryGateway = new GroupRepository();
 //        repositoryGateway = new Data();
 
         g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");

@@ -4,7 +4,7 @@ import com.example.compound.entities.Group;
 
 import java.util.List;
 
-public interface GroupRepositoryGateway {
+public interface GroupRepositoryGateway extends RepositoryGatewayI<Group> {
     Group findById(String GUID);
 
     List<Group> findAll();
