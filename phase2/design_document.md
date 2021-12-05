@@ -26,6 +26,10 @@ Groups also have budgets. A budget stores a list of items, each of which has a n
 
 - We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all out static front-end (HTML, JavaScript, CSS, etc.) files will be stores in `src/main/resources/public` folder in our project. This is a special folder that Spring uses to server static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
 
+## Accessibility report
+
+...
+
 ## How our project adheres to Clean Architecture
 
 The frameworks and drivers classes, such as the command line or web app, pass in information to our controllers. Our interface adapters do not depend on the views directly; instead, they depend on `InOut` interfaces that are in the interface adapter layer and that the views implement. The controllers in the interface adapters layer convert data from the view into a format that use cases can use, and pass the converted data to the use cases, which work on the entities to perform the appropriate actions. The use cases also interact with gateway interfaces in the use cases layer that database gateway classes in the interface adapter layer implement so that the use cases do not depend on the interface adapter layer or the database itself.
@@ -48,13 +52,37 @@ I - Interface Segregation: Each of our interfaces is small (has few functions) a
 
 D - Dependency Inversion: A future example of this principle would be with our presenter. Our use cases would rely on an output boundary and our presenter would have to implement this boundary.
 
-## Packaging strategies
+## Code organization
 
 The main packaging strategies we discussed are "package by layer" and "package by feature". We decided to choose the by layer strategy because we already had a close implementation of it from Phase 0, and we felt it was the most clear for our program. Since many of our features work in tandem, we realized that grouping things by features would be difficult and suboptimal for this program. To a lesser extent we considered the "Inside/Outside" pattern because one can see creating and managing expenses as orders however we thought that the large amount of methods we would need would turn the classes into bloaters.
 
 ## Design patterns
 
-We implemented the Observer design pattern for `Budget` and `Item` because a `Budget` object needs to be aware of changes to the attributes of the `Item`s it stores to satisfy certain constraints (for example, preventing an increase to an `Item`'s cost or quantity that would result in its `Budget`'s spending limit being exceeded). The Budget is the Observer (implementing the `VetoableChangeListener` and `PropertyChangeListener` interfaces) and the `Item`s are the Observables (having `VetoableChangeSupport` and `PropertyChangeSupport` fields that allow an `Item` to notify its Observer). When one of the attributes of an `Item` is changed, either the `firePropertyChange` or the `fireVetoableChange` method is called to notify the `Budget`, which then takes an action in the `vetoableChange` or `propertyChange` method.
+- We implemented the Observer design pattern for `Budget` and `Item` because a `Budget` object needs to be aware of changes to the attributes of the `Item`s it stores to satisfy certain constraints (for example, preventing an increase to an `Item`'s cost or quantity that would result in its `Budget`'s spending limit being exceeded). The Budget is the Observer (implementing the `VetoableChangeListener` and `PropertyChangeListener` interfaces) and the `Item`s are the Observables (having `VetoableChangeSupport` and `PropertyChangeSupport` fields that allow an `Item` to notify its Observer). When one of the attributes of an `Item` is changed, either the `firePropertyChange` or the `fireVetoableChange` method is called to notify the `Budget`, which then takes an action in the `vetoableChange` or `propertyChange` method.
+
+- We implemented the Strategy design pattern to eliminate the code smell associated with the switch statement in `Budget`'s `vetoableChange` method. Both the Context and the Client are the `Budget` class; the Strategy is the `VetoableChangeResponseStrategy` interface; and the `ConcreteStrategies` are the `CostVetoableChangeResponseStrategy` and `QuantityVetoableChangeResponseStrategy` classes. `Budget`'s `vetoableChange` method still has a conditional but now creates strategy classes, and a conditional for choosing which subclass to create (like in the Simple Factory design pattern) is not a code smell. The `vetoableChange` method deals with two algorithms for responding to a vetoable change and a single `Budget` object should be able to use both algorithms, depending on which `Item` attribute is changed, so there cannot be two subclasses of `Budget` using only one algorithm each. Thus, we cannot use the Factory Method design pattern here.
+
+## Use of GitHub features
+
+### Issues
+
+### Actions
+
+### Pull Requests
+
+## Code style and documentation
+
+There should be no warnings when the code is opened in IntelliJ and classes and methods have Javadoc.
+
+## Testing
+
+Most methods in entity and use case classes are tested.
+
+## Refactoring
+
+## Functionality
+
+### Persistence
 
 ## Progress report
 
