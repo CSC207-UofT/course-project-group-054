@@ -1,8 +1,12 @@
 package com.example.compound.controller;
 
+import com.example.compound.entities.Group;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.entities.User;
+import com.example.compound.use_cases.gateways.RepositoryGatewayI;
+import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +15,21 @@ public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
     private final User currentUser;
-    private final RepositoryGateway repositoryGateway;
+//    private final RepositoryGateway repositoryGateway;
+    private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
+    private final RepositoryGatewayI<Group> groupRepository;
+    private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
 
-    public GroupController(RepositoryGateway repositoryGateway, User currentUser, ExpenseManager expenseManager) {
-        this.repositoryGateway = repositoryGateway;
+    public GroupController(RepositoryGateway repositoryGateway,
+                           RepositoryGatewayI<BudgetTransferData> budgetRepository,
+                           RepositoryGatewayI<Group> groupRepository,
+                           RepositoryGatewayI<ItemTransferData> itemRepository,
+                           User currentUser, ExpenseManager expenseManager) {
+//        this.repositoryGateway = repositoryGateway;
+        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
+        this.groupRepository = groupRepository;
+        this.itemRepository = itemRepository;
         this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
         this.groupManager = new GroupManager(repositoryGateway);
         this.currentUser = currentUser; //TODO: this currentUser should be removed when the currentUser is fixed in
@@ -133,7 +147,9 @@ public class GroupController {
                     GroupManager.removeMember(currentGroupManager.getCurrentGroup(), currentUser.getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
                     this.groupManager.removeGroup(currentGroupManager.getCurrentGroupUID()); //Delete Group
-            case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(), repositoryGateway,
+            case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(),
+//                    repositoryGateway,
+                    budgetRepository, groupRepository, itemRepository,
                     expenseManager).groupBudgetsDashboard(inOut);
             case 8 -> back = true;
         }

@@ -23,7 +23,7 @@ public class ExpenseManager {
      *
      * @param expenseTitle The title of the expense
      * @param amount The amount of expense. // TODO: Complete the doc comment
-     * @param userManager the UserManager object that is to add the expense to the Persons // TODO: Does this make sense?
+     * @param userManager the UserManager object that is to add the expense to the Persons
      *
      * @return True, if expense was successfully created and handles. False otherwise.
      */
@@ -52,9 +52,8 @@ public class ExpenseManager {
             for (String userEmail: people) {
                 try {
                     Objects.requireNonNull(
-                            userManager.getUser(userEmail)).expenses.add(expense.getEUID());
+                            userManager.getUser(userEmail)).addExpense(expense);
                 } catch (Exception ignored) {
-
                 }
             }
             return expense;
@@ -92,7 +91,11 @@ public class ExpenseManager {
     public void payDebt(Person payee, String expenseUID, Double amount, boolean borrowed) {
         Expense expense = getExpense(expenseUID);
         assert expense != null;
-        expense.settleExpense(payee, amount, borrowed);
+        if (borrowed) {
+            expense.settleExpenseBorrowed(payee, amount);
+        } else {
+            expense.settleExpenseLent(payee, amount);
+        }
 
         // Get and set the balance of the payee.
         if (borrowed) {

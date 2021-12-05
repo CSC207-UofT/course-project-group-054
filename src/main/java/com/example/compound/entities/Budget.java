@@ -90,7 +90,7 @@ public class Budget implements VetoableChangeListener {
         if ((this.getTotalCost() + item.getQuantity() * item.getCost() <= this.maxSpend)
                 && (getItemByIUID(item.getIUID()) == null) && (getItemByName(item.getName()) == null)) {
             budget.put(item.getIUID(), item);
-            item.addObserver(this); // TODO: Should this be in the Budget class?
+            item.addObserver(this);
             return true;
         } else {
             return false;

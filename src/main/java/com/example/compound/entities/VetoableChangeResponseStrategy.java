@@ -7,7 +7,7 @@ import java.beans.PropertyVetoException;
  * A strategy interface that provides a Budget with a response to a vetoable change in an attribute of an Item it
  * contains.
  */
-public interface VetoableChangeResponseStrategy {
+interface VetoableChangeResponseStrategy {
     /**
      * Respond to a vetoable change in the given Item's attribute.
      * @param evt       the event object representing a change in an attribute of the given Item

@@ -1,10 +1,8 @@
-/*
-This file represents the controller class which handles the interactions between inputs and outputs.
- */
 package com.example.compound.controller;
 
 import java.util.*;
 
+import com.example.compound.entities.Group;
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
@@ -12,6 +10,9 @@ import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
+/**
+ * A Controller for handling the interactions between inputs and outputs.
+ */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
@@ -84,19 +85,30 @@ public class Controller {
                 // Sign up
                 String email = inOut.requestInput("your email");
                 String name = inOut.requestInput("your name");
-                String password = inOut.requestInput("your password");
-                // TODO: Confirm password
+                String password = getPassword(inOut);
+
                 double balance = 0.0;
                 userManager.createUser(name, balance, email, password);
                 inOut.sendOutput("Thanks for signing up!");
             }
-//            case 3 -> {
-//                // Create Group
-//
-//            }
             case 3 -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
+    }
+
+    /**
+     * Request that the user input a password, confirm the input password, and return it.
+     * @param inOut the user interface object
+     * @return the password input by the user
+     */
+    private String getPassword(InOut inOut) {
+        String password = inOut.requestInput("your password");
+        String passwordConfirmation = inOut.requestInput("your password again");
+        if (!password.equals(passwordConfirmation)) {
+            inOut.sendOutput("The passwords do not match. Please try again.");
+            return getPassword(inOut);
+        }
+        return password;
     }
 
     /**
@@ -126,7 +138,9 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(repositoryGateway, currentUserManager.getCurrentUser(), expenseManager);
+                    GroupController groupController = new GroupController(repositoryGateway,
+                            budgetRepository, groupRepository, itemRepository,
+                            currentUserManager.getCurrentUser(), expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses

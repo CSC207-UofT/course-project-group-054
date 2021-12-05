@@ -6,7 +6,7 @@ import java.beans.PropertyVetoException;
 /**
  * A strategy class that provides a Budget with a response to a vetoable change in the cost of an Item it contains.
  */
-public class CostVetoableChangeResponseStrategy implements VetoableChangeResponseStrategy {
+class CostVetoableChangeResponseStrategy implements VetoableChangeResponseStrategy {
     /**
      * Respond to a vetoable change in the given Item's cost.
      * @param evt       the event object representing a change in the given Item's cost
