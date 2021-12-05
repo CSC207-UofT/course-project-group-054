@@ -15,7 +15,10 @@ public class GroupTest {
     @Before
     public void setUp() {
         emptyGroup = new Group("E", new ArrayList<>(), new ArrayList<>(), "An empty group");
-        simpleGroup = new Group("S", List.of("alice@example.com", "bob@example.com"), new ArrayList<>(), "A simple group");
+        ArrayList<String> test = new ArrayList<>();
+        test.add("alice@example.com");
+        test.add("bob@example.com");
+        simpleGroup = new Group("S", test, new ArrayList<>(), "A simple group");
     }
 
     @Test
@@ -40,5 +43,19 @@ public class GroupTest {
     public void testGetExpenseList() {
         assertTrue(emptyGroup.getExpenseList().isEmpty());
         assertTrue(simpleGroup.getExpenseList().isEmpty());
+    }
+
+    @Test
+    public void testRemoveMember(){
+        simpleGroup.removeMember("alice@example.com");
+        ArrayList<String> expectedGroupList = new ArrayList<String>();
+        expectedGroupList.add("bob@example.com");
+        assertFalse(simpleGroup.getGroupMembers().contains("alice@example.com"));
+    }
+
+    @Test
+    public void testAddMember(){
+        simpleGroup.addMember("example@example.com");
+        assertTrue(simpleGroup.getGroupMembers().contains("example@example.com"));
     }
 }

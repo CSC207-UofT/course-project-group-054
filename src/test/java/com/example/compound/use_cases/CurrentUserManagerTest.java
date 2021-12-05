@@ -14,7 +14,7 @@ public class CurrentUserManagerTest {
     public void setUp(){
         d = new Data();
         cm = new CurrentUserManager(d);
-        u = new User("name", 100, "email", "password");
+        u = new User(0, "name", "email", "email", 100, "password");
 
         d.addUser(u);
     }

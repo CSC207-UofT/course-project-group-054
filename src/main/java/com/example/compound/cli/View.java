@@ -1,7 +1,7 @@
 package com.example.compound.cli;
 import java.util.*;
 
-import com.example.compound.controller.InOut;
+import com.example.compound.cli_controllers.InOut;
 
 /**
  This is the View class which handles what the user sees in the command line.

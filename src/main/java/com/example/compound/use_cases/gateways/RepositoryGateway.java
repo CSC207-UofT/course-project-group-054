@@ -26,6 +26,8 @@ public interface RepositoryGateway {
 
     Budget findByBUID(String BUID);
 
+    User findByUUID(String UUID);
+
     Group findByGUID(String GUID);
 
     void removeGroup(Group group);
@@ -55,6 +57,4 @@ public interface RepositoryGateway {
     int getNewBUID();
 
     int getNewIUID();
-
-    User findByUUID(String UUID);
 }

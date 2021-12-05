@@ -1,4 +1,4 @@
-package com.example.compound.controller;
+package com.example.compound.cli_controllers;
 
 import com.example.compound.entities.Group;
 import com.example.compound.use_cases.BudgetManager;

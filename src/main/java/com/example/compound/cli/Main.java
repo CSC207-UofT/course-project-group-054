@@ -1,6 +1,6 @@
 package com.example.compound.cli;
 
-import com.example.compound.controller.*;
+import com.example.compound.cli_controllers.*;
 import com.example.compound.data.*;
 import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
