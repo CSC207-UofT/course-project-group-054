@@ -3,6 +3,8 @@ package com.example.compound.use_cases;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 
+import java.util.Random;
+
 /*
 This file represents the User Class manager. The entity User is changed here.
  */
@@ -57,12 +59,18 @@ public class UserManager {
         return null;
     }
 
-    public User createUser(String name, double balance, String email, String password) {
-        User user = new User(name, balance, email, password);
+    public User createUser(int uuid, String name, double balance, String email, String password) {
+        User user = new User(uuid, name, email, email, balance, password);
         this.repositoryGateway.addUser(user);
         return user;
     }
 
+    public User createUser(String name, double balance, String email, String password) {
+        int tempInt = this.generateUUID();
+        User user = new User(tempInt, name, email, email, balance, password);
+        this.repositoryGateway.addUser(user);
+        return user;
+    }
     /**
      * Get the profile of the user
      *
@@ -103,5 +111,10 @@ public class UserManager {
             } //
         }
         user.setEmail(email);
+    }
+
+    public int generateUUID() {
+        Random random = new Random();
+        return random.nextInt(100) + 1;
     }
 }

@@ -1,12 +1,14 @@
 /*
 This file represents the controller class which handles the interactions between inputs and outputs.
  */
-package com.example.compound.controller;
+package com.example.compound.cli_controllers;
 
 import java.util.*;
 
+import com.example.compound.entities.Group;
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
+import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
@@ -25,7 +27,7 @@ public class Controller {
     public CurrentUserManager currentUserManager;
 
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      RepositoryGatewayI<Group> groupRepository,
+                      GroupRepository groupRepository,
                       RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
@@ -74,7 +76,7 @@ public class Controller {
                 // set the current user
                 currentUserManager.setCurrentUser(userManager.getUser(email));
                 if (this.currentUserManager.getCurrentUser() != null) {
-                    authenticateUser(this.currentUserManager.getCurrentUser() );
+                    authenticateUser(this.currentUserManager.getCurrentUser().getEmail());
                     inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
                 } else {
@@ -115,7 +117,7 @@ public class Controller {
                 case 1 -> {
                     inOut.sendOutput("Enter the title: ");
                     String expenseTitle = inOut.getInput();
-                    createExpenseView(inOut, currentUserManager.getCurrentUser(), expenseTitle);
+                    createExpenseView(inOut, expenseTitle);
                 }
                 case 2 -> {
                     StringBuilder lst = this.groupManager.showListOfGroup(currentUserManager.getCurrentUser());
@@ -128,11 +130,12 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(repositoryGateway, currentUserManager.getCurrentUser(), expenseManager);
+                    GroupController groupController = new GroupController(
+                            repositoryGateway, currentUserManager, expenseManager, userManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
-                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
+                case 7 -> inOut.sendOutput(this.userManager.getExpenses(getCurrentUser()));
                 case 8 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expenseToPay = inOut.getInput();
@@ -140,7 +143,7 @@ public class Controller {
                     Double amount = inputToDouble(inOut);
                     inOut.sendOutput("Did you borrow? yes(y) or no(n)");
                     String borrowed = inOut.getInput();
-                    expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
+                    expenseManager.payDebt(getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
@@ -215,12 +218,10 @@ public class Controller {
 
     /**
      * Create the view where we interact with the functions of Expense.
-     *
      * @param inOut the user interface object
-     * @param u The user that is calling this function.
      * @param expenseTitle The title of the expense
      */
-    public void createExpenseView(InOut inOut, User u, String expenseTitle) {
+    public void createExpenseView(InOut inOut, String expenseTitle) {
         HashMap<Person, Double> borrowedSoFar = new HashMap<>();
         HashMap<Person, Double> lentSoFar = new HashMap<>();
 
@@ -233,11 +234,11 @@ public class Controller {
         inOut.sendOutput("Did you borrow (b) or pay (p)?");
         boolean userBorrow = inOut.getInput().equals("b");
         if (userBorrow){
-            u.updateBalance(amount);
+            getCurrentUser().updateBalance(amount);
             borrowedSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
         else{
-            u.updateBalance(-amount);
+            getCurrentUser().updateBalance(-amount);
             lentSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
 
@@ -289,16 +290,15 @@ public class Controller {
 
         // If we find the user in the database then update bal
         if (userManager.getUser(email) != null) {
-            User user = userManager.getUser(email);
-            assert user != null;
+            currentUserManager.setCurrentUser(userManager.getUser(email));
 
             if (borrowed){
-                borrowedSoFar.put(user, amountUsed);
+                borrowedSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
             }
             else {
-                lentSoFar.put(user, amountUsed);
+                lentSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
             }
-            user.updateBalance(amountUsed);
+            currentUserManager.getCurrentUser().updateBalance(amountUsed);
         }
         // Otherwise, create a stand in person.
         else {
@@ -315,10 +315,10 @@ public class Controller {
 
     /**
      * Authenticate the user; check if they're signed up.
-     * @param user - the user we are checking.
+     * @param email - the user we are checking.
      */
-    public void authenticateUser(User user) {
-        currentUserManager.setCurrentUser(user);
+    public void authenticateUser(String email) {
+        currentUserManager.setCurrentUser(userManager.getUser(email));
         setUserStatus(true);
     }
 
@@ -339,7 +339,7 @@ public class Controller {
     }
 
     /**
-     * Get the person currently logged in.
+     * Helper, get the person currently logged in.
      * @return current user
      */
     public User getCurrentUser() {

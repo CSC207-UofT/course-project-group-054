@@ -1,10 +1,9 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.controller.BudgetController;
-import com.example.compound.controller.InOut;
 import com.example.compound.entities.Expense;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
+import com.example.compound.entities.User;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ This is the manager for Group, we edit the entity group through this class.
  */
 public class GroupManager {
     private final RepositoryGateway repositoryGateway;
-
 
     public GroupManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
@@ -77,10 +75,10 @@ public class GroupManager {
     /**
      * Remove the member from the group.
      * @param g The group from which the member is to be removed.
-     * @param oldEmail the email of the member that is to be removed from the group.
+     * @param email the identifier of the member to remove.
      */
-    public static void removeMember(Group g, String oldEmail) {
-        g.getGroupMembers().remove(oldEmail);
+    public static void removeMember(Group g, String email) {
+        g.removeMember(email);
     }
 
     /**
@@ -89,7 +87,7 @@ public class GroupManager {
      * @param email the email of the member that is to be added to the group.
      */
     public static void addMember(Group g, String email) {
-        g.getGroupMembers().add(email);
+        g.addMember(email);
     }
 
     /**

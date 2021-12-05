@@ -20,8 +20,11 @@ public class Data implements RepositoryGateway {
 
     public void initializeData() {
         // Creating dummy users
-        users.add(new User("Rohan", 100.0, "rohan.tinna@mail.utoronto.ca", "password"));
-        users.add(new User("Johny", 100.0, "johny@example.com", "password2"));
+
+        users.add(new User(0,"Rohan", "rohan.tinna@mail.utoronto.ca",
+        "rohan.tinna@mail.utoronto.ca", 100.0, "password"));
+        users.add(new User(1, "Johny", "johny@example.com", "johny@example.com",
+                100.0, "password2"));
 
         // Creating dummy groups
         addGroup(
@@ -110,6 +113,17 @@ public class Data implements RepositoryGateway {
         for (Budget b : budgets) {
             if (b.getBUID().equals(BUID)) {
                 return b;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByUUID(String UUID) {
+        int tempUID = Integer.parseInt(UUID);
+        for (User u: users){
+            if (u.getUUID() == tempUID){
+                return u;
             }
         }
         return null;
@@ -205,15 +219,5 @@ public class Data implements RepositoryGateway {
 
     public int getNewIUID() {
         return this.itemCounter;
-    }
-
-    @Override
-    public User findByUUID(String UUID) {
-        for (User u : users) {
-            if (String.valueOf(u.getUUID()).equals(UUID)) {
-                return u;
-            }
-        }
-        return null;
     }
 }

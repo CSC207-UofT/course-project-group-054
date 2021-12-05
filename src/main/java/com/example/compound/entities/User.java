@@ -25,10 +25,6 @@ public class User extends Person implements AccountFeatures {
      * @param email    the User's email used to contact them
      * @param password the User's password
      */
-    public User(String name, double balance, String email, String password) {
-        // TODO: Take in a distinct username
-        this(this.generateUUID(), name, email, email, balance, password); // TODO: Should this constructor ever be used?
-    }
 
     public User(int uuid, String name, String email, String username, double balance, String password) {
         super(name, balance, email);
@@ -51,10 +47,6 @@ public class User extends Person implements AccountFeatures {
     /*
     Generate a Unique User ID.
      */
-    public int generateUUID() {
-        Random random = new Random();
-        return random.nextInt(100) + 1;
-    }
 
     public String toString() {
         return this.name;

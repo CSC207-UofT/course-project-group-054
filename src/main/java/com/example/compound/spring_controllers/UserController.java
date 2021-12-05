@@ -1,9 +1,8 @@
-package com.example.compound.controller;
+package com.example.compound.spring_controllers;
 
 //import com.example.compound.api.UserInteractor;
 import com.example.compound.data.Data;
 import com.example.compound.entities.User;
-import com.example.compound.exceptions.UserAuthException;
 import com.example.compound.repositories.UserRepository;
 import com.example.compound.repositories.UserRepositoryImpl;
 import com.example.compound.use_cases.ExpenseManager;
