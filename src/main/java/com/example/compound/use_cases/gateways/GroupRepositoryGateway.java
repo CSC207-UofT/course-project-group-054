@@ -12,5 +12,7 @@ public interface GroupRepositoryGateway extends RepositoryGatewayI<Group> {
     // Returns a new GUID
     String save(Group group);
 
-    void deleteById(String GUID);
+    boolean update(Group group);
+
+    boolean deleteById(String GUID);
 }

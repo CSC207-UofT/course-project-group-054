@@ -1,6 +1,5 @@
 package com.example.compound.repositories;
 
-import com.example.compound.entities.Item;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
@@ -23,7 +22,12 @@ public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
     }
 
     @Override
-    public void deleteById(String UID) {
+    public boolean update(ItemTransferData itemTransferData) {
+        return false;
+    }
 
+    @Override
+    public boolean deleteById(String UID) {
+        return false;
     }
 }

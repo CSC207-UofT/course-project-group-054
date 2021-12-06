@@ -22,7 +22,12 @@ public class GroupRepository implements RepositoryGatewayI<Group> {
     }
 
     @Override
-    public void deleteById(String UID) {
+    public boolean update(Group group) {
+        return false;
+    }
 
+    @Override
+    public boolean deleteById(String UID) {
+        return false;
     }
 }

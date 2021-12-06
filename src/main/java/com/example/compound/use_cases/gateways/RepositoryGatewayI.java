@@ -10,7 +10,7 @@ public interface RepositoryGatewayI<T> { // TODO: Delete old RepositoryGateway a
     // Returns a new UID
     String save(T t); // TODO: Separate methods for saving a new object and updating an existing one?
 
-//    void update(T t);
+    boolean update(T t);
 
-    void deleteById(String UID);
+    boolean deleteById(String UID);
 }

@@ -3,8 +3,7 @@ package com.example.compound.use_cases.transfer_data;
 import com.example.compound.entities.Budget;
 import com.example.compound.entities.Item;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BudgetTransferData { // TODO: What should this be called?
     private String BUID;
@@ -48,6 +47,19 @@ public class BudgetTransferData { // TODO: What should this be called?
 
     public Map<String, ItemTransferData> getBudget() {
         return budget;
+    }
+
+    public Integer[] getItemIUIDs() {
+        List<String> strings = new ArrayList<>(budget.keySet());
+        Integer[] items = new Integer[strings.size()];
+        for (int i = 0; i < items.length; i++) {
+            items[i] = Integer.parseInt(strings.get(i));
+        }
+        return items;
+    }
+
+    public void addItem(String IUID, ItemTransferData itemTransferData) {
+        budget.put(IUID, itemTransferData);
     }
 
     public double getMaxSpend() {

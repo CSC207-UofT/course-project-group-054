@@ -13,6 +13,11 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
     private final RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
 
     private static final String SQL_FIND_BY_UID = "SELECT * FROM budgets WHERE buid = ?";
+    private static final String SQL_FIND_ALL = "SELECT * FROM budgets";
+    private static final String SQL_SAVE = "INSERT INTO budgets(buid, name, maxSpend, items) " +
+            "VALUES(NEXTVAL('budgets_seq'), ?, ?, '{}')";
+    private static final String SQL_UPDATE = "UPDATE budgets SET name = ?, maxSpend = ?, items = ? WHERE buid = ?";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM budgets WHERE buid = ?";
 
     public BudgetRepository(RepositoryGatewayI<ItemTransferData> itemRepositoryGateway) {
         this.jdbcTemplate = new JdbcTemplate();
@@ -25,7 +30,7 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
 
         assert budgetTransferData != null; // TODO: Any alternatives?
         for (String IUID : budgetTransferData.getBudget().keySet()) {
-            budgetTransferData.getBudget().put(IUID, itemRepositoryGateway.findByUID(IUID)); // TODO: Make all UIDs integers?
+            budgetTransferData.addItem(IUID, itemRepositoryGateway.findByUID(IUID)); // TODO: Make all UIDs integers?
         }
 
         return budgetTransferData;
@@ -40,19 +45,53 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
 
     @Override
     public List<BudgetTransferData> findAll() {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_ALL, budgetRowMapper);
     }
 
     @Override
     public String save(BudgetTransferData budgetTransferData) {
-        return null;
-    }
-
-    public void update(BudgetTransferData budgetTransferData) { // TODO: remove if save does not need to be split
+        try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_SAVE, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, budgetTransferData.getName());
+                ps.setDouble(2, budgetTransferData.getMaxSpend());
+                return ps;
+            }, keyHolder);
+            return Integer.toString((Integer) Objects.requireNonNull(keyHolder.getKeys()).get("uuid"));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
-    public void deleteById(String UID) {
+    public boolean update(BudgetTransferData budgetTransferData) {
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
+                ps.setString(1, budgetTransferData.getName());
+                ps.setDouble(2, budgetTransferData.getMaxSpend());
+                ps.setArray(3, connection.createArrayOf("integer", budgetTransferData.getItemIUIDs()));
+                ps.setInt(4, Integer.parseInt(budgetTransferData.getBUID()));
+                return ps;
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    @Override
+    public boolean deleteById(String UID) {
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_ID);
+                ps.setInt(1, Integer.parseInt(UID));
+                return ps;
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
