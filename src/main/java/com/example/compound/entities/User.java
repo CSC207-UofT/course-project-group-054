@@ -34,11 +34,11 @@ public class User extends Person implements AccountFeatures {
         this.expenses = new ArrayList<>();
     }
 
-    public String getPassword() { // TODO: Add test in UserTest
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) { // TODO: Add test in UserTest
+    public void setPassword(String password) {
         this.password = password;
     }
 
