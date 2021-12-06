@@ -127,14 +127,6 @@ public class BudgetTest {
     }
 
     @Test
-    public void testRemoveItem() {
-        b.addItem(i1);
-        boolean returnedBoolean = b.removeItem("Carrot");
-        assertNull(b.getItem("Carrot"));
-        assertTrue(returnedBoolean);
-    }
-
-    @Test
     public void testVetoableChangeQuantity() {
         b.addItem(i1);
         PropertyChangeEvent event = new PropertyChangeEvent(i1, "quantity", 1, 5000);
