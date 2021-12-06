@@ -10,7 +10,7 @@ Groups also have budgets. A budget stores a list of items, each of which has a n
 
 ### Changes
 
-- In Phase 0, the ability to store who borrowed/lent what amount was not saved, but now it is. 
+- In Phase 0, the ability to store who borrowed/lent what amount was not saved, but now it is.
 
 - In Phase 0, our app relied solely on the command line. Since then, we have made progress regarding the front end of our app using Spring, HTML, CSS, and Javascript.
 
@@ -24,51 +24,43 @@ Groups also have budgets. A budget stores a list of items, each of which has a n
 
 - We decided to use Spring for our web application, and have created new files and refactored our files and folders to adhere to the Web app design requirements.
 
-- We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all out static front-end (HTML, JavaScript, CSS, etc.) files will be stores in `src/main/resources/public` folder in our project. This is a special folder that Spring uses to server static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
-
-## Accessibility report
-
-...
-
 ## How our project adheres to Clean Architecture
 
-The frameworks and drivers classes, such as the command line or web app, pass in information to our controllers. Our interface adapters do not depend on the views directly; instead, they depend on `InOut` interfaces that are in the interface adapter layer and that the views implement. The controllers in the interface adapters layer convert data from the view into a format that use cases can use, and pass the converted data to the use cases, which work on the entities to perform the appropriate actions. The use cases also interact with gateway interfaces in the use cases layer that database gateway classes in the interface adapter layer implement so that the use cases do not depend on the interface adapter layer or the database itself.
+The frameworks and drivers classes, such as the command line or web app, pass in information to our controllers. Our interface adapters do not depend on the view directly; instead, they depend on `InOut` interfaces that are in the interface adapter layer and that the view implements. The controllers in the interface adapters layer convert data from the view into a format that use cases can use, and pass the converted data to the use cases, which work on the entities to perform the appropriate actions. The use cases also interact with gateway interfaces in the use cases layer that database gateway classes in the interface adapter layer implement so that the use cases do not depend on the interface adapter layer or the database itself.
 
-There are still a few cases where classes in layers use other classes in layers that are not adjacent; for example, our controllers sometimes use entities. We plan to fix this violation by adding new use case classes, such as a `CurrentUserManager` use case that stores the current user so that the controller does not have to store it.
-
-We have not yet created InputBoundary or OutputBoundary interfaces that the use cases or presenters, respectively, implement. We have not yet separated out the controllers from the presenters; that is a task we intend to complete in Phase 2.
+Since Phase 1, we have been fixing cases where classes in layers used other classes in layers that are not adjacent; for example, our controllers sometimes used entities. We fixed this violation by adding new use case classes, such as a `CurrentUserManager` use case that stores the current user so that the controller does not have to store it.
 
 ## How our project is consistent with the SOLID design principles
 
-S - Single Responsibility Principle: The classes in our project generally have a single responsibility. Whether it's managing the entities (use cases), displaying the command line (view), or translating the instructions from the command line (controllers) they have one explicit purpose.
+S - Single Responsibility Principle: The classes in our project generally have a single responsibility. Whether it's managing the entities (use cases), displaying the command line (view), or translating the instructions from the command line (controllers), they have a single explicit purpose.
 
-However, we plan to split up certain long classes, such as Controller.
+O - Open/Closed Principle: Classes in our program are open for extension and closed for modification since they can be subclassed to add additional features without having to change existing code. For example, we can extend our program to use a different kind of database without having to modify use case classes because those use case classes depend not on the repositories but on interfaces that gateways to the databases implement. A gateway for a different kind of database can be injected into the use case classes.
 
-O - Open/Closed Principle: Entities can be modified to include more attributes, such as storing more user information, but modification of our entities is limited due to our use cases depending on different aspects of them.
-
-L - Liskov Substitution Principle: We do not have many subclasses, however the few that we do have don't violate this principle if subclass objects are substituted for superclass objects. For instance, replacing all instances of `Person` with `User` will not break the program.
+L - Liskov Substitution Principle: We do not have many subclasses, however the few that we do have do not violate this principle if subclass objects are substituted for superclass objects. For instance, replacing all instances of `Person` with `User` will not break the program.
 
 I - Interface Segregation: Each of our interfaces is small (has few functions) and has a specific purpose. For example, the `InOut` interface deals with input and output of information between the view and the interface adapters.
 
-D - Dependency Inversion: A future example of this principle would be with our presenter. Our use cases would rely on an output boundary and our presenter would have to implement this boundary.
+D - Dependency Inversion: Higher-level classes do not depend on lower-level classes in our program, and this is possible due to dependency inversion. For example, controllers depend on an interface that the view implements so that controllers (higher-level classes) do not depend on the view (a lower-level class) directly.
 
 ## Code organization
 
-The main packaging strategies we discussed are "package by layer" and "package by feature". We decided to choose the by layer strategy because we already had a close implementation of it from Phase 0, and we felt it was the most clear for our program. Since many of our features work in tandem, we realized that grouping things by features would be difficult and suboptimal for this program. To a lesser extent we considered the "Inside/Outside" pattern because one can see creating and managing expenses as orders however we thought that the large amount of methods we would need would turn the classes into bloaters.
+The main packaging strategies we discussed are "package by layer" and "package by feature". We decided to choose the by layer strategy because we already had a close implementation of it from Phase 0, and we felt it was the most clear for our program. Since many of our features work in tandem, we realized that grouping things by features would be difficult and suboptimal for this program. To a lesser extent we considered the "Inside/Outside" pattern because one can see creating and managing expenses as orders, but we thought that the large amount of methods we would need would turn the classes into bloaters.
 
 ## Design patterns
 
-- We implemented the Observer design pattern for `Budget` and `Item` because a `Budget` object needs to be aware of changes to the attributes of the `Item`s it stores to satisfy certain constraints (for example, preventing an increase to an `Item`'s cost or quantity that would result in its `Budget`'s spending limit being exceeded). The Budget is the Observer (implementing the `VetoableChangeListener` and `PropertyChangeListener` interfaces) and the `Item`s are the Observables (having `VetoableChangeSupport` and `PropertyChangeSupport` fields that allow an `Item` to notify its Observer). When one of the attributes of an `Item` is changed, either the `firePropertyChange` or the `fireVetoableChange` method is called to notify the `Budget`, which then takes an action in the `vetoableChange` or `propertyChange` method.
+- We [implemented the Observer design pattern for `Budget` and `Item`](https://github.com/CSC207-UofT/course-project-group-054/pull/19) because a `Budget` object needs to be aware of changes to the attributes of the `Item`s it stores to satisfy certain constraints (for example, preventing an increase to an `Item`'s cost or quantity that would result in its `Budget`'s spending limit being exceeded). The Budget is the Observer (implementing the `VetoableChangeListener` and `PropertyChangeListener` interfaces) and the `Item`s are the Observables (having `VetoableChangeSupport` and `PropertyChangeSupport` fields that allow an `Item` to notify its Observer). When one of the attributes of an `Item` is changed, either the `firePropertyChange` or the `fireVetoableChange` method is called to notify the `Budget`, which then takes an action in the `vetoableChange` or `propertyChange` method.
 
-- We implemented the Strategy design pattern to eliminate the code smell associated with the switch statement in `Budget`'s `vetoableChange` method. Both the Context and the Client are the `Budget` class; the Strategy is the `VetoableChangeResponseStrategy` interface; and the `ConcreteStrategies` are the `CostVetoableChangeResponseStrategy` and `QuantityVetoableChangeResponseStrategy` classes. `Budget`'s `vetoableChange` method still has a conditional but now creates strategy classes, and a conditional for choosing which subclass to create (like in the Simple Factory design pattern) is not a code smell. The `vetoableChange` method deals with two algorithms for responding to a vetoable change and a single `Budget` object should be able to use both algorithms, depending on which `Item` attribute is changed, so there cannot be two subclasses of `Budget` using only one algorithm each. Thus, we cannot use the Factory Method design pattern here.
+- We [implemented the Strategy design pattern](https://github.com/CSC207-UofT/course-project-group-054/pull/30) to eliminate the code smell associated with the switch statement in `Budget`'s `vetoableChange` method. Both the Context and the Client are the `Budget` class; the Strategy is the `VetoableChangeResponseStrategy` interface; and the `ConcreteStrategies` are the `CostVetoableChangeResponseStrategy` and `QuantityVetoableChangeResponseStrategy` classes. `Budget`'s `vetoableChange` method still has a conditional but now creates strategy classes, and a conditional for choosing which subclass to create (like in the Simple Factory design pattern) is not a code smell. The `vetoableChange` method deals with two algorithms for responding to a vetoable change and a single `Budget` object should be able to use both algorithms, depending on which `Item` attribute is changed, so there cannot be two subclasses of `Budget` using only one algorithm each. Thus, we cannot use the Factory Method design pattern here.
 
 ## Use of GitHub features
 
 ### Issues
 
-### Actions
+We have used GitHub issues, such as [Issue #17](https://github.com/CSC207-UofT/course-project-group-054/issues/17) and [Issue #20](https://github.com/CSC207-UofT/course-project-group-054/issues/20).
 
 ### Pull Requests
+
+We have often made use of GitHub pull requests. Examples are linked to from the “Design patterns” and “Member progress and plans” sections of this document.
 
 ## Code style and documentation
 
@@ -80,27 +72,16 @@ Most methods in entity and use case classes are tested.
 
 ## Refactoring
 
+We [refactored the `Budget` class](https://github.com/CSC207-UofT/course-project-group-054/pull/30) to eliminate the code smell associated with the switch statement, as described previously.
+
+We also refactored for Clean Architecture (for example, [here](https://github.com/CSC207-UofT/course-project-group-054/pull/38) and [here](https://github.com/CSC207-UofT/course-project-group-054/pull/34)), and completed many TODOs left over from Phase 1 (for example, [here](https://github.com/CSC207-UofT/course-project-group-054/pull/40)), though there are still some TODOs yet to be done because our project is a work in progress.
+
 ## Functionality
 
 ### Persistence
 
-## Progress report
+We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all our static front-end (HTML, JavaScript, CSS, etc.) files will be stored in the `src/main/resources/public` folder in our project. This is a special folder that Spring uses to serve static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
 
-### Open questions
+## Accessibility report
 
-- Is there any alternative to having a switch statement in `Budget`'s `vetoableChange` method? If not, is it a code smell in this context? (Note: we will implement the advice we received in Phase 2.)
-- Some parts of the program now use the database, while others do not use the database yet. How can the database be integrated with parts of the program with which it has not been integrated yet? We plan to find an answer to this question in Phase 2.
-
-### What has worked well so far with our design
-
-- Our classes are open for extension and closed for modification. We can easily add functionality but fundamentally changing a class may prove difficult.
-- Our design is primed for an extension into a strong integration with a database.
-- Our design allows us to test different aspects of our code more easily. (Since it is well organized)
-
-### Member progress and plans
-
-- **Rohan** has worked on the backend. Mainly he worked with the Spring Boot Framework and Postgresql to implement a RESTful API with a PSQL database for storing and retrieving data. He set up the database and added schema for user, groups, and expenses tables. He used JPA and JDBC to make SQL queries from within Spring Boot.
-- **Wasee** has worked on completing the implementation of various features most notably expenses. Wasee has also helped make the project adhere to clean architecture by refactoring many methods. Wasee has answered many questions for the design document. He plans on making a friends system once the database is fully operational.
-- **Subhasis** has worked on integrating the `Budget` and `Item` classes into the rest of the program by means of use cases and controllers and on refactoring for making the program adhere to Clean Architecture. He also contributed to the design document. He plans to work on enabling the front end to use the `Budget` use cases.
-- **Lingyun** has worked on completing the implementation of the features on updating the profiles of the user, and managing the groups in the Controller, and use cases (`GroupManager`, `UserManager`). Also, he helps to make the program adhere to Clean Architecture by refactoring methods/names.
-- **Mohamed** has worked on the frontend. He has also worked on writing some test code. He plans on integrating the frontend with the backend, and also plans on making the frontend more modern and visually-appealing.
+...
