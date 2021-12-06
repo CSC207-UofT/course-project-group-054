@@ -37,7 +37,7 @@ public class GroupController {
         this.expenseManager = expenseManager;
     }
 
-    public static String[] groupActions = {
+    public static final String[] groupActions = {
             "Edit Group Name",
             "Add People to Group",
             "Remove People",

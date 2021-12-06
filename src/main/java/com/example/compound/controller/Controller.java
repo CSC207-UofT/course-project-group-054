@@ -15,15 +15,15 @@ import com.example.compound.use_cases.transfer_data.ItemTransferData;
  */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
-    public static String appName = "Money Manager";
+    public static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final RepositoryGatewayI<Group> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
-    public RepositoryGateway repositoryGateway;
-    public GroupManager groupManager;
-    public UserManager userManager;
-    public ExpenseManager expenseManager;
-    public CurrentUserManager currentUserManager;
+    public final RepositoryGateway repositoryGateway;
+    public final GroupManager groupManager;
+    public final UserManager userManager;
+    public final ExpenseManager expenseManager;
+    public final CurrentUserManager currentUserManager;
 
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
                       RepositoryGatewayI<Group> groupRepository,
@@ -39,7 +39,7 @@ public class Controller {
         this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
     }
 
-    public static String[] actions = {
+    public static final String[] actions = {
             "Add an expense",
             "Show groups",
             "Check balance",
@@ -51,14 +51,14 @@ public class Controller {
             "Log out"
     };
 
-    public static String[] profileActions = {
+    public static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
 
-    public static String[] mainMenuOptions = {
+    public static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"

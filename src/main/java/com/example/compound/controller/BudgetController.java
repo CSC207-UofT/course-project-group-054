@@ -1,8 +1,6 @@
 package com.example.compound.controller;
 
-import com.example.compound.entities.Budget;
 import com.example.compound.entities.Group;
-import com.example.compound.entities.Item;
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.CurrentBudgetManager;

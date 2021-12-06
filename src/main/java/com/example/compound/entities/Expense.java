@@ -68,7 +68,7 @@ public class Expense {
         this.whoBorrowed.replace(p, amount - amountPaid);
     }
 
-    public void settleExpenseLent(Person p, Double amountPaid) {
+    public void settleExpenseLent(Person p, Double amountPaid) { // TODO: Add test
         this.amount -= amountPaid;
         Double amount = this.whoPaid.get(p);
         if (amount - amountPaid < 0) {

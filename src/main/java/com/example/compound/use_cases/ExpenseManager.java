@@ -12,7 +12,7 @@ import java.util.Objects;
 This file represents the Expense Class manager. The entity Expense is changed here.
  */
 public class ExpenseManager {
-    public RepositoryGateway repositoryGateway;
+    public final RepositoryGateway repositoryGateway;
 
     public ExpenseManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;

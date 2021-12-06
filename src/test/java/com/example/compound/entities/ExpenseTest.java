@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ExpenseTest {
     Expense e;
@@ -39,8 +37,14 @@ public class ExpenseTest {
     }
 
     @Test
-    public void TestSettleExpense() {
-        e.settleExpense(u, 10.05, true);
+    public void TestSettleExpenseBorrowed() {
+        e.settleExpenseBorrowed(u, 10.05);
+        Assertions.assertEquals(10.01, e.getAmount(), 0);
+    }
+
+    @Test
+    public void TestSettleExpenseLent() {
+        e.settleExpenseLent(u, 10.05);
         Assertions.assertEquals(10.01, e.getAmount(), 0);
     }
 }

@@ -7,11 +7,11 @@ import java.util.*;
  */
 public class Group {
     protected String groupName;
-    protected List<String> groupMembers;
-    protected List<Expense> expenseList;
-    protected String description;
+    protected final List<String> groupMembers;
+    protected final List<Expense> expenseList;
+    protected final String description;
     protected String GUID;
-    protected List<Budget> budgets;
+    protected final List<Budget> budgets;
 
     /**
      * Construct a group with the given name, list of members, list of expenses, and description.
