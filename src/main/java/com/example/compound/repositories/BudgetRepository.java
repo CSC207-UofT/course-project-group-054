@@ -5,8 +5,13 @@ import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> {
     private final JdbcTemplate jdbcTemplate;
