@@ -29,10 +29,10 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     // TODO: Move to constructor?
-    public RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
+    public final RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
 //        this.repositoryGateway = repositoryGateway;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
-    public UserManager userManager = new UserManager(this.repositoryGateway);
+    public final UserManager userManager = new UserManager(this.repositoryGateway);
     public ExpenseManager expenseManager = new ExpenseManager(this.repositoryGateway);
 
     @GetMapping("/users")

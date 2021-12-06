@@ -1,7 +1,5 @@
 package com.example.compound.entities;
 
-import com.example.compound.entities.Budget;
-
 import java.util.*;
 
 /**
@@ -9,14 +7,14 @@ import java.util.*;
  */
 public class Group {
     protected String groupName;
-    protected List<String> groupMembers;
-    protected List<Expense> expenseList;
-    protected String description;
+    protected final List<String> groupMembers;
+    protected final List<Expense> expenseList;
+    protected final String description;
     protected String GUID;
-    protected List<Budget> budgets;
+    protected final List<Budget> budgets;
 
     /**
-     * Construct a group with groupName, groupMembers, expenseList, and description.
+     * Construct a group with the given name, list of members, list of expenses, and description.
      * @param groupName the name of the group
      * @param groupMembers the members in the group
      * @param expenseList the list of expenses in the group
@@ -27,7 +25,7 @@ public class Group {
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
         this.description = description;
-        this.GUID = "";
+        this.GUID = ""; // TODO
         this.budgets = new ArrayList<>();
     }
 
@@ -75,14 +73,14 @@ public class Group {
         this.budgets.add(budget);
     }
 
-    public Budget getBudget(String BUID) {
-        for (Budget budget : budgets) {
-            if (budget.getBUID().equals(BUID)) {
-                return budget;
-            }
-        }
-        return null;
-    }
+//    public Budget getBudget(String BUID) {
+//        for (Budget budget : budgets) {
+//            if (budget.getBUID().equals(BUID)) {
+//                return budget;
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Budget> getBudgets() {
         return this.budgets;

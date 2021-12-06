@@ -1,6 +1,5 @@
 package com.example.compound.repositories;
 
-import com.example.compound.entities.Budget;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 

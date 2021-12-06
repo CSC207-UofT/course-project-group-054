@@ -9,19 +9,19 @@ import java.util.*;
 The class representing the data.
  */
 public class Data implements RepositoryGateway {
-    public List<User> users = new ArrayList<>();
-    public List<Expense> expenses = new ArrayList<>();
-    public List<Group> groups = new ArrayList<>();
-    public List<Budget> budgets = new ArrayList<>();
-    public List<Item> items = new ArrayList<>();
+    public final List<User> users = new ArrayList<>();
+    public final List<Expense> expenses = new ArrayList<>();
+    public final List<Group> groups = new ArrayList<>();
+    public final List<Budget> budgets = new ArrayList<>();
+    public final List<Item> items = new ArrayList<>();
     private int groupCounter = 0;
     private int budgetCounter = 0;
     private int itemCounter = 0;
 
     public void initializeData() {
         // Creating dummy users
-        users.add(new User("Rohan", 100.0, "rohan.tinna@mail.utoronto.ca", "password"));
-        users.add(new User("Johny", 100.0, "johny@example.com", "password2"));
+        users.add(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca", "Rohan", 100.0, "password"));
+        users.add(new User(1, "Johny", "johny@example.com", "Johny", 100.0, "password2"));
 
         // Creating dummy groups
         addGroup(

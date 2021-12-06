@@ -127,12 +127,11 @@ public class BudgetTest {
     }
 
     @Test
-    public void testGetPercentages() {
+    public void testRemoveItem() {
         b.addItem(i1);
-        HashMap<String, Double> percentages = b.getPercentages();
-        HashMap<String, Double> expected = new HashMap<>();
-        expected.put("Carrot", 1.0);
-        assertEquals(expected, percentages);
+        boolean returnedBoolean = b.removeItem("Carrot");
+        assertNull(b.getItem("Carrot"));
+        assertTrue(returnedBoolean);
     }
 
     @Test

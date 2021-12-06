@@ -90,7 +90,7 @@ public class Budget implements VetoableChangeListener {
         if ((this.getTotalCost() + item.getQuantity() * item.getCost() <= this.maxSpend)
                 && (getItemByIUID(item.getIUID()) == null) && (getItemByName(item.getName()) == null)) {
             budget.put(item.getIUID(), item);
-            item.addObserver(this); // TODO: Should this be in the Budget class?
+            item.addObserver(this);
             return true;
         } else {
             return false;
@@ -163,28 +163,6 @@ public class Budget implements VetoableChangeListener {
             totalCost += budget.get(itemIUID).getCost() * budget.get(itemIUID).getQuantity();
         }
         return totalCost;
-    }
-
-    /**
-     * Return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
-     * budget.
-     * @return a mapping from item name to the cost of the item as a percentage of the total cost of all items in this
-     *         budget, or null if getTotalCost returns 0
-     */
-    public HashMap<String, Double> getPercentages() {
-        HashMap<String, Double> percentages = new HashMap<>();
-        double totalCost = getTotalCost();
-
-        if (totalCost == 0) {
-            return null;
-        }
-
-        for (String itemIUID : budget.keySet()) {
-            Item item = budget.get(itemIUID);
-            double itemCost = item.getCost() * item.getQuantity();
-            percentages.put(item.getName(), itemCost / totalCost);
-        }
-        return percentages;
     }
 
     /**

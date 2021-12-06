@@ -1,7 +1,5 @@
 package com.example.compound.use_cases;
 
-import com.example.compound.controller.BudgetController;
-import com.example.compound.controller.InOut;
 import com.example.compound.entities.Expense;
 import com.example.compound.entities.Group;
 import com.example.compound.entities.Person;
