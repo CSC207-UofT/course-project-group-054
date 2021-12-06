@@ -4,25 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Added GroupController, GroupService, GroupServiceImpl files.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/TestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/error.html" afterDir="false" />
+    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Fixed errors and typing to get the API to work.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compound_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/compound_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +195,7 @@
       <workItem from="1638218227644" duration="719000" />
       <workItem from="1638218992957" duration="433000" />
       <workItem from="1638739207213" duration="4131000" />
-      <workItem from="1638754838769" duration="2034000" />
+      <workItem from="1638754838769" duration="3139000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -247,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638216925323</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed errors and typing to get the API to work.">
+      <created>1638757137601</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1638757137602</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +262,8 @@
     <MESSAGE value="Added User support for Databases" />
     <MESSAGE value="Added API path (POST) to create user using JSON Request Body." />
     <MESSAGE value="Added GroupController, GroupService, GroupServiceImpl files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added GroupController, GroupService, GroupServiceImpl files." />
+    <MESSAGE value="Fixed errors and typing to get the API to work." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed errors and typing to get the API to work." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

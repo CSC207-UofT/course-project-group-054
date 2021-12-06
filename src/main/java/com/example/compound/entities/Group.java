@@ -14,16 +14,16 @@ import java.util.*;
  */
 //@Entity
 public class Group {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected String GUID;
 
     protected String groupName;
 
-//    @Type(type = "list-array")
-    protected List<String> groupMembers;
+    @Type(type = "list-array")
+    protected List<Integer> groupMembers;
 
-//    @Type(type = "list-array")
+    @Type(type = "list-array")
     protected List<Expense> expenseList;
 
     protected String description;
@@ -38,14 +38,14 @@ public class Group {
      * @param expenseList the list of expenses in the group
      * @param description the description of the group
      */
-    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description) {
-        this.groupName = groupName;
-        this.groupMembers = groupMembers;
-        this.expenseList = expenseList;
-        this.description = description;
-        this.GUID = "";
-        this.budgets = new ArrayList<>();
-    }
+//    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description) {
+//        this.groupName = groupName;
+//        this.groupMembers = groupMembers;
+//        this.expenseList = expenseList;
+//        this.description = description;
+//        this.GUID = "";
+//        this.budgets = new ArrayList<>();
+//    }
 
     public String getGUID() {
         return this.GUID;
@@ -109,4 +109,11 @@ public class Group {
     }
 
     public Group() {}
+
+
+    public void setData(String name, String description, List<Integer> members, List<Integer> expenses) {
+        this.groupName = name;
+        this.description = description;
+        this.groupMembers = members;
+    }
 }

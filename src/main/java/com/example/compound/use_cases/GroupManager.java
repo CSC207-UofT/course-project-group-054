@@ -160,4 +160,11 @@ public class GroupManager {
         return null;
     }
 
+
+    public Group createGroupObject(String name, String description, List<Integer> members, List<Integer> expenses) {
+        Group group = new Group();
+        group.setData(name, description, members, expenses);
+        return group;
+    }
+
 }
