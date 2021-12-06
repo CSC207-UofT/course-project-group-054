@@ -4,14 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Added API path (POST) to create user using JSON Request Body.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/helloworld.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/index.html" afterDir="false" />
+    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Added GroupController, GroupService, GroupServiceImpl files.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepositoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/error.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compound_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/compound_db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" afterDir="false" />
@@ -68,14 +76,11 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="JPA Inspector" value="true" />
+        <entry key="JPA Inspector" value="false" />
         <entry key="JPA Palette" value="false" />
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="20brpUz1honTnTAoUao6hDdP7gf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -201,6 +206,11 @@
       <workItem from="1637071592617" duration="284000" />
       <workItem from="1637438332101" duration="2145000" />
       <workItem from="1638215410777" duration="1123000" />
+      <workItem from="1638216873797" duration="1225000" />
+      <workItem from="1638218227644" duration="719000" />
+      <workItem from="1638218992957" duration="433000" />
+      <workItem from="1638739207213" duration="4131000" />
+      <workItem from="1638754838769" duration="2034000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -230,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636955972149</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added GroupController, GroupService, GroupServiceImpl files.">
+      <created>1638216925323</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638216925323</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,7 +269,8 @@
     <MESSAGE value="Migrated project to Maven for Spring use." />
     <MESSAGE value="Added User support for Databases" />
     <MESSAGE value="Added API path (POST) to create user using JSON Request Body." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added API path (POST) to create user using JSON Request Body." />
+    <MESSAGE value="Added GroupController, GroupService, GroupServiceImpl files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added GroupController, GroupService, GroupServiceImpl files." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

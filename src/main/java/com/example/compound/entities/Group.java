@@ -1,18 +1,34 @@
 package com.example.compound.entities;
 
 import com.example.compound.entities.Budget;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.*;
 
 /**
  * Below is the abstract Group class which represents the origin of our program.
  */
+//@Entity
 public class Group {
-    protected String groupName;
-    protected List<String> groupMembers;
-    protected List<Expense> expenseList;
-    protected String description;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     protected String GUID;
+
+    protected String groupName;
+
+//    @Type(type = "list-array")
+    protected List<String> groupMembers;
+
+//    @Type(type = "list-array")
+    protected List<Expense> expenseList;
+
+    protected String description;
+
+//    @Type(type = "list-array")
     protected List<Budget> budgets;
 
     /**
@@ -91,4 +107,6 @@ public class Group {
     public boolean removeBudget(String BUID) {
         return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
     }
+
+    public Group() {}
 }

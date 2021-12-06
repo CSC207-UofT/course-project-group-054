@@ -1,6 +1,10 @@
 package com.example.compound.services;
 
 import com.example.compound.entities.Group;
+//import com.example.compound.repositories.GroupRepository;
+import com.example.compound.use_cases.gateways.GroupRepositoryGateway;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +12,18 @@ import java.util.List;
 @Service
 public class GroupServiceImpl implements GroupService {
 
+//    @Qualifier("groupRepositoryImpl")
+//    @Autowired
+//    GroupRepository repository;
+
     @Override
-    public Group newGroup() {
-        return null;
+    public int newGroup(String name, String description, List<String> members) {
+        try {
+//            return repository.addGroupToDatabase(name, description, members);
+//            repository.save(new Group());
+            return 1;
+        } catch (Exception ignored) {}
+        return 0;
     }
 
     @Override
