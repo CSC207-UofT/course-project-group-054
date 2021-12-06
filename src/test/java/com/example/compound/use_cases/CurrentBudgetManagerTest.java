@@ -8,6 +8,7 @@ import com.example.compound.repositories.ItemRepository;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
@@ -21,11 +22,11 @@ import java.util.ArrayList;
  */
 public class CurrentBudgetManagerTest {
     RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
-    RepositoryGatewayI<Group> groupRepositoryGateway;
+    RepositoryGatewayI<GroupTransferData> groupRepositoryGateway;
     RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
 //    RepositoryGateway repositoryGateway;
     BudgetManager budgetManager;
-    Group g;
+    GroupTransferData g;
     String BUID;
     CurrentBudgetManager currentBudgetManager;
 
@@ -36,7 +37,7 @@ public class CurrentBudgetManagerTest {
         itemRepositoryGateway = new ItemRepository();
 //        repositoryGateway = new Data();
 
-        g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
+        g = new GroupTransferData("A", new ArrayList<>(), new ArrayList<>(), "New group");
 
         budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
 //        budgetManager = new BudgetManager(repositoryGateway);

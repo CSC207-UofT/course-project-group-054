@@ -8,6 +8,7 @@ import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 /**
@@ -17,7 +18,7 @@ public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
     public static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<Group> groupRepository;
+    private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     public final RepositoryGateway repositoryGateway;
     public final GroupManager groupManager;
@@ -26,7 +27,7 @@ public class Controller {
     public final CurrentUserManager currentUserManager;
 
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      RepositoryGatewayI<Group> groupRepository,
+                      RepositoryGatewayI<GroupTransferData> groupRepository,
                       RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
@@ -72,8 +73,8 @@ public class Controller {
                 // Login
                 String email = inOut.requestInput("your Email");
                 // set the current user
-                currentUserManager.setCurrentUser(userManager.getUser(email));
-                if (this.currentUserManager.getCurrentUser() != null) {
+                if (userManager.getUser(email) != null) {
+                    this.currentUserManager.setCurrentUser(userManager.getUser(email));
                     authenticateUser(this.currentUserManager.getCurrentUser() );
                     inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
@@ -140,7 +141,7 @@ public class Controller {
                 case 6 -> {
                     GroupController groupController = new GroupController(repositoryGateway,
                             budgetRepository, groupRepository, itemRepository,
-                            currentUserManager.getCurrentUser(), expenseManager);
+                            currentUserManager, expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses

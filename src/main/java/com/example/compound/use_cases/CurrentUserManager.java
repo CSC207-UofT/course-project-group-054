@@ -38,7 +38,7 @@ public class CurrentUserManager {
      * This is an overloaded function.
      * @param u the specified user.
      */
-    public void setCurrentUser(User u) {
+    public void setCurrentUser(User u){
         String id = String.valueOf(u.getUUID());
         this.currentUser = this.repositoryGateway.findByUUID(id);
     }

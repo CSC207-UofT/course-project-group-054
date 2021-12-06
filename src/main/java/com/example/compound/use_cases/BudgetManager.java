@@ -3,6 +3,7 @@ package com.example.compound.use_cases;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
 
@@ -12,12 +13,12 @@ import java.util.Objects;
 
 public class BudgetManager {
     private final RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
-    private final RepositoryGatewayI<Group> groupRepositoryGateway;
+    private final RepositoryGatewayI<GroupTransferData> groupRepositoryGateway;
     private final RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
 //    private final RepositoryGateway repositoryGateway;
 
     public BudgetManager(RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway,
-                         RepositoryGatewayI<Group> groupRepositoryGateway,
+                         RepositoryGatewayI<GroupTransferData> groupRepositoryGateway,
                          RepositoryGatewayI<ItemTransferData> itemRepositoryGateway
 //                         RepositoryGateway repositoryGateway
     ) {
@@ -35,7 +36,7 @@ public class BudgetManager {
      * @return whether the Budget was added successfully
      */
     public boolean create(String GUID, String name, double maxSpend) {
-        Group group = this.groupRepositoryGateway.findByUID(GUID);
+        GroupTransferData group = this.groupRepositoryGateway.findByUID(GUID);
 //        Group group = this.repositoryGateway.findByGUID(GUID);
         if (group == null) {
             return false;
@@ -239,7 +240,7 @@ public class BudgetManager {
      *         group.
      */
     public boolean remove(String GUID, String BUID) {
-        Group group = this.groupRepositoryGateway.findByUID(GUID);
+        GroupTransferData group = this.groupRepositoryGateway.findByUID(GUID);
 //        Group group = this.repositoryGateway.findByGUID(GUID);
         if (group == null) {
             return false;
@@ -268,7 +269,7 @@ public class BudgetManager {
      */
     public boolean addExpensesToGroup(String GUID, String BUID, ExpenseManager expenseManager) {
 //        Group group = this.repositoryGateway.findByGUID(GUID);
-        Group group = this.groupRepositoryGateway.findByUID(GUID);
+        GroupTransferData group = this.groupRepositoryGateway.findByUID(GUID);
         if (group == null) {
             return false;
         }
@@ -294,7 +295,7 @@ public class BudgetManager {
      *         group with the given GUID
      */
     public List<String> getBudgetNameList(String GUID) {
-        Group group = this.groupRepositoryGateway.findByUID(GUID);
+        GroupTransferData group = this.groupRepositoryGateway.findByUID(GUID);
 //        Group group = this.repositoryGateway.findByGUID(GUID);
         if (group == null) {
             return null;

@@ -6,6 +6,7 @@ import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.CurrentBudgetManager;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
 
@@ -34,7 +35,7 @@ public class BudgetController {
 
     public BudgetController(String GUID,
                             RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                            RepositoryGatewayI<Group> groupRepository,
+                            RepositoryGatewayI<GroupTransferData> groupRepository,
                             RepositoryGatewayI<ItemTransferData> itemRepository,
 //                            RepositoryGateway repositoryGateway,
                             ExpenseManager expenseManager) {
