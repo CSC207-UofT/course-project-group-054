@@ -1,6 +1,5 @@
 package com.example.compound.controller;
 
-import com.example.compound.entities.Group;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
