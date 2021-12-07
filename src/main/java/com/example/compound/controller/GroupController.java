@@ -1,9 +1,7 @@
 package com.example.compound.controller;
 
-import com.example.compound.entities.Group;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.entities.User;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.GroupTransferData;
@@ -15,9 +13,7 @@ import java.util.List;
 public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
-    private final User currentUser;
     private final CurrentUserManager currentUserManager;
-    private final RepositoryGateway repositoryGateway;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
@@ -31,7 +27,6 @@ public class GroupController {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
         this.groupRepository = groupRepository;
         this.itemRepository = itemRepository;
-        this.repositoryGateway = repositoryGateway;
         this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
         this.groupManager = new GroupManager(repositoryGateway);
         this.currentUserManager = currentUserManager;

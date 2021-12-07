@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
-import com.example.compound.entities.Group;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
@@ -40,7 +39,7 @@ public class Controller {
         this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
     }
 
-    public static final String[] actions = {
+    private static final String[] actions = {
             "Add an expense",
             "Show groups",
             "Check balance",
@@ -52,14 +51,14 @@ public class Controller {
             "Log out"
     };
 
-    public static final String[] profileActions = {
+    private static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
 
-    public static final String[] mainMenuOptions = {
+    private static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"

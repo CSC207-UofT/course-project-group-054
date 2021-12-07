@@ -23,7 +23,7 @@ public class GroupRepository implements RepositoryGatewayI<GroupTransferData> {
     }
 
     @Override
-    public boolean update(Group group) {
+    public boolean update(GroupTransferData groupTransferData) {
         return false;
     }
 
