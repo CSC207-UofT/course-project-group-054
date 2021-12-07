@@ -2,7 +2,7 @@
 name: 'Label stale issues and PR'
 on:
   schedule:
-    - cron: '0 17 * * *'
+    - cron: '30 17 * * *'
 
 jobs:
   stale:
