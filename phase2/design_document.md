@@ -62,6 +62,12 @@ We have used GitHub issues, such as [Issue #17](https://github.com/CSC207-UofT/c
 
 We have often made use of GitHub pull requests. Examples are linked to from the “Design patterns” and “Member progress and plans” sections of this document.
 
+### Actions
+
+We have used two GitHub actions in workflows in the `.github/workflows` folder:
+- `automerge`: As we have configured it, [this action](https://github.com/marketplace/actions/merge-pull-requests-automerge-action) automatically merges pull requests that have at least one approval and that have the label `automerge` and then deletes automerged branches.
+- `stale`: As we have configured it, [this action](https://github.com/marketplace/actions/close-stale-issues) labels issues and pull requests that have been open 1 day with no activity as `stale`.
+
 ## Code style and documentation
 
 There should be no warnings when the code is opened in IntelliJ and classes and methods have Javadoc.
