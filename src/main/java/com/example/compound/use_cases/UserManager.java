@@ -20,7 +20,7 @@ public class UserManager {
         lst.append("---------------------------------\n");
         int counter = 0;
 
-        for (String expenseUID: user.expenses) {
+        for (String expenseUID: user.getExpenses()) {
             try {
                 for (Expense expense: repositoryGateway.getExpenses()) {
                     if (expense.getEUID().equals(expenseUID)) {
@@ -39,9 +39,8 @@ public class UserManager {
     }
 
     /**
-     * Get the user based off the email provided.
-     *
-     * @param email - email of the user.
+     * Get the user from the email provided.
+     * @param email the email of the user.
      * @return The user associated with the email if it exists in the databse, null otherwise.
      */
     public User getUser(String email) {

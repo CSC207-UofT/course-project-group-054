@@ -6,6 +6,7 @@ import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.entities.User;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 import java.util.ArrayList;
@@ -15,29 +16,29 @@ public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
     private final User currentUser;
+    private final CurrentUserManager currentUserManager;
     private final RepositoryGateway repositoryGateway;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<Group> groupRepository;
+    private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
 
     public GroupController(RepositoryGateway repositoryGateway,
                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                           RepositoryGatewayI<Group> groupRepository,
+                           RepositoryGatewayI<GroupTransferData> groupRepository,
                            RepositoryGatewayI<ItemTransferData> itemRepository,
-                           User currentUser, ExpenseManager expenseManager) {
+                           CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
         this.groupRepository = groupRepository;
         this.itemRepository = itemRepository;
         this.repositoryGateway = repositoryGateway;
         this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
         this.groupManager = new GroupManager(repositoryGateway);
-        this.currentUser = currentUser; //TODO: this currentUser should be removed when the currentUser is fixed in
-                                        // the main controller.
+        this.currentUserManager = currentUserManager;
         this.expenseManager = expenseManager;
     }
 
-    public static String[] groupActions = {
+    public static final String[] groupActions = {
             "Edit Group Name",
             "Add People to Group",
             "Remove People",
@@ -56,20 +57,20 @@ public class GroupController {
     public void updateGroup(InOut inOut) {
         boolean back = false;
         while(!back) {
-            StringBuilder lst = groupManager.showListOfGroup(currentUser);
+            StringBuilder lst = groupManager.showListOfGroup(currentUserManager.getCurrentUser());
             inOut.sendOutput(lst);
             if (lst.charAt(0) == 'Y') {
                 break;
             }
             inOut.sendOutput("Please select the group you wish to edit.");
             String groupName = inOut.getInput();
-            if (!groupManager.getListOfGroup(currentUser).contains(groupName)){
+            if (!groupManager.getListOfGroup(currentUserManager.getCurrentUser()).contains(groupName)){
                 inOut.sendOutput("Please enter a valid group name.\n");
                 break;
             }
             String GUID = groupManager.getGUIDFromName(groupName);
             currentGroupManager.setCurrentGroup(GUID);
-            int inputG = inOut.getActionView(groupActions);
+            int inputG = inOut.getOptionView(groupActions);
             back = manageGroup(inOut, inputG);
         }
 
@@ -130,8 +131,8 @@ public class GroupController {
                 }
                 inOut.sendOutput("Note that invalid name would be automatically ignored.");
                 List<String> people = addRemovePeople(inOut, "remove");
-                if (people.contains(currentUser.getName())){
-                    people.remove(currentUser.getName());
+                if (people.contains(currentUserManager.getCurrentUser().getName())){
+                    people.remove(currentUserManager.getCurrentUser().getName());
                     inOut.sendOutput("You should leave or delete the group instead.");
                 }
                 for (String p: people) {
@@ -144,7 +145,8 @@ public class GroupController {
             case 4 -> inOut.sendOutput(this.groupManager.showGroupMembers(currentGroupManager.getCurrentGroupUID()));
                         //View GroupMembers
             case 5 -> //TODO: Need to update the balance of the current user.
-                    GroupManager.removeMember(currentGroupManager.getCurrentGroup(), currentUser.getEmail()); //Leave Group
+                    GroupManager.removeMember(currentGroupManager.getCurrentGroup(),
+                            currentUserManager.getCurrentUser().getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
                     this.groupManager.removeGroup(currentGroupManager.getCurrentGroupUID()); //Delete Group
             case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(),

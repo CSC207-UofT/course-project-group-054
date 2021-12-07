@@ -7,6 +7,7 @@ import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
@@ -19,12 +20,12 @@ import java.util.ArrayList;
  */
 public class BudgetManagerTest {
     RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
-    RepositoryGatewayI<Group> groupRepositoryGateway;
+    RepositoryGatewayI<GroupTransferData> groupRepositoryGateway;
     RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
     BudgetManager budgetManager;
     ExpenseManager expenseManager;
     RepositoryGateway repositoryGateway; // TODO: Remove this when ExpenseManager uses an ExpenseRepositoryGateway
-    Group g;
+    GroupTransferData g;
     String BUID;
 
     @Before
@@ -35,7 +36,7 @@ public class BudgetManagerTest {
         groupRepositoryGateway = new GroupRepository();
         repositoryGateway = new Data();
 
-        g = new Group("A", new ArrayList<>(), new ArrayList<>(), "New group");
+        g = new GroupTransferData("A", new ArrayList<>(), new ArrayList<>(), "New group");
 
         budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
 //        budgetManager = new BudgetManager(repositoryGateway);

@@ -127,15 +127,6 @@ public class BudgetTest {
     }
 
     @Test
-    public void testGetPercentages() {
-        b.addItem(i1);
-        HashMap<String, Double> percentages = b.getPercentages();
-        HashMap<String, Double> expected = new HashMap<>();
-        expected.put("Carrot", 1.0);
-        assertEquals(expected, percentages);
-    }
-
-    @Test
     public void testVetoableChangeQuantity() {
         b.addItem(i1);
         PropertyChangeEvent event = new PropertyChangeEvent(i1, "quantity", 1, 5000);

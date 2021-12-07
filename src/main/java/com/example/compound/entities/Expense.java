@@ -5,31 +5,17 @@ import java.util.*;
 import com.example.compound.data.*;
 
 /*
- * Below is the Expense class which represents the origin of our program.
+ * An expense, which is associated with a cost and a mapping between users and the amounts of money owed by those users.
  */
 public class Expense {
     private final String EUID;
-
     private final String title;
     private double amount;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Map<Person, Double> getWhoPaid() {
-        return whoPaid;
-    }
-
-    public Map<Person, Double> getWhoBorrowed() {
-        return whoBorrowed;
-    }
-
     private final Map<Person, Double> whoPaid;
     private final Map<Person, Double> whoBorrowed;
 
     /**
-     * Construct Expense, with title, cost, payers, note, and current time
+     * Construct a new Expense with the given title, cost, and payers.
      * @param title the title of the Expense
      * @param amount the cost of the Expense
      * @param whoPaid Map of People:AmountPaid
@@ -45,6 +31,18 @@ public class Expense {
         this.whoPaid = whoPaid;
         this.whoBorrowed = whoBorrowed;
         this.updateBalances(whoPaid);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Map<Person, Double> getWhoPaid() {
+        return whoPaid;
+    }
+
+    public Map<Person, Double> getWhoBorrowed() {
+        return whoBorrowed;
     }
 
     public double getAmount(){
@@ -64,27 +62,24 @@ public class Expense {
         return this.EUID + "     " + this.title + "     " + this.numPeople();
     }
 
-    public void settleExpense(Person p, Double amountPaid, boolean borrowed) {
+    public void settleExpenseBorrowed(Person p, Double amountPaid) {
         this.amount -= amountPaid;
+        Double amount = this.whoBorrowed.get(p);
+        this.whoBorrowed.replace(p, amount - amountPaid);
+    }
 
-        if (borrowed){
-            Double amount = this.whoBorrowed.get(p);
-            this.whoBorrowed.replace(p, amount - amountPaid);
+    public void settleExpenseLent(Person p, Double amountPaid) { // TODO: Add test
+        this.amount -= amountPaid;
+        Double amount = this.whoPaid.get(p);
+        if (amount - amountPaid < 0) {
+            System.out.println("You've entered too much!");
+        } else {
+            this.whoPaid.replace(p, amount - amountPaid);
         }
-        else{
-            Double amount = this.whoPaid.get(p);
-            if (amount - amountPaid < 0){
-                System.out.println("You've entered too much!");
-            }
-            else{
-                this.whoPaid.replace(p, amount - amountPaid);
-            }
-        }
-
     }
 
     public void updateBalances(Map<Person, Double> whoPaid){
-        for(Person key : whoPaid.keySet()){
+        for (Person key : whoPaid.keySet()) {
             key.balance -= whoPaid.get(key);
         }
     }

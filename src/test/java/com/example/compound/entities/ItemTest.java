@@ -2,7 +2,6 @@ package com.example.compound.entities;
 
 import org.junit.*;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
