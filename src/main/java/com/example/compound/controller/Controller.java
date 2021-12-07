@@ -2,7 +2,6 @@ package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.entities.Group;
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
