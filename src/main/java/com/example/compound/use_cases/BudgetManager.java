@@ -257,7 +257,6 @@ public class BudgetManager {
     public List<String> getBudgetNameList(String GUID) {
         Group group = this.groupRepositoryGateway.findByUID(GUID);
 //        Group group = this.repositoryGateway.findByGUID(GUID);
-        System.out.println("g"+group);
         List<Budget> budgets = group.getBudgets();
         List<String> budgetNames = new ArrayList<>();
         for (Budget budget : budgets) {

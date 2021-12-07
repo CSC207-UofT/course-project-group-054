@@ -27,7 +27,7 @@ public class User extends Person implements AccountFeatures {
      */
     public User(String name, double balance, String email, String password) {
         // TODO: Take in a distinct username
-        this(this.generateUUID(), name, email, email, balance, password); // TODO: Should this constructor ever be used?
+        this(0, name, email, email, balance, password); // TODO: Should this constructor ever be used?
     }
 
     public User(int uuid, String name, String email, String username, double balance, String password) {

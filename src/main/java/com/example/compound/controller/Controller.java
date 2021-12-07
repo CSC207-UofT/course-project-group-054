@@ -129,7 +129,9 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(repositoryGateway, currentUserManager.getCurrentUser(), expenseManager);
+                    GroupController groupController = new GroupController(repositoryGateway,
+                            budgetRepository, groupRepository, itemRepository,
+                            currentUserManager.getCurrentUser(), expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses

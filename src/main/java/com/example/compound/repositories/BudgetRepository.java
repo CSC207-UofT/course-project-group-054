@@ -24,6 +24,13 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
     private static final String SQL_UPDATE = "UPDATE budgets SET name = ?, maxSpend = ?, items = ? WHERE buid = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM budgets WHERE buid = ?";
 
+    private final RowMapper<BudgetTransferData> budgetRowMapper = ((rs, rowNum) -> new BudgetTransferData(
+            Integer.toString(rs.getInt("buid")), // TODO: Make UIDs integers?
+            rs.getString("name"),
+            rs.getDouble("maxSpend"),
+            (Integer[]) rs.getArray("items").getArray()
+    ));
+
     public BudgetRepository(RepositoryGatewayI<ItemTransferData> itemRepositoryGateway) {
         this.jdbcTemplate = new JdbcTemplate();
         this.itemRepositoryGateway = itemRepositoryGateway;
@@ -33,20 +40,13 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
     public BudgetTransferData findByUID(String UID) {
         BudgetTransferData budgetTransferData = jdbcTemplate.queryForObject(SQL_FIND_BY_UID, budgetRowMapper, UID);
 
-        assert budgetTransferData != null; // TODO: Any alternatives?
+        assert budgetTransferData != null;
         for (String IUID : budgetTransferData.getBudget().keySet()) {
             budgetTransferData.addItem(IUID, itemRepositoryGateway.findByUID(IUID)); // TODO: Make all UIDs integers?
         }
 
         return budgetTransferData;
     }
-
-    private final RowMapper<BudgetTransferData> budgetRowMapper = ((rs, rowNum) -> new BudgetTransferData(
-            Integer.toString(rs.getInt("buid")), // TODO: Make UIDs integers?
-            rs.getString("name"),
-            rs.getDouble("maxSpend"),
-            (Integer[]) rs.getArray("items").getArray()
-    ));
 
     @Override
     public List<BudgetTransferData> findAll() {
@@ -63,7 +63,7 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
                 ps.setDouble(2, budgetTransferData.getMaxSpend());
                 return ps;
             }, keyHolder);
-            return Integer.toString((Integer) Objects.requireNonNull(keyHolder.getKeys()).get("uuid"));
+            return Integer.toString((Integer) Objects.requireNonNull(keyHolder.getKeys()).get("buid"));
         } catch (Exception e) {
             return null;
         }
@@ -76,7 +76,8 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
                 PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
                 ps.setString(1, budgetTransferData.getName());
                 ps.setDouble(2, budgetTransferData.getMaxSpend());
-                ps.setArray(3, connection.createArrayOf("integer", budgetTransferData.getItemIUIDs()));
+                ps.setArray(3, connection.createArrayOf("integer",
+                        budgetTransferData.getItemIUIDs()));
                 ps.setInt(4, Integer.parseInt(budgetTransferData.getBUID()));
                 return ps;
             });
