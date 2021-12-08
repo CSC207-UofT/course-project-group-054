@@ -14,7 +14,6 @@ This is the manager for Group, we edit the entity group through this class.
 public class GroupManager {
     private final RepositoryGateway repositoryGateway;
 
-
     public GroupManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
     }
@@ -75,10 +74,10 @@ public class GroupManager {
     /**
      * Remove the member from the group.
      * @param g The group from which the member is to be removed.
-     * @param oldEmail the email of the member that is to be removed from the group.
+     * @param email the identifier of the member to remove.
      */
-    public static void removeMember(Group g, String oldEmail) {
-        g.getGroupMembers().remove(oldEmail);
+    public static void removeMember(Group g, String email) {
+        g.removeMember(email);
     }
 
     /**
@@ -87,7 +86,7 @@ public class GroupManager {
      * @param email the email of the member that is to be added to the group.
      */
     public static void addMember(Group g, String email) {
-        g.getGroupMembers().add(email);
+        g.addMember(email);
     }
 
     /**
@@ -110,7 +109,7 @@ public class GroupManager {
      * @return the list of group members in a string.
      *         Return "You are the only one in the group.\n" if the group contains only one user/person.
      */
-    public StringBuilder showGroupMembers(String GUID){
+    public StringBuilder showGroupMembers(String GUID) {
         List<Group> groups = repositoryGateway.getGroups();
         for (Group group : groups) {
             if (group.getGUID().equals(GUID)) {

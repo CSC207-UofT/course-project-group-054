@@ -1,4 +1,4 @@
-package com.example.compound.controller.spring;
+package com.example.compound.cli_controllers.spring;
 
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.CurrentBudgetManager;

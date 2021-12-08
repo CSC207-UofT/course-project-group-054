@@ -1,7 +1,7 @@
 package com.example.compound.cli;
-import java.util.*;
 
-import com.example.compound.controller.InOut;
+import java.util.*;
+import com.example.compound.cli_controllers.InOut;
 
 /**
  * An implementation of the InOut interface for handling command-line input and output.

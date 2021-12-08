@@ -7,7 +7,8 @@ package com.example.compound.entities;
 import java.util.*;
 
 /**
- * A person that has an account and therefore has a UID and a list of expenses.
+ * A subclass of Person named User.
+ * This class is identical to Person, except that it has a UID and a list of expenses.
  */
 //@Entity
 public class User extends Person implements AccountFeatures {
@@ -15,21 +16,6 @@ public class User extends Person implements AccountFeatures {
     private final String username;
     private final List<String> expenses;
     private String password;
-
-    /**
-     * Construct a new User with the given name, balance, email, and password.
-     * @param name     the User's name
-     * @param balance  the User's balance (the amount owed)
-     * @param email    the User's email used to contact them
-     * @param password the User's password
-     */
-    public User(String name, double balance, String email, String password) {
-        // TODO: Take in a distinct username
-        this(
-//                generateUUID(),
-                0, // TODO: generate UUID
-                name, email, email, balance, password); // TODO: Should this constructor ever be used?
-    }
 
     /**
      * Construct a new User with the given UID, name, balance, email, and password.
@@ -84,7 +70,6 @@ public class User extends Person implements AccountFeatures {
     /**
      * Generate a unique identifier for this user.
      */
-    @Override
     public int generateUUID() {
         Random random = new Random();
         return random.nextInt(100) + 1;

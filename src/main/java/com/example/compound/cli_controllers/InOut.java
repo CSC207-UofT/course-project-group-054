@@ -1,4 +1,4 @@
-package com.example.compound.controller;
+package com.example.compound.cli_controllers;
 
 /**
  * A command-line input and output handler.

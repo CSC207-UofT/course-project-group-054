@@ -98,11 +98,6 @@ public class ExpenseManager {
         }
 
         // Get and set the balance of the payee.
-        if (borrowed) {
-            payee.updateBalance(-amount);
-        }
-        else {
-            payee.updateBalance(amount);
-        }
+        payee.updateBalance(-amount); // remove the money from the payee's account.
     }
 }

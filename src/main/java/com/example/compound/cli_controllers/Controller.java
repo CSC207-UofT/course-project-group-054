@@ -1,9 +1,10 @@
-package com.example.compound.controller;
+package com.example.compound.cli_controllers;
 
 import java.util.*;
 
 import com.example.compound.entities.User;
 import com.example.compound.entities.Person;
+import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
@@ -17,7 +18,7 @@ public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
     private static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<GroupTransferData> groupRepository;
+    private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final RepositoryGateway repositoryGateway;
     private final GroupManager groupManager;
@@ -55,7 +56,7 @@ public class Controller {
      * @param repositoryGateway the repository for all objects
      */
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      RepositoryGatewayI<GroupTransferData> groupRepository,
+                      GroupRepository groupRepository,
                       RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
         this.budgetRepository = budgetRepository;
@@ -80,9 +81,9 @@ public class Controller {
                 // Login
                 String email = inOut.requestInput("your Email");
                 // set the current user
-                if (userManager.getUser(email) != null) {
-                    this.currentUserManager.setCurrentUser(userManager.getUser(email));
-                    authenticateUser(this.currentUserManager.getCurrentUser() );
+                currentUserManager.setCurrentUser(userManager.getUser(email));
+                if (this.currentUserManager.getCurrentUser() != null) {
+                    authenticateUser(this.currentUserManager.getCurrentUser().getEmail());
                     inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
                 } else {
@@ -132,7 +133,7 @@ public class Controller {
             switch (input) {
                 case 1 -> {
                     String expenseTitle = inOut.requestInput("the title");
-                    createExpenseView(inOut, currentUserManager.getCurrentUser(), expenseTitle);
+                    createExpenseView(inOut, expenseTitle);
                 }
                 case 2 -> {
                     StringBuilder lst = this.groupManager.showListOfGroup(currentUserManager.getCurrentUser());
@@ -145,18 +146,18 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(repositoryGateway,
-                            budgetRepository, groupRepository, itemRepository,
-                            currentUserManager, expenseManager);
+                    GroupController groupController = new GroupController(
+                            repositoryGateway, budgetRepository, groupRepository,
+                            itemRepository, currentUserManager, expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
-                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
+                case 7 -> inOut.sendOutput(this.userManager.getExpenses(getCurrentUser()));
                 case 8 -> {
                     String expenseToPay = inOut.requestInput("the EUID of the expense you wish to pay");
                     Double amount = requestDouble(inOut, "the amount you wish to pay");
                     String borrowed = inOut.requestInput("whether you borrowed: 'y' for yes or 'n' for no");
-                    expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
+                    expenseManager.payDebt(getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
@@ -232,10 +233,9 @@ public class Controller {
     /**
      * Create a new expense based on user input.
      * @param inOut the user interface object
-     * @param u The user that is calling this function.
      * @param expenseTitle The title of the expense
      */
-    public void createExpenseView(InOut inOut, User u, String expenseTitle) {
+    public void createExpenseView(InOut inOut, String expenseTitle) {
         HashMap<Person, Double> borrowedSoFar = new HashMap<>();
         HashMap<Person, Double> lentSoFar = new HashMap<>();
 
@@ -245,11 +245,11 @@ public class Controller {
         double amount = requestDouble(inOut, "amount borrowed/lent: (0.00)");
         boolean userBorrow = inOut.requestInput("whether you borrowed (b) or paid (p)").equals("b");
         if (userBorrow){
-            u.updateBalance(amount);
+            getCurrentUser().updateBalance(amount);
             borrowedSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
         else{
-            u.updateBalance(-amount);
+            getCurrentUser().updateBalance(-amount);
             lentSoFar.put(currentUserManager.getCurrentUser(), amount);
         }
 
@@ -292,15 +292,14 @@ public class Controller {
 
         // If we find the user in the database then update bal
         if (userManager.getUser(email) != null) {
-            User user = userManager.getUser(email);
-            assert user != null;
+            currentUserManager.setCurrentUser(userManager.getUser(email));
 
             if (borrowed) {
-                borrowedSoFar.put(user, amountUsed);
+                borrowedSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
             } else {
-                lentSoFar.put(user, amountUsed);
+                lentSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
             }
-            user.updateBalance(amountUsed);
+            currentUserManager.getCurrentUser().updateBalance(amountUsed);
         }
         // Otherwise, create a stand in person.
         else {
@@ -316,10 +315,10 @@ public class Controller {
 
     /**
      * Authenticate the user; check if they're signed up.
-     * @param user - the user we are checking.
+     * @param email the user we are checking.
      */
-    public void authenticateUser(User user) {
-        currentUserManager.setCurrentUser(user);
+    public void authenticateUser(String email) {
+        currentUserManager.setCurrentUser(userManager.getUser(email));
         setUserStatus(true);
     }
 
@@ -340,7 +339,7 @@ public class Controller {
     }
 
     /**
-     * Get the person currently logged in.
+     * Helper, get the person currently logged in.
      * @return current user
      */
     public User getCurrentUser() {

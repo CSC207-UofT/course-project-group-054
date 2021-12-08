@@ -80,4 +80,12 @@ public class Group {
     public boolean removeBudget(String BUID) {
         return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
     }
+
+    public void removeMember(String email){
+        this.groupMembers.remove(email);
+    }
+
+    public void addMember(String email){
+        this.groupMembers.add(email);
+    }
 }
