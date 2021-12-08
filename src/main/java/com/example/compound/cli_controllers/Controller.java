@@ -6,8 +6,6 @@ package com.example.compound.cli_controllers;
 import java.util.*;
 
 import com.example.compound.entities.Group;
-import com.example.compound.entities.User;
-import com.example.compound.entities.Person;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
@@ -26,6 +24,7 @@ public class Controller {
     public UserManager userManager;
     public ExpenseManager expenseManager;
     public CurrentUserManager currentUserManager;
+    public PersonManager personManager;
 
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
                       GroupRepository groupRepository,
@@ -39,6 +38,7 @@ public class Controller {
         this.userManager = new UserManager(this.repositoryGateway);
         this.expenseManager = new ExpenseManager(this.repositoryGateway);
         this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
+        this.personManager = new PersonManager(this.repositoryGateway);
     }
 
     public static String[] actions = {
@@ -118,7 +118,10 @@ public class Controller {
                 case 1 -> {
                     inOut.sendOutput("Enter the title: ");
                     String expenseTitle = inOut.getInput();
-                    createExpenseView(inOut, expenseTitle);
+                    ExpenseController expenseController = new ExpenseController(
+                            this.currentUserManager, this.userManager, this.personManager,
+                            this.expenseManager);
+                    expenseController.createExpenseView(inOut, expenseTitle);
                 }
                 case 2 -> {
                     StringBuilder lst = this.groupManager.showListOfGroup(currentUserManager.getCurrentUser());
@@ -137,7 +140,7 @@ public class Controller {
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
-                case 7 -> inOut.sendOutput(this.userManager.getExpenses(getCurrentUser()));
+                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
                 case 8 -> {
                     inOut.sendOutput("Enter the EUID of the expense you wish to pay");
                     String expenseToPay = inOut.getInput();
@@ -145,7 +148,7 @@ public class Controller {
                     Double amount = inputToDouble(inOut);
                     inOut.sendOutput("Did you borrow? yes(y) or no(n)");
                     String borrowed = inOut.getInput();
-                    expenseManager.payDebt(getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
+                    expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
@@ -181,7 +184,7 @@ public class Controller {
         }
 
         List<String> members = new ArrayList<>();
-        members.add(getCurrentUser().getEmail());
+        members.add(currentUserManager.getCurrentUser().getEmail());
 
         // Input the group's name
         String groupName = inOut.requestInput("the new group's name");
@@ -218,102 +221,6 @@ public class Controller {
 //        Data.groups.add(group);
     }
 
-    /**
-     * Create the view where we interact with the functions of Expense.
-     * @param inOut the user interface object
-     * @param expenseTitle The title of the expense
-     */
-    public void createExpenseView(InOut inOut, String expenseTitle) {
-        HashMap<Person, Double> borrowedSoFar = new HashMap<>();
-        HashMap<Person, Double> lentSoFar = new HashMap<>();
-
-        List<String> people = new ArrayList<>();
-        people.add(currentUserManager.getCurrentUser().getEmail());
-
-        inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
-        double amount = Float.parseFloat(inOut.getInput());
-
-        inOut.sendOutput("Did you borrow (b) or pay (p)?");
-        boolean userBorrow = inOut.getInput().equals("b");
-        if (userBorrow){
-            getCurrentUser().updateBalance(amount);
-            borrowedSoFar.put(currentUserManager.getCurrentUser(), amount);
-        }
-        else{
-            getCurrentUser().updateBalance(-amount);
-            lentSoFar.put(currentUserManager.getCurrentUser(), amount);
-        }
-
-        boolean addMorePeople = Boolean.TRUE;
-        do {
-            inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
-            String input2 = inOut.getInput();
-            switch (input2) {
-                case "y" -> caseYHelper(inOut, borrowedSoFar, lentSoFar);
-                case "n" -> {
-                    if (people.size() == 0) {
-                        inOut.sendOutput("ERROR: You need to have at least one other person to share " +
-                                "expense with.");
-                    } else {
-                        addMorePeople = Boolean.FALSE;
-                    }
-                }
-            }
-        } while (addMorePeople);
-        currentUserManager.getCurrentUser().addExpense(
-                Objects.requireNonNull(
-                        expenseManager.createExpense(
-                                expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
-        System.out.println("borrowed: " + borrowedSoFar.keySet()
-                + "lent: " + lentSoFar.keySet());
-    }
-
-    /**
-     * A helper method for case Y in the above createExpenseView.
-     * @param inOut the user interface object
-     * @param borrowedSoFar A map that stores people that borrowed so far
-     * @param lentSoFar A map that stores people that lent so far
-     */
-    private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
-        inOut.sendOutput("Enter their name:");
-        String name = inOut.getInput();
-
-        inOut.sendOutput("Enter user email:");
-        String email = inOut.getInput();
-
-        inOut.sendOutput("Did they borrow (b) or pay (p)?");
-        String borrowOrLend = inOut.getInput();
-
-        inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
-        String amountUsedStr = inOut.getInput();
-        double amountUsed = Double.parseDouble(amountUsedStr);
-
-        boolean borrowed = borrowOrLend.equals("b");
-
-        // If we find the user in the database then update bal
-        if (userManager.getUser(email) != null) {
-            currentUserManager.setCurrentUser(userManager.getUser(email));
-
-            if (borrowed){
-                borrowedSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
-            }
-            else {
-                lentSoFar.put(currentUserManager.getCurrentUser(), amountUsed);
-            }
-            currentUserManager.getCurrentUser().updateBalance(amountUsed);
-        }
-        // Otherwise, create a stand in person.
-        else {
-            Person standIn = this.userManager.createUser(
-                    name, 0.0, email, ""); // TODO: PersonManager.createPerson?
-            if (borrowed){
-                borrowedSoFar.put(standIn, amountUsed);
-            }
-            else {
-                lentSoFar.put(standIn, amountUsed);
-            }
-        }
-    }
 
     /**
      * Authenticate the user; check if they're signed up.
@@ -340,13 +247,6 @@ public class Controller {
         Controller.isLoggedIn = isLoggedIn;
     }
 
-    /**
-     * Helper, get the person currently logged in.
-     * @return current user
-     */
-    public User getCurrentUser() {
-        return currentUserManager.getCurrentUser();
-    }
 
     /**
      * Assign the status of the user to be logged out.

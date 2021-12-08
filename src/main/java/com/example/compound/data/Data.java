@@ -10,6 +10,7 @@ The class representing the data.
  */
 public class Data implements RepositoryGateway {
     public List<User> users = new ArrayList<>();
+    public List<Person> persons = new ArrayList<>();
     public List<Expense> expenses = new ArrayList<>();
     public List<Group> groups = new ArrayList<>();
     public List<Budget> budgets = new ArrayList<>();
@@ -208,6 +209,11 @@ public class Data implements RepositoryGateway {
 
     public int getNewIUID() {
         return this.itemCounter;
+    }
+
+    @Override
+    public void addPerson(Person person) {
+        this.persons.add(person);
     }
 
     @Override

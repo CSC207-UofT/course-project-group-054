@@ -57,4 +57,6 @@ public interface RepositoryGateway {
     int getNewBUID();
 
     int getNewIUID();
+
+    void addPerson(Person person);
 }
