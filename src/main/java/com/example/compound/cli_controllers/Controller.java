@@ -108,6 +108,9 @@ public class Controller {
         if (!password.equals(passwordConfirmation)) {
             inOut.sendOutput("The passwords do not match. Please try again.");
             return getPassword(inOut);
+        } else if (!userManager.verifyPassword(password)) {
+            inOut.sendOutput("The password is invalid. Please try again.");
+            return getPassword(inOut);
         }
         return password;
     }

@@ -4,6 +4,7 @@ import com.example.compound.entities.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 import java.util.Random;
+import java.util.regex.Pattern;
 
 /*
 This file represents the User Class manager. The entity User is changed here.
@@ -70,6 +71,7 @@ public class UserManager {
         this.repositoryGateway.addUser(user);
         return user;
     }
+
     /**
      * Get the profile of the user
      *
@@ -110,6 +112,20 @@ public class UserManager {
             } //
         }
         user.setEmail(email);
+    }
+
+    /**
+     * Return whether the given password is valid. A password is valid if it has at least one lowercase letter,
+     * uppercase letter, number, and special character and has length at least 8.
+     * @param password the password to verify
+     * @return whether the given password is valid
+     */
+    public boolean verifyPassword(String password) {
+        return Pattern.compile("[a-z]").matcher(password).find()
+                && Pattern.compile("[A-Z]").matcher(password).find()
+                && Pattern.compile("\\d").matcher(password).find()
+                && Pattern.compile("[\\W&&\\S]").matcher(password).find()
+                && password.length() >= 8;
     }
 
     public int generateUUID() {
