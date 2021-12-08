@@ -15,30 +15,15 @@ import com.example.compound.use_cases.transfer_data.ItemTransferData;
  */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
-    public static final String appName = "Money Manager";
+    private static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
-    public final RepositoryGateway repositoryGateway;
-    public final GroupManager groupManager;
-    public final UserManager userManager;
-    public final ExpenseManager expenseManager;
-    public final CurrentUserManager currentUserManager;
-
-    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      RepositoryGatewayI<GroupTransferData> groupRepository,
-                      RepositoryGatewayI<ItemTransferData> itemRepository,
-                      RepositoryGateway repositoryGateway) {
-        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
-        this.groupRepository = groupRepository;
-        this.itemRepository = itemRepository;
-        this.repositoryGateway = repositoryGateway;
-        this.groupManager = new GroupManager(this.repositoryGateway);
-        this.userManager = new UserManager(this.repositoryGateway);
-        this.expenseManager = new ExpenseManager(this.repositoryGateway);
-        this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
-    }
-
+    private final RepositoryGateway repositoryGateway;
+    private final GroupManager groupManager;
+    private final UserManager userManager;
+    private final ExpenseManager expenseManager;
+    private final CurrentUserManager currentUserManager;
     private static final String[] actions = {
             "Add an expense",
             "Show groups",
@@ -50,20 +35,43 @@ public class Controller {
             "Pay an expense",
             "Log out"
     };
-
     private static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
-
     private static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"
     };
 
+    /**
+     * Construct a new Controller with the given parameters.
+     * @param budgetRepository  the repository for budgets
+     * @param groupRepository   the repository for groups
+     * @param itemRepository    the repository for items
+     * @param repositoryGateway the repository for all objects
+     */
+    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
+                      RepositoryGatewayI<GroupTransferData> groupRepository,
+                      RepositoryGatewayI<ItemTransferData> itemRepository,
+                      RepositoryGateway repositoryGateway) {
+        this.budgetRepository = budgetRepository;
+        this.groupRepository = groupRepository;
+        this.itemRepository = itemRepository;
+        this.repositoryGateway = repositoryGateway;
+        this.groupManager = new GroupManager(this.repositoryGateway);
+        this.userManager = new UserManager(this.repositoryGateway);
+        this.expenseManager = new ExpenseManager(this.repositoryGateway);
+        this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
+    }
+
+    /**
+     * Have the user choose an option from the main menu and perform the appropriate action.
+     * @param inOut the user interface object
+     */
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
         int menuInput = inOut.getOptionView(mainMenuOptions);
@@ -114,7 +122,6 @@ public class Controller {
     /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
      * that action.
-     *
      * @param inOut the user interface object
      */
     public void dashboard(InOut inOut) {
@@ -166,7 +173,7 @@ public class Controller {
      * @param attribute the attribute for which the user interface object requests the user to enter input
      * @return the double input by the user
      */
-    private double requestDouble(InOut inOut, String attribute) { // TODO: Similar to requestDouble in BudgetController; new superclass?
+    private double requestDouble(InOut inOut, String attribute) {
         String input = inOut.requestInput(attribute);
         try {
             return Double.parseDouble(input);
@@ -177,8 +184,8 @@ public class Controller {
     }
 
     /**
-     * Create and return a new Group based on user input.
-     * If the user is not authenticated, a new group is not created.
+     * Create a new group based on user input.
+     * If the current user is not authenticated, a new group is not created.
      * @param inOut the user interface object
      */
     public void createGroupView(InOut inOut) {
@@ -219,14 +226,11 @@ public class Controller {
         String description = inOut.requestInput("a description");
 
         // Create and add the group to our Database
-//        Group group =
         this.groupManager.createGroup(groupName, members, new ArrayList<>(), description);
-//        Data.groups.add(group);
     }
 
     /**
-     * Create the view where we interact with the functions of Expense.
-     *
+     * Create a new expense based on user input.
      * @param inOut the user interface object
      * @param u The user that is calling this function.
      * @param expenseTitle The title of the expense
@@ -254,7 +258,7 @@ public class Controller {
             inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
             String input2 = inOut.getInput();
             switch (input2) {
-                case "y" -> caseYHelper(inOut, borrowedSoFar, lentSoFar);
+                case "y" -> addMorePeople(inOut, borrowedSoFar, lentSoFar);
                 case "n" -> {
                     if (people.size() == 0) {
                         inOut.sendOutput("ERROR: You need to have at least one other person to share " +
@@ -274,18 +278,16 @@ public class Controller {
     }
 
     /**
-     * A helper method for case Y in the above createExpenseView.
+     * A helper method for createExpenseView that adds more people to the expense.
      * @param inOut the user interface object
      * @param borrowedSoFar A map that stores people that borrowed so far
      * @param lentSoFar A map that stores people that lent so far
      */
-    private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
+    private void addMorePeople(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
         String name = inOut.requestInput("their name");
         String email = inOut.requestInput("user email");
-
         String borrowOrLend = inOut.requestInput("whether they borrowed (b) or paid (p)");
         boolean borrowed = borrowOrLend.equals("b");
-
         double amountUsed = requestDouble(inOut, "the amount borrowed/lent: (0.00)");
 
         // If we find the user in the database then update bal
@@ -293,10 +295,9 @@ public class Controller {
             User user = userManager.getUser(email);
             assert user != null;
 
-            if (borrowed){
+            if (borrowed) {
                 borrowedSoFar.put(user, amountUsed);
-            }
-            else {
+            } else {
                 lentSoFar.put(user, amountUsed);
             }
             user.updateBalance(amountUsed);
@@ -305,10 +306,9 @@ public class Controller {
         else {
             Person standIn = this.userManager.createUser(
                     name, 0.0, email, ""); // TODO: PersonManager.createPerson?
-            if (borrowed){
+            if (borrowed) {
                 borrowedSoFar.put(standIn, amountUsed);
-            }
-            else {
+            } else {
                 lentSoFar.put(standIn, amountUsed);
             }
         }
@@ -368,9 +368,7 @@ public class Controller {
             switch (inputP){
                 case 1 -> changeName(inOut);
                 case 2 -> changeEmail(inOut);
-            /*
-            Delete Account
-             */
+                // Delete account
                 case 3 -> {
                     repositoryGateway.removeUser(currentUserManager.getCurrentUser());
                     inOut.sendOutput("Your account has been successfully deleted.");

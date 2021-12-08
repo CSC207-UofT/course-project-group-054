@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-/*
-The class representing the data.
+/**
+ * The class representing the data.
  */
 @Repository
 public class Data implements RepositoryGateway {

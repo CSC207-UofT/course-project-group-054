@@ -4,10 +4,10 @@ import java.util.*;
 import com.example.compound.controller.InOut;
 
 /**
- This is the View class which handles what the user sees in the command line.
+ * An implementation of the InOut interface for handling command-line input and output.
  */
 public class View implements InOut {
-    public static final Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     /**
      * Return user input as a String.

@@ -10,6 +10,9 @@ import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Controller managing input and output for Group use cases.
+ */
 public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
@@ -18,7 +21,26 @@ public class GroupController {
     private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
+    private static final String[] groupActions = {
+            "Edit Group Name",
+            "Add People to Group",
+            "Remove People",
+            "View GroupMembers",
+            "Leave Group",
+            "Delete Group",
+            "Manage Budgets",
+            "Back"
+    };
 
+    /**
+     * Construct a new GroupController with the given parameters.
+     * @param repositoryGateway  the repository for all objects
+     * @param budgetRepository   the repository for budgets
+     * @param groupRepository    the repository for groups
+     * @param itemRepository     the repository for items
+     * @param currentUserManager the use case object storing the current user
+     * @param expenseManager     the use case for expenses
+     */
     public GroupController(RepositoryGateway repositoryGateway,
                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
                            RepositoryGatewayI<GroupTransferData> groupRepository,
@@ -32,17 +54,6 @@ public class GroupController {
         this.currentUserManager = currentUserManager;
         this.expenseManager = expenseManager;
     }
-
-    public static final String[] groupActions = {
-            "Edit Group Name",
-            "Add People to Group",
-            "Remove People",
-            "View GroupMembers",
-            "Leave Group",
-            "Delete Group",
-            "Manage Budgets",
-            "Back"
-    };
 
     /**
      * While the users want to update their group(s), have the user choose an action to perform on their group
@@ -70,8 +81,6 @@ public class GroupController {
         }
 
     }
-
-
 
     /**
      * A helper method that enables current user to add or remove people to a group.

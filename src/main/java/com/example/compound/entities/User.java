@@ -31,6 +31,15 @@ public class User extends Person implements AccountFeatures {
                 name, email, email, balance, password); // TODO: Should this constructor ever be used?
     }
 
+    /**
+     * Construct a new User with the given UID, name, balance, email, and password.
+     * @param uuid     the User's unique identifier
+     * @param name     the User's name
+     * @param email    the User's email used to contact them
+     * @param username the User's username
+     * @param balance  the User's balance (the amount owed)
+     * @param password the User's password
+     */
     public User(int uuid, String name, String email, String username, double balance, String password) {
         super(name, balance, email);
         this.UUID = uuid;
@@ -39,41 +48,70 @@ public class User extends Person implements AccountFeatures {
         this.expenses = new ArrayList<>();
     }
 
+    /**
+     * Return this user's username.
+     * @return this user's username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Return this user's list of expenses.
+     * @return this user's list of expenses
+     */
     public List<String> getExpenses() {
         return expenses;
     }
 
-    public String getPassword() { // TODO: Add tests to UserTest
+    /**
+     * Return this user's password.
+     * @return this user's password
+     */
+    public String getPassword() {
         return password;
     }
 
+    /**
+     * Set this user's password to the given value.
+     * @param password this user's new password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
     //TODO: Create a proper UUID Algorithm, perhaps in the repository instead of here
-    /*
-    Generate a Unique User ID.
+    /**
+     * Generate a unique identifier for this user.
      */
+    @Override
     public int generateUUID() {
         Random random = new Random();
         return random.nextInt(100) + 1;
     }
 
+    /**
+     * Return a String representation of this user.
+     * @return a String representation of this user
+     */
+    @Override
     public String toString() {
-        return this.name;
+        return super.getName();
     }
 
+    /**
+     * Add an expense to this user's list.
+     * @param E the expense to add
+     */
     @Override
     public void addExpense(Expense E) {
         this.expenses.add(E.getEUID());
     }
 
+    /**
+     * Return this user's unique identifier.
+     * @return this user's unique identifier
+     */
     public int getUUID() {
         return this.UUID;
     }

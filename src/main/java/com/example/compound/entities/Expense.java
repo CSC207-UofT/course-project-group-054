@@ -80,7 +80,7 @@ public class Expense {
 
     public void updateBalances(Map<Person, Double> whoPaid){
         for (Person key : whoPaid.keySet()) {
-            key.balance -= whoPaid.get(key);
+            key.updateBalance(-whoPaid.get(key));
         }
     }
 }

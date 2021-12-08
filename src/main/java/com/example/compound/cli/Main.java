@@ -6,7 +6,14 @@ import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;
 
+/**
+ * A class containing the main method, which runs the program.
+ */
 public class Main {
+    /**
+     * Run the program.
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         Data data = new Data();
         data.initializeData();
