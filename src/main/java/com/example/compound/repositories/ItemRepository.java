@@ -13,6 +13,9 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A repository for storing Group data transfer objects.
+ */
 @Repository
 public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
     private final JdbcTemplate jdbcTemplate;
@@ -31,20 +34,37 @@ public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
             rs.getInt("quantity")
     ));
 
+    /**
+     * Construct a new repository for Item data transfer objects.
+     */
     public ItemRepository() {
         this.jdbcTemplate = new JdbcTemplate();
     }
 
+    /**
+     * Return the Item data transfer object with the given UID from the repository.
+     * @param UID the UID of the Item data transfer object to be retrieved
+     * @return the Item data transfer object retrieved from the repository
+     */
     @Override
     public ItemTransferData findByUID(String UID) {
         return jdbcTemplate.queryForObject(SQL_FIND_BY_UID, itemRowMapper, UID);
     }
 
+    /**
+     * Return all the Item data transfer objects in the repository.
+     * @return all the Item data transfer objects in the repository
+     */
     @Override
     public List<ItemTransferData> findAll() {
         return null;
     }
 
+    /**
+     * Save a new Item data transfer object in the repository.
+     * @param itemTransferData the Item data transfer object to save
+     * @return the UID of the new Item data transfer object
+     */
     @Override
     public String save(ItemTransferData itemTransferData) {
         try {
@@ -62,6 +82,11 @@ public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
         }
     }
 
+    /**
+     * Update an existing Item data transfer object in the repository to match the given object.
+     * @param itemTransferData the Item data transfer object with which to update the repository
+     * @return whether the Item data transfer object was updated in the repository
+     */
     @Override
     public boolean update(ItemTransferData itemTransferData) {
         try {
@@ -79,6 +104,11 @@ public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
         }
     }
 
+    /**
+     * Delete the Item data transfer object with the given UID.
+     * @param UID the UID of the Item data transfer object to be deleted
+     * @return whether the Item data transfer object was deleted
+     */
     @Override
     public boolean deleteById(String UID) {
         try {
