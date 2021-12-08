@@ -3,9 +3,11 @@ package com.example.compound.repositories;
 import com.example.compound.entities.Group;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.GroupTransferData;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class GroupRepository implements RepositoryGatewayI<GroupTransferData> {
     @Override
     public GroupTransferData findByUID(String UID) {

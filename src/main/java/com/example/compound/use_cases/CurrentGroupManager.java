@@ -2,10 +2,12 @@ package com.example.compound.use_cases;
 
 import com.example.compound.entities.Group;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
+import org.springframework.stereotype.Service;
 
 /**
  * A use case that stores the Group being currently used by the program.
  */
+@Service
 public class CurrentGroupManager {
     private Group currentGroup;
     private final RepositoryGateway repositoryGateway;

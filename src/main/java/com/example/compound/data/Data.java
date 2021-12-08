@@ -2,12 +2,14 @@ package com.example.compound.data;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /*
 The class representing the data.
  */
+@Repository
 public class Data implements RepositoryGateway {
     public final List<User> users = new ArrayList<>();
     public final List<Expense> expenses = new ArrayList<>();
