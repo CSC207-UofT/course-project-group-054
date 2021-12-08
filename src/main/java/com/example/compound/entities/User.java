@@ -34,6 +34,8 @@ public class User extends Person implements AccountFeatures {
     }
 
     public String getPassword() {
+        return this.password;
+    }
     public String getUsername() {
         return username;
     }
@@ -41,17 +43,12 @@ public class User extends Person implements AccountFeatures {
     public List<String> getExpenses() {
         return expenses;
     }
-
-    public String getPassword() { // TODO: Add tests to UserTest
-        return password;
-    }
     
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
     //TODO: Create a proper UUID Algorithm, perhaps in the repository instead of here
     /*
     Generate a Unique User ID.

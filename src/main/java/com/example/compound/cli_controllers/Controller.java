@@ -12,13 +12,14 @@ import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
+import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
     public static String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<Group> groupRepository;
+    private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     public RepositoryGateway repositoryGateway;
     public GroupManager groupManager;
@@ -68,7 +69,7 @@ public class Controller {
 
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
-        int menuInput = inOut.getActionView(mainMenuOptions);
+        int menuInput = inOut.getOptionView(mainMenuOptions);
         switch (menuInput) {
             case 1 -> {
                 // Login
@@ -111,7 +112,7 @@ public class Controller {
     public void dashboard(InOut inOut) {
         while (isLoggedIn) {
             // Return an integer between 1 and the number of actions, inclusive
-            int input = inOut.getActionView(actions);
+            int input = inOut.getOptionView(actions);
 
             switch (input) {
                 case 1 -> {
@@ -131,7 +132,8 @@ public class Controller {
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
                     GroupController groupController = new GroupController(
-                            repositoryGateway, currentUserManager, expenseManager, userManager);
+                            repositoryGateway, budgetRepository, groupRepository,
+                            itemRepository, currentUserManager, expenseManager, userManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
@@ -363,7 +365,7 @@ public class Controller {
     public void updateProfile(InOut inOut){
         boolean back = false;
         while(!back){
-            int inputP = inOut.getActionView(profileActions);
+            int inputP = inOut.getOptionView(profileActions);
             switch (inputP){
                 case 1 -> changeName(inOut);
                 case 2 -> changeEmail(inOut);

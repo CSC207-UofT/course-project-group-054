@@ -1,5 +1,7 @@
 package com.example.compound.cli_controllers;
 
+import com.example.compound.entities.Group;
+import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
@@ -15,21 +17,17 @@ public class GroupController {
     private final GroupManager groupManager;
     private final UserManager userManager;
     private final CurrentUserManager currentUserManager;
-    private final RepositoryGateway repositoryGateway;
-    private final CurrentUserManager currentUserManager;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<GroupTransferData> groupRepository;
+    private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
 
-    public GroupController(RepositoryGateway repositoryGateway, CurrentUserManager currentUserManager,
-                           ExpenseManager expenseManager, UserManager userManager) {
-        this.repositoryGateway = repositoryGateway;
     public GroupController(RepositoryGateway repositoryGateway,
                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                           RepositoryGatewayI<GroupTransferData> groupRepository,
+                           GroupRepository groupRepository,
                            RepositoryGatewayI<ItemTransferData> itemRepository,
-                           CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
+                           CurrentUserManager currentUserManager, ExpenseManager expenseManager,
+                           UserManager userManager) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
         this.groupRepository = groupRepository;
         this.itemRepository = itemRepository;
