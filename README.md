@@ -11,7 +11,7 @@
 ## Members
 - [Rohan Tinna](https://rohantinna.com) (rohan.tinna@mail.utoronto.ca)
 - Subhasis Chakraborti (subhasis.chakraborti@mail.utoronto.ca)
-- Lingyun Jiang (johnnyl.jiang@mail.utoronto.ca)
+- Lingyun Jiang (johnnyl.jiang@mail.utoronto.ca) (Both johnnyjly and johnnyjly2)
 - Wasee Alam (wasee.alam@mail.utoronto.ca)
 - Mohamed Al-Fahim (m.alfahim@mail.utoronto.ca)
 
