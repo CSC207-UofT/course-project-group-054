@@ -28,8 +28,10 @@ class UserManagerTest {
         u = new UserManager(data);
         e = new ExpenseManager(data);
         g = new GroupManager(data);
-        user1 = new User("Rohan", 100.0, "rohan.tinna@mail.utoronto.ca", "password");
-        user2 = new User("Johny", 100.0, "johny@example.com", "password2");
+        user1 =(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca",
+                "rohan.tinna@mail.utoronto.ca", 100.0, "password"));
+        user2 = (new User(1, "Johny", "johny@example.com", "johny@example.com",
+                100.0, "password2"));
         Map<Person, Double> m1 = new HashMap<>();
         Map<Person, Double> m2 = new HashMap<>();
         //expense = new Expense("0", "testExpense", 100.0, m1, m2);
@@ -65,7 +67,8 @@ class UserManagerTest {
 
     @Test
     void createUser() {
-        User user = u.createUser("test", 100.0, "test@example.com", "password");
+        User user = u.createUser(0, "test", 100.0, "test@example.com",
+                 "password");
         assertEquals("test", user.getName());
         assert data.users.contains(user);
     }

@@ -22,8 +22,10 @@ public class Data implements RepositoryGateway {
 
     public void initializeData() {
         // Creating dummy users
-        users.add(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca", "Rohan", 100.0, "password"));
-        users.add(new User(1, "Johny", "johny@example.com", "Johny", 100.0, "password2"));
+        users.add(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca",
+        "rohan.tinna@mail.utoronto.ca", 100.0, "password"));
+        users.add(new User(1, "Johny", "johny@example.com", "johny@example.com",
+                100.0, "password2"));
 
         // Creating dummy groups
         addGroup(
