@@ -1,11 +1,10 @@
 package com.example.compound.controller;
 
 //import com.example.compound.api.UserInteractor;
-import com.example.compound.data.Data;
+//import com.example.compound.data.Data;
 import com.example.compound.entities.User;
-import com.example.compound.exceptions.UserAuthException;
-import com.example.compound.repositories.UserRepository;
-import com.example.compound.repositories.UserRepositoryImpl;
+import com.example.compound.api.repositories.UserRepository;
+import com.example.compound.api.repositories.UserRepositoryImpl;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.GroupManager;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
@@ -29,7 +28,9 @@ public class UserController {
     private final AtomicLong counter = new AtomicLong();
 
     // TODO: Move to constructor?
-    public RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
+    // TODO Rohan
+//    public RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
+    public RepositoryGateway repositoryGateway = null;
 //        this.repositoryGateway = repositoryGateway;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
     public UserManager userManager = new UserManager(this.repositoryGateway);
@@ -93,6 +94,6 @@ public class UserController {
 
         } catch (Exception ignored) { }
 
-        return 0;
+        return 1;
     }
 }

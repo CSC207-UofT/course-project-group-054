@@ -21,7 +21,7 @@ public class User extends Person implements AccountFeatures {
 
     private final int UUID;
     public final String username;
-    public List<String> expenses;
+    public List<Integer> expenses;
     private String password;
 
     /**

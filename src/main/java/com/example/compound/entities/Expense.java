@@ -2,13 +2,15 @@ package com.example.compound.entities;
 
 import java.util.*;
 
-import com.example.compound.data.*;
+//import com.example.compound.data.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 /*
  * Below is the Expense class which represents the origin of our program.
  */
 public class Expense {
-    private final String EUID;
+    private final Integer EUID;
 
     private final String title;
     private double amount;
@@ -36,7 +38,7 @@ public class Expense {
      * @param whoBorrowed Map of People:AmountBorrowed
      */
     //TODO: Implement multiple split types for Phase 2
-    public Expense(String EUID, String title, double amount,
+    public Expense(Integer EUID, String title, double amount,
                    Map<Person, Double> whoPaid,
                    Map<Person, Double> whoBorrowed) {
         this.EUID = EUID;
@@ -51,7 +53,7 @@ public class Expense {
         return this.amount;
     }
 
-    public String getEUID() {
+    public Integer getEUID() {
         return this.EUID;
     }
 

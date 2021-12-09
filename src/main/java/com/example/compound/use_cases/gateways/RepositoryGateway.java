@@ -26,7 +26,7 @@ public interface RepositoryGateway {
 
     Budget findByBUID(String BUID);
 
-    Group findByGUID(String GUID);
+    Group findByGUID(Integer GUID);
 
     void removeGroup(Group group);
 
@@ -38,7 +38,7 @@ public interface RepositoryGateway {
 
     void removeItem(Item item);
 
-    void removeBudget(String BUID);
+    void removeBudget(Integer BUID);
 
     void updateGroup(Group group);
 

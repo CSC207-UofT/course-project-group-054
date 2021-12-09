@@ -1,119 +1,125 @@
 package com.example.compound.entities;
 
-import com.example.compound.entities.Budget;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.*;
 
 /**
  * Below is the abstract Group class which represents the origin of our program.
  */
 //@Entity
+//@Table(name = "groups")
 public class Group {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected String GUID;
 
-    protected String groupName;
+//  Attributes
 
-    @Type(type = "list-array")
-    protected List<Integer> groupMembers;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Type(type = "list-array")
-    protected List<Expense> expenseList;
+    private Integer GUID;
 
-    protected String description;
+    private String groupName;
 
-//    @Type(type = "list-array")
-    protected List<Budget> budgets;
+    private String description;
 
-    /**
-     * Construct a group with groupName, groupMembers, expenseList, and description.
-     * @param groupName the name of the group
-     * @param groupMembers the members in the group
-     * @param expenseList the list of expenses in the group
-     * @param description the description of the group
-     */
-//    public Group(String groupName, List<String> groupMembers, List<Expense> expenseList, String description) {
-//        this.groupName = groupName;
-//        this.groupMembers = groupMembers;
-//        this.expenseList = expenseList;
-//        this.description = description;
-//        this.GUID = "";
-//        this.budgets = new ArrayList<>();
+//    @ElementCollection
+    private List<Integer> members;
+
+//    @ElementCollection
+    private List<Integer> expenses;
+
+//    @ElementCollection
+    private List<Integer> budgets;
+//  --------------------------------
+
+
+//  Getters & Setters
+
+//    public Integer getGuid() {
+//        return this.GUID;
+//    }
+//    public void setGuid(Integer GUID) {
+//        this.GUID = GUID;
 //    }
 
-    public String getGUID() {
-        return this.GUID;
-    }
-
-    public void setGUID(String GUID) {
-        this.GUID = GUID;
-    }
-
-    public String getGroupName() {
-        return this.groupName;
-    }
-
-    public void addExpense(Expense expense) {
-        this.expenseList.add(expense);
-    }
-
-    /**
-     * Return a list of strings containing emails of group members
-     *
-     * @return A list of strings containing emails of group members
-     */
-    public List<String> getGroupMembers() {
-        return this.groupMembers;
-    }
-
-    public List<Expense> getExpenseList() {
-        return this.expenseList;
-    }
+    public String getGroupName() { return this.groupName; }
+    public void setGroupName(String groupName) { this.groupName = groupName; }
 
     public String getDescription() {
         return this.description;
     }
+    public void setDescription(String description) { this.description = description; }
 
-    @Override
-    public String toString() {
-        return this.groupName;
-    }
-
-    public void setGroupName(String name) {this.groupName = name;}
-
-    public void addBudget(Budget budget) {
-        this.budgets.add(budget);
-    }
-
-    public Budget getBudget(String BUID) {
-        for (Budget budget : budgets) {
-            if (budget.getBUID().equals(BUID)) {
-                return budget;
-            }
-        }
-        return null;
-    }
-
-    public List<Budget> getBudgets() {
+    public List<Integer> getMembers() { return members; }
+    public List<Integer> getExpenses() { return expenses; }
+    public List<Integer> getBudgets() {
         return this.budgets;
     }
+//  --------------------------------
 
-    public boolean removeBudget(String BUID) {
-        return budgets.removeIf(budget -> budget.getBUID().equals(BUID));
+//    public void addExpense(Integer expense) {
+//        this.expenses.add(expense);
+//    }
+
+//    @Override
+//    public String toString() {
+//        return this.groupName;
+//    }
+
+//    public void setGroupName(String name) {this.groupName = name;}
+
+//    public void addBudget(Budget budget) {
+////        this.budgets.add(budget.getBUID());
+//    }
+
+//    public Budget getBudget(String BUID) {
+////        for (Budget budget : budgets) {
+////            if (budget.getBUID().equals(BUID)) {
+////                return budget;
+////            }
+////        }
+//        return null;
+//    }
+
+
+
+//    public boolean removeBudget(Integer BUID) {
+//        return budgets.removeIf(budget -> budget == BUID);
+//    }
+
+    public Group() {
+        List<Integer> members = new ArrayList<>();
+        List<Integer> expenses = new ArrayList<>();
+
+        members.add(1);
+        expenses.add(1);
+
+        this.groupName = "ABC";
+        this.description = "Description";
+        this.members = members;
+        this.expenses = expenses;
     }
 
-    public Group() {}
-
-
-    public void setData(String name, String description, List<Integer> members, List<Integer> expenses) {
+    public Group(String name, String description, List<Integer> members, List<Integer> expenses) {
         this.groupName = name;
         this.description = description;
-        this.groupMembers = members;
+        this.members = members;
+        this.expenses = expenses;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+
+
+//    public void setData(String name, String description, List<Integer> members, List<Integer> expenses) {
+//        this.groupName = name;
+//        this.description = description;
+//        this.members = members;
+//        this.expenses = expenses;
+//    }
 }

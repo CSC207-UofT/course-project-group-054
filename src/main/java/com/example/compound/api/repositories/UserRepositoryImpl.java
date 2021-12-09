@@ -1,4 +1,4 @@
-package com.example.compound.repositories;
+package com.example.compound.api.repositories;
 
 import com.example.compound.entities.User;
 import com.example.compound.exceptions.UserAuthException;

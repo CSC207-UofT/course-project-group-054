@@ -2,12 +2,8 @@ package com.example.compound.services;
 
 import com.example.compound.entities.User;
 import com.example.compound.exceptions.UserAuthException;
-import com.example.compound.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.regex.Pattern;
 
 @Service
 @Transactional

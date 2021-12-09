@@ -1,27 +1,50 @@
 package com.example.compound.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Test {
     @Id
-//    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String data;
 
-    public Long getId() {
+    @ElementCollection
+    private List<String> members;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    private List<String> getMembers() {
+        return members;
     }
 
     public Test() {}
 
     public Test(String data) {
         this.data = data;
+        this.members = new ArrayList<>();
     }
+
+    public Test(String data, List<String> members) {
+        this.data = data;
+        this.members = members;
+    }
+
 }

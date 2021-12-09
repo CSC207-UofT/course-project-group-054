@@ -17,15 +17,17 @@ public class CurrentGroupManager {
      * Return the UID of the Group being currently used by the program.
      * @return the UID of the Group being currently used by the program
      */
-    public String getCurrentGroupUID() {
-        return currentGroup.getGUID();
+    public Integer getCurrentGroupUID() {
+        // TODO Rohan fix this
+//        return currentGroup.getGUID();
+        return null;
     }
 
     /**
      * Set the UID of the Group being currently used by the program to the given value
      * @param GUID the new UID of the Group that the program is to use
      */
-    public void setCurrentGroup(String GUID) {
+    public void setCurrentGroup(Integer GUID) {
         this.currentGroup = this.repositoryGateway.findByGUID(GUID);
     }
 

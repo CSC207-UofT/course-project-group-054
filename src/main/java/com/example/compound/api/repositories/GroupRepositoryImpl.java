@@ -1,4 +1,4 @@
-//package com.example.compound.repositories;
+//package com.example.compound.api.repositories;
 //
 //import com.example.compound.entities.Group;
 //import org.springframework.data.domain.Example;
@@ -10,38 +10,9 @@
 //import java.util.List;
 //import java.util.Optional;
 //
+//
 //@Repository
 //public class GroupRepositoryImpl implements GroupRepository {
-//
-////    @Autowired
-////    private JdbcTemplate jdbcTemplate;
-//
-////    private static final String SQL_CREATE_GROUP = "INSERT INTO groups VALUES(10, ?, ?, '{}', '{}', ?)";
-//
-////    @Override
-////    public Integer addGroupToDatabase(String name, String description, List<String> members) {
-////        try {
-////            KeyHolder keyHolder = new GeneratedKeyHolder();
-////            jdbcTemplate.update(connection -> {
-////                PreparedStatement ps = connection.prepareStatement(SQL_CREATE_GROUP, Statement.RETURN_GENERATED_KEYS);
-////                ps.setString(1, name);
-////                ps.setString(2, "'{1, 2}'");
-////                ps.setString(3, description);
-////                return ps;
-////            }, keyHolder);
-////            return (Integer) keyHolder.getKeys().get("guid");
-//////            jdbcTemplate.update(SQL_CREATE_GROUP, name, members, description);
-//////            return 1;
-////        } catch (Exception ignored) {
-////        }
-////        return 0;
-////    }
-//
-////    @Override
-////    public boolean getGroupInfo(String guid) {
-////        return false;
-////    }
-//
 //
 //    @Override
 //    public List<Group> findAll() {

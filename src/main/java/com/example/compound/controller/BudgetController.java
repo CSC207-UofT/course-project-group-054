@@ -12,7 +12,7 @@ import com.example.compound.use_cases.gateways.RepositoryGateway;
 import java.util.List;
 
 public class BudgetController {
-    private final String GUID;
+    private final Integer GUID;
     private final CurrentBudgetManager currentBudgetManager;
     private final BudgetManager budgetManager;
     private final ExpenseManager expenseManager;
@@ -31,7 +31,7 @@ public class BudgetController {
             "Exit"
     };
 
-    public BudgetController(String GUID,
+    public BudgetController(Integer GUID,
 //                            BudgetRepositoryGateway budgetRepositoryGateway,
 //                            GroupRepositoryGateway groupRepositoryGateway,
 //                            ItemRepositoryGateway itemRepositoryGateway,
@@ -155,7 +155,8 @@ public class BudgetController {
                 case 5 -> budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
                         expenseManager);
                 case 6 -> {
-                    if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
+//                    if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
+                    if (budgetManager.remove(GUID, 1)) {
                         inOut.sendOutput("The item was removed.");
                     } else {
                         inOut.sendOutput("The item could not be removed. Please try again.");

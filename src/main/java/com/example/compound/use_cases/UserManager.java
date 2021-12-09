@@ -20,7 +20,7 @@ public class UserManager {
         lst.append("---------------------------------\n");
         int counter = 0;
 
-        for (String expenseUID: user.expenses) {
+        for (Integer expenseUID: user.expenses) {
             try {
                 for (Expense expense: repositoryGateway.getExpenses()) {
                     if (expense.getEUID().equals(expenseUID)) {
@@ -89,19 +89,19 @@ public class UserManager {
     }
 
 
-    /**
-     * Change the email of the user
-     * @param user The user that needs to change the email.
-     * @param email The new email of the user.
-     */
-    public void setEmail(User user, String email) {
-        String oldEmail = user.getEmail();
-        for (Group g: repositoryGateway.getGroups()) {
-            if (g.getGroupMembers().contains(oldEmail)) {
-                GroupManager.removeMember(g, oldEmail);
-                GroupManager.addMember(g, email);
-            } //
-        }
-        user.setEmail(email);
-    }
+//    /**
+//     * Change the email of the user
+//     * @param user The user that needs to change the email.
+//     * @param email The new email of the user.
+//     */
+//    public void setEmail(User user, String email) {
+//        String oldEmail = user.getEmail();
+//        for (Group g: repositoryGateway.getGroups()) {
+//            if (g.getGroupMembers().contains(oldEmail)) {
+//                GroupManager.removeMember(g, oldEmail);
+//                GroupManager.addMember(g, uuid);
+//            } //
+//        }
+//        user.setEmail(email);
+//    }
 }

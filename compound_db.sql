@@ -39,6 +39,15 @@ CREATE TABLE groups(
     description TEXT
 );
 
+CREATE TABLE group(
+   guid INTEGER PRIMARY KEY NOT NULL,
+   name VARCHAR(20) NOT NULL,
+   members INTEGER[] NOT NULL,
+   expenses INTEGER[],
+   budgets INTEGER[],
+   description TEXT
+);
+
 CREATE SEQUENCE users_seq increment 1 start 1;
 CREATE SEQUENCE expenses_seq increment 1 start 1000;
 CREATE SEQUENCE groups_seq increment 1 start 1;

@@ -32,7 +32,7 @@ public class ExpenseManager {
                                  Map<Person, Double> whoBorrowed,
                                  UserManager userManager) {
         try {
-            String EUID = Integer.toString(repositoryGateway.getNewEUID());
+            Integer EUID = repositoryGateway.getNewEUID();
             Expense expense = new Expense(EUID, expenseTitle, amount, whoPaid, whoBorrowed);
             repositoryGateway.addExpense(expense);
 
@@ -69,7 +69,7 @@ public class ExpenseManager {
         HashMap<Person, Double> whoPaid = new HashMap<>();
         HashMap<Person, Double> whoBorrowed = new HashMap<>();
 
-        String EUID = Integer.toString(repositoryGateway.getNewEUID());
+        Integer EUID = repositoryGateway.getNewEUID();
         return new Expense(EUID, item.getName(), item.getQuantity() * item.getCost(), whoPaid, whoBorrowed);
     }
 

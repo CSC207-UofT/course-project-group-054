@@ -1,4 +1,4 @@
-package com.example.compound.repositories;
+package com.example.compound.api.repositories;
 
 import com.example.compound.entities.Test;
 import org.springframework.data.domain.Example;
@@ -29,7 +29,7 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public List<Test> findAllById(Iterable<Long> longs) {
+    public List<Test> findAllById(Iterable<Integer> integers) {
         return null;
     }
 
@@ -39,7 +39,7 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(Integer integer) {
 
     }
 
@@ -49,7 +49,7 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public void deleteAllById(Iterable<? extends Integer> integers) {
 
     }
 
@@ -74,12 +74,12 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public Optional<Test> findById(Long aLong) {
+    public Optional<Test> findById(Integer integer) {
         return Optional.empty();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
+    public boolean existsById(Integer integer) {
         return false;
     }
 
@@ -104,7 +104,7 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public void deleteAllByIdInBatch(Iterable<Long> longs) {
+    public void deleteAllByIdInBatch(Iterable<Integer> integers) {
 
     }
 
@@ -114,12 +114,12 @@ public class TestRepository implements TestRepo {
     }
 
     @Override
-    public Test getOne(Long aLong) {
+    public Test getOne(Integer integer) {
         return null;
     }
 
     @Override
-    public Test getById(Long aLong) {
+    public Test getById(Integer integer) {
         return null;
     }
 
