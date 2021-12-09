@@ -1,5 +1,6 @@
 package com.example.compound.cli_controllers;
 
+import com.example.compound.presenters.BudgetPresenter;
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.CurrentBudgetManager;
@@ -20,20 +21,7 @@ public class BudgetController {
     private final CurrentBudgetManager currentBudgetManager;
     private final BudgetManager budgetManager;
     private final ExpenseManager expenseManager;
-    private final String[] selectionActions = {
-            "Select a budget",
-            "Create a new budget",
-            "Exit"
-    };
-    private final String[] budgetActions = {
-            "Add an item",
-            "Change the quantity of an item",
-            "Remove an item",
-            "Change the spending limit",
-            "Convert the items in this budget into expenses and add them to the group",
-            "Delete this budget",
-            "Exit"
-    };
+    private final BudgetPresenter budgetPresenter;
 
     /**
      * Construct a new BudgetController with the given parameters.
@@ -51,10 +39,9 @@ public class BudgetController {
                             ExpenseManager expenseManager) {
         this.GUID = GUID;
         this.currentBudgetManager = new CurrentBudgetManager(budgetRepository);
-//        this.currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
         this.budgetManager = new BudgetManager(budgetRepository, groupRepository, itemRepository);
-//        this.budgetManager = new BudgetManager(repositoryGateway);
         this.expenseManager = expenseManager;
+        this.budgetPresenter = new BudgetPresenter();
     }
 
     /**
@@ -64,7 +51,7 @@ public class BudgetController {
      */
     public void groupBudgetsDashboard(InOut inOut) {
         while (true) {
-            int input = inOut.getOptionView(selectionActions);
+            int input = inOut.getOptionView(budgetPresenter.requestSelectionActions());
 
             switch (input) {
                 case 1 -> selectBudget(inOut);
@@ -86,21 +73,21 @@ public class BudgetController {
         try {
             budgets = budgetManager.getBudgetNameList(GUID);
         } catch (NullPointerException e) {
-            inOut.sendOutput("The requested group or budget does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.getBudgetExistence(false));
             return;
         }
         // Get budget choice
         if (budgets.size() == 0) {
-            inOut.sendOutput("This group does not have any budgets yet.");
+            inOut.sendOutput(budgetPresenter.getBudgetExistence(false));
         } else {
-            inOut.sendOutput("The budgets in this group:");
+            // inOut.sendOutput("The budgets in this group:");
             int budgetInput = inOut.getOptionView(budgets.toArray(new String[0]));
             String budgetName = budgets.get(budgetInput - 1);
             String BUID;
             try {
                 BUID = Objects.requireNonNull(budgetManager.getBUIDFromName(budgetName));
             } catch (NullPointerException e) {
-                inOut.sendOutput("The requested budget does not exist. Please try again.");
+                inOut.sendOutput(budgetPresenter.getAuthenticationCheck(false));
                 return;
             }
             currentBudgetManager.setCurrentBudget(BUID);
@@ -113,14 +100,13 @@ public class BudgetController {
      * @param inOut the user interface object
      */
     private void createNewBudget(InOut inOut) {
-        String name = inOut.requestInput("the name of the budget");
-        double maxSpend = requestDouble(inOut, "the maximum amount of money that can be spent on " +
-                "items in this budget.\nDo not include a dollar sign. For example: 12.34");
+        String name = inOut.requestInput(budgetPresenter.requestName());
+        double maxSpend = requestDouble(inOut, budgetPresenter.requestAmount());
 
         if (budgetManager.create(GUID, name, maxSpend)) {
-            inOut.sendOutput("A new budget was successfully added to the group.");
+            inOut.sendOutput(budgetPresenter.getFailure(false));
         } else {
-            inOut.sendOutput("The requested group does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -136,8 +122,8 @@ public class BudgetController {
         try {
             return Double.parseDouble(input);
         } catch (NumberFormatException e) {
-            inOut.sendOutput("Please enter a valid amount!");
-            return requestDouble(inOut, attribute);
+            inOut.sendOutput(budgetPresenter.getValidAmount(false));
+            return requestDouble(inOut, budgetPresenter.requestAmount());
         }
     }
 
@@ -153,7 +139,7 @@ public class BudgetController {
         try {
             return Integer.parseInt(maxSpendInput);
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid amount!");
+            budgetPresenter.getValidAmount(false);
             return requestInt(inOut, request);
         }
     }
@@ -165,7 +151,7 @@ public class BudgetController {
     public void budgetDashboard(InOut inOut) {
         while (true) {
             // Return an integer between 1 and the number of actions, inclusive
-            int input = inOut.getOptionView(budgetActions);
+            int input = inOut.getOptionView(budgetPresenter.requestBudgetActions());
 
             switch (input) {
                 case 1 -> addItem(inOut);
@@ -189,18 +175,17 @@ public class BudgetController {
      * @param inOut the user interface object
      */
     private void addItem(InOut inOut) {
-        String name = inOut.requestInput("the item's name");
-        double cost = requestDouble(inOut, "the item's cost");
-        int quantity = requestInt(inOut, "the item's quantity");
+        String name = inOut.requestInput(budgetPresenter.requestName());
+        double cost = requestDouble(inOut, budgetPresenter.requestCost());
+        int quantity = requestInt(inOut, budgetPresenter.requestQuantity());
         try {
             Objects.requireNonNull(budgetManager.addItem(currentBudgetManager.getCurrentBudgetUID(), name,
                     cost, quantity));
         } catch (NullPointerException e) {
-            inOut.sendOutput("The item could not be created because the associated budget does not " +
-                    "exist.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
             return;
         }
-        inOut.sendOutput("The item was successfully created.");
+        inOut.sendOutput(budgetPresenter.getFailure(false));
     }
 
     /**
@@ -214,10 +199,9 @@ public class BudgetController {
         } catch (NullPointerException e) {
             return;
         }
-        int newQuantity = requestInt(inOut, "the new quantity");
+        int newQuantity = requestInt(inOut, budgetPresenter.requestInt());
         if (!budgetManager.changeItemQuantity(IUID, newQuantity)) {
-            inOut.sendOutput("The item's quantity could not be changed because the requested budget " +
-                    "does not contain the requested item. Please try again.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -233,8 +217,7 @@ public class BudgetController {
             return;
         }
         if (!budgetManager.removeItem(IUID)) {
-            inOut.sendOutput("The item could not be removed because the requested budget does not " +
-                    "contain the requested item. Please try again.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -243,9 +226,9 @@ public class BudgetController {
      * @param inOut the user interface object
      */
     private void changeSpendingLimit(InOut inOut) {
-        double newMaxSpend = requestDouble(inOut, "the new spending limit");
+        double newMaxSpend = requestDouble(inOut, budgetPresenter.requestAmount());
         if (!budgetManager.setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend)) {
-            inOut.sendOutput("The requested budget does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -256,10 +239,9 @@ public class BudgetController {
     private void convertToExpenses(InOut inOut) {
         if (budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
                 expenseManager)) {
-            inOut.sendOutput("The expenses in this budget were added to the current group.");
+            inOut.sendOutput(budgetPresenter.getFailure(false));
         } else {
-            inOut.sendOutput("The expenses in this budget could not be added to the current group " +
-                    "because the requested group or budget does not exist.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -269,10 +251,9 @@ public class BudgetController {
      */
     private void deleteBudget(InOut inOut) {
         if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
-            inOut.sendOutput("The budget was removed successfully.");
+            inOut.sendOutput(budgetPresenter.getFailure(false));
         } else {
-            inOut.sendOutput("The budget could not be removed because the requested group or budget " +
-                    "does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.getFailure(true));
         }
     }
 
@@ -285,10 +266,10 @@ public class BudgetController {
     private String getIUID(InOut inOut) {
         List<String> items = budgetManager.getItems(currentBudgetManager.getCurrentBudgetUID());
         if (items == null) {
-            inOut.sendOutput("The requested budget does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.getBudgetExistence(false));
             return null;
         } else if (items.size() == 0) {
-            inOut.sendOutput("There are currently no items in this budget.");
+            inOut.sendOutput(budgetPresenter.noItemAvailable(true));
             return null;
         }
         int itemInput = inOut.getOptionView(items.toArray(new String[0]));
@@ -297,7 +278,7 @@ public class BudgetController {
         try {
             IUID = Objects.requireNonNull(budgetManager.getIUIDFromName(itemName));
         } catch (NullPointerException e) {
-            inOut.sendOutput("The requested item does not exist. Please try again.");
+            inOut.sendOutput(budgetPresenter.noItemAvailable(true));
             return null;
         }
         return IUID;
