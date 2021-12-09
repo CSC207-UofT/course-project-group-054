@@ -91,8 +91,11 @@ We also refactored for Clean Architecture (for example, [here](https://github.co
 We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all our static front-end (HTML, JavaScript, CSS, etc.) files will be stored in the `src/main/resources/public` folder in our project. This is a special folder that Spring uses to serve static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
 
 ## Accessibility report
-
-...
+# 1
+- Simple and Intuitive Use: Our Sign Up page has a very simple and easy to understand design that will not confuse any user. The language is very simple and to the point to accomodate a wider range of literacy skills.
+- Tolerance for Error: If we enter something that is not an email on the sign up page, the website will not crash. 
+# 2
+# 3
 
 ## Progress report
 
