@@ -14,6 +14,9 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A repository for storing Budget data transfer objects.
+ */
 @Repository
 public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> {
     private final JdbcTemplate jdbcTemplate;
@@ -33,11 +36,21 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
             (Integer[]) rs.getArray("items").getArray()
     ));
 
+    /**
+     * Construct a new repository for Budget data transfer objects.
+     * @param itemRepositoryGateway a repository for the Item data transfer objects associated with the Budget data
+     *                              transfer objects in this repository
+     */
     public BudgetRepository(RepositoryGatewayI<ItemTransferData> itemRepositoryGateway) {
         this.jdbcTemplate = new JdbcTemplate();
         this.itemRepositoryGateway = itemRepositoryGateway;
     }
 
+    /**
+     * Return the Budget data transfer object with the given UID from the repository.
+     * @param UID the UID of the Budget data transfer object to be retrieved
+     * @return the Budget data transfer object retrieved from the repository
+     */
     @Override
     public BudgetTransferData findByUID(String UID) {
         BudgetTransferData budgetTransferData = jdbcTemplate.queryForObject(SQL_FIND_BY_UID, budgetRowMapper, UID);
@@ -50,11 +63,20 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
         return budgetTransferData;
     }
 
+    /**
+     * Return all the Budget data transfer objects in the repository.
+     * @return all the Budget data transfer objects in the repository
+     */
     @Override
     public List<BudgetTransferData> findAll() {
         return jdbcTemplate.query(SQL_FIND_ALL, budgetRowMapper);
     }
 
+    /**
+     * Save a new Budget data transfer object in the repository.
+     * @param budgetTransferData the Budget data transfer object to save
+     * @return the UID of the new Budget data transfer object
+     */
     @Override
     public String save(BudgetTransferData budgetTransferData) {
         try {
@@ -71,6 +93,11 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
         }
     }
 
+    /**
+     * Update an existing Budget data transfer object in the repository to match the given object.
+     * @param budgetTransferData the Budget data transfer object with which to update the repository
+     * @return whether the Budget data transfer object was updated in the repository
+     */
     @Override
     public boolean update(BudgetTransferData budgetTransferData) {
         try {
@@ -89,6 +116,11 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
         }
     }
 
+    /**
+     * Delete the Budget data transfer object with the given UID.
+     * @param UID the UID of the Budget data transfer object to be deleted
+     * @return whether the Budget data transfer object was deleted
+     */
     @Override
     public boolean deleteById(String UID) {
         try {

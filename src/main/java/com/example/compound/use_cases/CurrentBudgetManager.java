@@ -6,13 +6,17 @@ import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 /**
- * A use case that stores the Budget being currently used by the program.
+ * A use case that stores the Budget currently being used by the program.
  */
 public class CurrentBudgetManager {
     private Budget currentBudget;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
 //    private final RepositoryGateway repositoryGateway;
 
+    /**
+     * Construct a new CurrentBudgetManager with the given parameter.
+     * @param budgetRepositoryGateway the repository for budgets
+     */
     public CurrentBudgetManager(RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway
 //                                RepositoryGateway repositoryGateway
     ) {

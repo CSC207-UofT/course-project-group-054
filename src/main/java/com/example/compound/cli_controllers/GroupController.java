@@ -5,39 +5,23 @@ import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
-import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Controller managing input and output for Group use cases.
+ */
 public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
-    private final UserManager userManager;
     private final CurrentUserManager currentUserManager;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
-
-    public GroupController(RepositoryGateway repositoryGateway,
-                           RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                           GroupRepository groupRepository,
-                           RepositoryGatewayI<ItemTransferData> itemRepository,
-                           CurrentUserManager currentUserManager, ExpenseManager expenseManager,
-                           UserManager userManager) {
-        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
-        this.groupRepository = groupRepository;
-        this.itemRepository = itemRepository;
-        this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
-        this.groupManager = new GroupManager(repositoryGateway);
-        this.currentUserManager = currentUserManager;
-        this.expenseManager = expenseManager;
-        this.userManager = userManager;
-    }
-
-    public static final String[] groupActions = {
+    private static final String[] groupActions = {
             "Edit Group Name",
             "Add People to Group",
             "Remove People",
@@ -47,6 +31,29 @@ public class GroupController {
             "Manage Budgets",
             "Back"
     };
+
+    /**
+     * Construct a new GroupController with the given parameters.
+     * @param repositoryGateway  the repository for all objects
+     * @param budgetRepository   the repository for budgets
+     * @param groupRepository    the repository for groups
+     * @param itemRepository     the repository for items
+     * @param currentUserManager the use case object storing the current user
+     * @param expenseManager     the use case for expenses
+     */
+    public GroupController(RepositoryGateway repositoryGateway,
+                           RepositoryGatewayI<BudgetTransferData> budgetRepository,
+                           GroupRepository groupRepository,
+                           RepositoryGatewayI<ItemTransferData> itemRepository,
+                           CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
+        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
+        this.groupRepository = groupRepository;
+        this.itemRepository = itemRepository;
+        this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
+        this.groupManager = new GroupManager(repositoryGateway);
+        this.currentUserManager = currentUserManager;
+        this.expenseManager = expenseManager;
+    }
 
     /**
      * While the users want to update their group(s), have the user choose an action to
@@ -74,31 +81,6 @@ public class GroupController {
         }
 
     }
-
-    /**
-     * A helper method that enables current user to add or remove people to a group.
-     * @param inOut The interface for the view
-     * @param addOrRemove Add or Remove
-     * @return A list of strings of people to be added or removed
-     */
-    private List<String> addRemovePeople(InOut inOut, String addOrRemove) {
-        List<String> people = new ArrayList<>();
-        boolean addRemovePeople = Boolean.TRUE;
-        do {
-            inOut.sendOutput("Do you want to " + addOrRemove + " more people in your "
-                    + "group" + "? (y/n)");
-            String input2 = inOut.getInput();
-            switch (input2) {
-                case "y" -> {
-                    inOut.sendOutput("Enter user email:");
-                    people.add(inOut.getInput());
-                }
-                case "n" -> addRemovePeople = Boolean.FALSE;
-            }
-        } while (addRemovePeople);
-        return people;
-    }
-
 
     /**
      * A helper method extracted from the updateGroup method that involves all the optional actions on groups.
@@ -130,7 +112,11 @@ public class GroupController {
                 GroupManager.removeMember(currentGroupManager.getCurrentGroup(), emailToRemove);
             }
             // View group members
-            case 4 -> inOut.sendOutput(this.groupManager.showGroupMembers(currentGroupManager.getCurrentGroupUID()));
+            case 4 -> {
+                for (String email : currentGroupManager.getCurrentGroup().getGroupMembers()) {
+                    inOut.sendOutput(email);
+                }
+            }
             // Leave Group
             case 5 -> //TODO: Need to update the balance of the current user.
                     GroupManager.removeMember(currentGroupManager.getCurrentGroup(),

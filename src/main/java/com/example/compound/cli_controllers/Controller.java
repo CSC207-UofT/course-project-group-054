@@ -17,7 +17,7 @@ import com.example.compound.use_cases.transfer_data.ItemTransferData;
  */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
-    public static final String appName = "Money Manager";
+    private static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
@@ -27,8 +27,9 @@ public class Controller {
     private final ExpenseManager expenseManager;
     private final CurrentUserManager currentUserManager;
     private final PersonManager personManager;
-
     private static final String[] actions = {
+
+    public static String[] actions = {
             "Add an expense",
             "Show groups",
             "Check balance",
@@ -39,20 +40,25 @@ public class Controller {
             "Pay an expense",
             "Log out"
     };
-
     private static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
-
     private static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"
     };
 
+    /**
+     * Construct a new Controller with the given parameters.
+     * @param budgetRepository  the repository for budgets
+     * @param groupRepository   the repository for groups
+     * @param itemRepository    the repository for items
+     * @param repositoryGateway the repository for all objects
+     */
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
                       GroupRepository groupRepository,
                       RepositoryGatewayI<ItemTransferData> itemRepository,
@@ -68,6 +74,10 @@ public class Controller {
         this.personManager = new PersonManager(this.repositoryGateway);
     }
 
+    /**
+     * Have the user choose an option from the main menu and perform the appropriate action.
+     * @param inOut the user interface object
+     */
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
         int menuInput = inOut.getOptionView(mainMenuOptions);
@@ -118,7 +128,6 @@ public class Controller {
     /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
      * that action.
-     *
      * @param inOut the user interface object
      */
     public void dashboard(InOut inOut) {
@@ -147,7 +156,7 @@ public class Controller {
                 case 6 -> {
                     GroupController groupController = new GroupController(
                             repositoryGateway, budgetRepository, groupRepository,
-                            itemRepository, currentUserManager, expenseManager, userManager);
+                            itemRepository, currentUserManager, expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
@@ -173,7 +182,7 @@ public class Controller {
      * @param attribute the attribute for which the user interface object requests the user to enter input
      * @return the double input by the user
      */
-    private double requestDouble(InOut inOut, String attribute) { // TODO: Similar to requestDouble in BudgetController; new superclass?
+    private double requestDouble(InOut inOut, String attribute) {
         String input = inOut.requestInput(attribute);
         try {
             return Double.parseDouble(input);
@@ -184,8 +193,8 @@ public class Controller {
     }
 
     /**
-     * Create and return a new Group based on user input.
-     * If the user is not authenticated, a new group is not created.
+     * Create a new group based on user input.
+     * If the current user is not authenticated, a new group is not created.
      * @param inOut the user interface object
      */
     public void createGroupView(InOut inOut) {
@@ -226,14 +235,12 @@ public class Controller {
         String description = inOut.requestInput("a description");
 
         // Create and add the group to our Database
-//        Group group =
         this.groupManager.createGroup(groupName, members, new ArrayList<>(), description);
-//        Data.groups.add(group);
     }
 
     /**
      * Authenticate the user; check if they're signed up.
-     * @param email - the user we are checking.
+     * @param email the user we are checking.
      */
     public void authenticateUser(String email) {
         currentUserManager.setCurrentUser(userManager.getUser(email));
@@ -278,9 +285,7 @@ public class Controller {
             switch (inputP){
                 case 1 -> changeName(inOut);
                 case 2 -> changeEmail(inOut);
-            /*
-            Delete Account
-             */
+                // Delete account
                 case 3 -> {
                     repositoryGateway.removeUser(currentUserManager.getCurrentUser());
                     inOut.sendOutput("Your account has been successfully deleted.");
@@ -298,8 +303,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeName(InOut inOut) {
-        inOut.sendOutput("Please enter the new name.");
-        String name = inOut.getInput();
+        String name = inOut.requestInput("the new name");
         UserManager.setName(currentUserManager.getCurrentUser(), name);
         inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
@@ -310,8 +314,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeEmail(InOut inOut) {
-        inOut.sendOutput("Please enter the new email.");
-        String email = inOut.getInput();
+        String email = inOut.requestInput("the new email");
         userManager.setEmail(currentUserManager.getCurrentUser(), email);
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));

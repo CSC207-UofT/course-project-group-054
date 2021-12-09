@@ -18,7 +18,6 @@ public class Budget implements VetoableChangeListener {
 
     /**
      * Construct a new budget with the given limit on spending.
-     *
      * @param maxSpend the maximum amount of money that can be spent on items in this budget in timeSpan days
      */
     public Budget(String BUID, String name, double maxSpend) {
@@ -62,7 +61,6 @@ public class Budget implements VetoableChangeListener {
 
     /**
      * Return the maximum amount of money that can be spent on items in this budget.
-     *
      * @return the maximum amount of money that can be spent on items in this budget
      */
     public double getMaxSpend() {
@@ -71,7 +69,6 @@ public class Budget implements VetoableChangeListener {
 
     /**
      * Set the maximum amount of money that can be spent on items in this budget to the given value.
-     *
      * @param maxSpend the maximum amount on money that can be spent on items in this budget
      */
     public void setMaxSpend(double maxSpend) {
@@ -81,7 +78,6 @@ public class Budget implements VetoableChangeListener {
     /**
      * Add the given item to the budget if the item is not in the budget and if adding the item would not result in the
      * budget's total cost exceeding maxSpend.
-     *
      * @param item     the item to be added
      * @return whether the given item was added
      */

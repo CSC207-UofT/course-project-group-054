@@ -11,12 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A use case class containing functions for managing Budgets.
+ */
 public class BudgetManager {
     private final RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway;
     private final RepositoryGatewayI<GroupTransferData> groupRepositoryGateway;
     private final RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
 //    private final RepositoryGateway repositoryGateway;
 
+    /**
+     * Construct a new BudgetManager with the given parameters.
+     * @param budgetRepositoryGateway the repository for budgets
+     * @param groupRepositoryGateway  the repository for groups
+     * @param itemRepositoryGateway   the repository for items
+     */
     public BudgetManager(RepositoryGatewayI<BudgetTransferData> budgetRepositoryGateway,
                          RepositoryGatewayI<GroupTransferData> groupRepositoryGateway,
                          RepositoryGatewayI<ItemTransferData> itemRepositoryGateway

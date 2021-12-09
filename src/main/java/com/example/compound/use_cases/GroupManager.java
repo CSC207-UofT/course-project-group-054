@@ -8,12 +8,15 @@ import com.example.compound.use_cases.gateways.RepositoryGateway;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-This is the manager for Group, we edit the entity group through this class.
+/**
+ * A use case class containing functions for managing Groups.
  */
 public class GroupManager {
     private final RepositoryGateway repositoryGateway;
-
+    /**
+     * Construct a new GroupManager with the given parameters.
+     * @param repositoryGateway the repository for all objects
+     */
     public GroupManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
     }
@@ -109,7 +112,7 @@ public class GroupManager {
      * @return the list of group members in a string.
      *         Return "You are the only one in the group.\n" if the group contains only one user/person.
      */
-    public StringBuilder showGroupMembers(String GUID){
+    public StringBuilder showGroupMembers(String GUID) {
         List<Group> groups = repositoryGateway.getGroups();
         for (Group group : groups) {
             if (group.getGUID().equals(GUID)) {
@@ -156,5 +159,4 @@ public class GroupManager {
         }
         return null;
     }
-
 }

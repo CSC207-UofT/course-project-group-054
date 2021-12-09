@@ -6,12 +6,16 @@ package com.example.compound.use_cases;
 import com.example.compound.entities.User;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 
+/**
+ * A use case that stores the User currently being used by the program.
+ */
 public class CurrentUserManager {
     private User currentUser;
     private final RepositoryGateway repositoryGateway;
 
     /**
-    Constructor for the CurrentUserManager
+     * Construct a new CurrentUserManager with the given parameters.
+     * @param repositoryGateway the repository for all objects
      */
     public CurrentUserManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
@@ -43,6 +47,9 @@ public class CurrentUserManager {
         this.currentUser = this.repositoryGateway.findByUUID(id);
     }
 
+    /**
+     * Set the current user to null.
+     */
     public void resetCurrentUser(){
         this.currentUser = null;
     }
