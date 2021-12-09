@@ -3,7 +3,6 @@ package com.example.compound.api.controller;
 import com.example.compound.entities.User;
 import com.example.compound.api.repositories.UserInteractor;
 import com.example.compound.api.repositories.UserRepository;
-import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.GroupManager;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.UserManager;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,13 +20,9 @@ public class UserController {
     @Autowired
     UserInteractor repository;
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
     public RepositoryGateway repositoryGateway = null;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
     public UserManager userManager = new UserManager(this.repositoryGateway);
-    public ExpenseManager expenseManager = new ExpenseManager(this.repositoryGateway);
 
     @GetMapping("/users")
     List<String> all() {
