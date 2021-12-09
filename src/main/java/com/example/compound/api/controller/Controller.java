@@ -29,10 +29,10 @@
 ////                      GroupRepositoryGateway groupRepositoryGateway,
 ////                      ItemRepositoryGateway itemRepositoryGateway,
 //                      RepositoryGateway repositoryGateway) {
-////        this.budgetRepositoryGateway = budgetRepositoryGateway; // TODO: instantiate gateways here instead of injecting? or dependency injection?
+////        this.budgetRepositoryGateway = budgetRepositoryGateway;
 ////        this.groupRepositoryGateway = groupRepositoryGateway;
 ////        this.itemRepositoryGateway = itemRepositoryGateway;
-//        this.repositoryGateway = repositoryGateway; // TODO: Take in as a parameter?
+//        this.repositoryGateway = repositoryGateway;
 //        this.groupManager = new GroupManager(this.repositoryGateway);
 //        this.userManager = new UserManager(this.repositoryGateway);
 //        this.expenseManager = new ExpenseManager(this.repositoryGateway);
@@ -128,7 +128,6 @@
 //                    GroupController groupController = new GroupController(repositoryGateway, currentUser, expenseManager);
 //                    groupController.updateGroup(inOut);
 //                }//Manage Groups
-//                //TODO: Fix case 7; not properly displaying people in expenses
 //                case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUser));
 //                case 8 -> {
 //                    inOut.sendOutput("Enter the EUID of the expense you wish to pay");

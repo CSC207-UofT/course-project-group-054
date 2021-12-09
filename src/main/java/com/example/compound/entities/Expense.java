@@ -19,7 +19,6 @@ public class Expense {
      * @param whoPaid Map of People:AmountPaid
      * @param whoBorrowed Map of People:AmountBorrowed
      */
-    //TODO: Implement multiple split types for Phase 2
     public Expense(String EUID, String title, double amount,
                    Map<Person, Double> whoPaid,
                    Map<Person, Double> whoBorrowed) {
@@ -65,7 +64,7 @@ public class Expense {
         this.whoBorrowed.replace(p, amount - amountPaid);
     }
 
-    public void settleExpenseLent(Person p, Double amountPaid) { // TODO: Add test
+    public void settleExpenseLent(Person p, Double amountPaid) {
         this.amount -= amountPaid;
         Double amount = this.whoPaid.get(p);
         if (amount - amountPaid < 0) {

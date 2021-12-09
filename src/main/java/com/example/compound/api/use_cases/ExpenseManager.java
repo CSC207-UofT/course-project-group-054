@@ -18,8 +18,13 @@ public class ExpenseManager {
 //        payee.updateBalance(-amount); // remove the money from the payee's account.
 //    }
 
-
-    // TODO add javadoc
+    /**
+     * Settle the given expense.
+     * @param expense the expense to settle
+     * @param uuid the UID of the user to for whom to settle the expense
+     * @param amountPaid the amount paid by user
+     * @param borrowed whether money was borrowed (true) or lent (false)
+     */
     public void settleExpense(Expense expense, Integer uuid, double amountPaid, boolean borrowed) {
         Double amount = expense.getPeople().get(uuid);
         expense.setAmount(expense.getAmount() - amountPaid);

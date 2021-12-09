@@ -27,8 +27,7 @@ public class UserController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    // TODO: Move to constructor?
-    public final RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
+    public final RepositoryGateway repositoryGateway = new Data();
 //        this.repositoryGateway = repositoryGateway;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
     public final UserManager userManager = new UserManager(this.repositoryGateway);

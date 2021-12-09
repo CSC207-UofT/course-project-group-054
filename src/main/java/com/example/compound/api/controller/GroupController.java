@@ -84,8 +84,6 @@ public class GroupController {
 
         if (attribute.equals("expenses")) {
             Integer euid = (Integer) request.get("expenseId");
-            // TODO check if expense object exists in expenses table
-
             manager.addExpense(group, euid);
             repository.save(group);
             return group.getExpenses();

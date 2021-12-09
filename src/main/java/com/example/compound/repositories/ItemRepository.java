@@ -28,7 +28,7 @@ public class ItemRepository implements RepositoryGatewayI<ItemTransferData> {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM items WHERE iuid = ?";
 
     private final RowMapper<ItemTransferData> itemRowMapper = ((rs, rowNum) -> new ItemTransferData(
-            Integer.toString(rs.getInt("iuid")), // TODO: Make UIDs integers?
+            Integer.toString(rs.getInt("iuid")),
             rs.getString("name"),
             rs.getDouble("cost"),
             rs.getInt("quantity")

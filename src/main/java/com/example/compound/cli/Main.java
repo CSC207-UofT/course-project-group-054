@@ -19,7 +19,7 @@ public class Main {
         data.initializeData();
 
         View view = new View();
-        ItemRepository itemRepository = new ItemRepository(); // TODO: RepositoryGatewayI<ItemTransferData> itemRepository = ...?
+        ItemRepository itemRepository = new ItemRepository();
         BudgetRepository budgetRepository = new BudgetRepository(itemRepository);
         GroupRepository groupRepository = new GroupRepository();
         Controller controller = new Controller(budgetRepository, groupRepository, itemRepository,

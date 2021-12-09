@@ -93,8 +93,8 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
         if ((this.getTotalCost() + item.getQuantity() * item.getCost() <= this.maxSpend)
                 && !budget.containsKey(item.getName())) {
             budget.put(item.getName(), item);
-            item.addObserver((PropertyChangeListener) this); // TODO: Should this be in the Budget class?
-            item.addObserver((VetoableChangeListener) this); // TODO: Should this be in the Budget class?
+            item.addObserver((PropertyChangeListener) this);
+            item.addObserver((VetoableChangeListener) this);
             return true;
         } else {
             return false;
@@ -111,16 +111,6 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
     public Item getItem(String item) {
         return budget.getOrDefault(item, null);
     }
-
-    // TODO: Fix this
-//    public Item getItem(String IUID) {
-//        for (String itemName : budget.keySet()) {
-//            if (budget.get(itemName).getIUID().equals(IUID)) {
-//                return budget.get(itemName);
-//            }
-//        }
-//        return null;
-//    }
 
     /**
      * Return a mapping from the names of items in this budget to those Item objects.
@@ -202,7 +192,7 @@ public class Budget implements VetoableChangeListener, PropertyChangeListener {
      */
     @Override
     public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-        switch (evt.getPropertyName()) { // TODO: Is the presence of this switch statement a code smell? Is it needed?
+        switch (evt.getPropertyName()) {
             case "quantity" -> {
                 int newQuantity = (Integer) evt.getNewValue();
                 Item item = (Item) evt.getSource();

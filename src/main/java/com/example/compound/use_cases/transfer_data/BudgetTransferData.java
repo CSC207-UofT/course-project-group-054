@@ -5,7 +5,7 @@ import com.example.compound.entities.Item;
 
 import java.util.*;
 
-public class BudgetTransferData { // TODO: What should this be called?
+public class BudgetTransferData {
     private String BUID;
     private String name;
     private Map<String, ItemTransferData> budget;
@@ -82,7 +82,7 @@ public class BudgetTransferData { // TODO: What should this be called?
         this.maxSpend = maxSpend;
     }
 
-    public Budget toBudget() { // TODO: Objects of this class will be used by outer layers. This method returns an Entity object. Hypothetically, objects in outer layers could access Entities. Can this method be here?
+    public Budget toBudget() {
         Budget budget = new Budget(BUID, name, maxSpend);
         for (String IUID : this.budget.keySet()) {
             budget.addItem(this.budget.get(IUID).toItem());

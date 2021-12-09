@@ -25,7 +25,7 @@ public class Group {
         this.groupMembers = groupMembers;
         this.expenseList = expenseList;
         this.description = description;
-        this.GUID = ""; // TODO
+        this.GUID = ""; // Implemented in the repository
         this.budgets = new ArrayList<>();
     }
 

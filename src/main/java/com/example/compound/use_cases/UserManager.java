@@ -54,7 +54,6 @@ public class UserManager {
      * @return The user associated with the email if it exists in the databse, null otherwise.
      */
     public User getUser(String email) {
-        //TODO: fix non static usages
         try {
             for (User user : repositoryGateway.getUsers()) {
                 if (user.getEmail().equals((email))) {

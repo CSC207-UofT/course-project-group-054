@@ -42,7 +42,6 @@ public class Expense {
      * @param payer UUID of person who paid
      * @param people List containing UIDs of people part of the expense
      */
-    //TODO: Implement multiple split types for Phase 2
     public Expense(String title, Double amount,
                    Integer payer,
                    Map<Integer, Double> people) {

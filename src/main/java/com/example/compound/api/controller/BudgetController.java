@@ -37,7 +37,7 @@ public class BudgetController {
                             ) {
         this.currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
         this.budgetManager = new BudgetManager(repositoryGateway);
-        this.expenseManager = new ExpenseManager(null); // TODO
+        this.expenseManager = new ExpenseManager(repositoryGateway);
         this.currentGroupManager = currentGroupManager;
 //        this.expenseManager = new ExpenseManager(expenseRepository);
     }

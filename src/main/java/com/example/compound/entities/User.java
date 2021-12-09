@@ -66,15 +66,6 @@ public class User extends Person implements AccountFeatures {
         this.password = password;
     }
 
-    //TODO: Create a proper UUID Algorithm, perhaps in the repository instead of here
-    /**
-     * Generate a unique identifier for this user.
-     */
-    public int generateUUID() {
-        Random random = new Random();
-        return random.nextInt(100) + 1;
-    }
-
     /**
      * Return a String representation of this user.
      * @return a String representation of this user

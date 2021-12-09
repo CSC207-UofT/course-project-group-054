@@ -30,7 +30,7 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM budgets WHERE buid = ?";
 
     private final RowMapper<BudgetTransferData> budgetRowMapper = ((rs, rowNum) -> new BudgetTransferData(
-            Integer.toString(rs.getInt("buid")), // TODO: Make UIDs integers?
+            Integer.toString(rs.getInt("buid")),
             rs.getString("name"),
             rs.getDouble("maxSpend"),
             (Integer[]) rs.getArray("items").getArray()
@@ -57,7 +57,7 @@ public class BudgetRepository implements RepositoryGatewayI<BudgetTransferData> 
 
         assert budgetTransferData != null;
         for (String IUID : budgetTransferData.getBudget().keySet()) {
-            budgetTransferData.addItem(IUID, itemRepositoryGateway.findByUID(IUID)); // TODO: Make all UIDs integers?
+            budgetTransferData.addItem(IUID, itemRepositoryGateway.findByUID(IUID));
         }
 
         return budgetTransferData;

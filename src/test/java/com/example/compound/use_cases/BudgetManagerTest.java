@@ -29,7 +29,6 @@ public class BudgetManagerTest {
 
     @Before
     public void setUp() {
-        // TODO: Implement the gateways
         itemRepositoryGateway = new ItemRepository();
         budgetRepositoryGateway = new BudgetRepository(itemRepositoryGateway);
         groupRepositoryGateway = new GroupRepository();
