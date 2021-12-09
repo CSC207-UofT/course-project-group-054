@@ -2,17 +2,16 @@ package com.example.compound.use_cases.transfer_data;
 
 import com.example.compound.entities.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A helper class that helps transfer the group data
  */
 public class GroupTransferData {
-    private  String groupName;
-    private  List<String> groupMembers;
-    private  List<Expense> expenseList;
-    private  String description;
+    private final String groupName;
+    private final List<String> groupMembers;
+    private final List<Expense> expenseList;
+    private final String description;
     private  String GUID;
     private  List<Budget> budgets;
 

@@ -1,7 +1,6 @@
 package com.example.compound.use_cases;
 
 import com.example.compound.data.Data;
-import com.example.compound.entities.Group;
 import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;

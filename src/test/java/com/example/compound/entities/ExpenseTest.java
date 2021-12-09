@@ -4,8 +4,6 @@ import org.junit.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 
 public class ExpenseTest {

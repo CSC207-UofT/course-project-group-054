@@ -5,10 +5,6 @@ import com.example.compound.use_cases.CurrentBudgetManager;
 import com.example.compound.use_cases.CurrentGroupManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGatewayI;
-import com.example.compound.use_cases.transfer_data.BudgetTransferData;
-import com.example.compound.use_cases.transfer_data.GroupTransferData;
-import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,9 +1,6 @@
 package com.example.compound.api.use_cases;
 
 import com.example.compound.api.entities.Expense;
-import com.example.compound.api.entities.User;
-
-import java.util.Map;
 
 /*
 This file represents the Expense Class manager. The entity Expense is changed here.

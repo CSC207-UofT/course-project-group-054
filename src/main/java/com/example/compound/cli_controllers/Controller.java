@@ -2,14 +2,10 @@ package com.example.compound.cli_controllers;
 
 import java.util.*;
 
-import com.example.compound.entities.User;
-import com.example.compound.entities.Person;
-import com.example.compound.entities.Group;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
-import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
 /**
@@ -28,7 +24,7 @@ public class Controller {
     private final CurrentUserManager currentUserManager;
     private final PersonManager personManager;
 
-    public static String[] actions = {
+    public static final String[] actions = {
             "Add an expense",
             "Show groups",
             "Check balance",

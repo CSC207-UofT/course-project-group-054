@@ -20,9 +20,9 @@ public class UserController {
     @Autowired
     UserInteractor repository;
 
-    public RepositoryGateway repositoryGateway = null;
+    public final RepositoryGateway repositoryGateway = null;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
-    public UserManager userManager = new UserManager(this.repositoryGateway);
+    public final UserManager userManager = new UserManager(this.repositoryGateway);
 
     @GetMapping("/users")
     List<String> all() {

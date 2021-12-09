@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class ExpenseTransferData {
     private String EUID;
-    private String title;
-    private double amount;
-    private Map<Person, Double> whoPaid;
-    private Map<Person, Double> whoBorrowed;
+    private final String title;
+    private final double amount;
+    private final Map<Person, Double> whoPaid;
+    private final Map<Person, Double> whoBorrowed;
 
     /**
      * Default Constructor for ExpenseTransferData Class.

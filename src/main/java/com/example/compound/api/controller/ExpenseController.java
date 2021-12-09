@@ -19,7 +19,7 @@ public class ExpenseController {
     @Autowired
     ExpenseInteractor repository;
 
-    ExpenseManager manager = new ExpenseManager();
+    final ExpenseManager manager = new ExpenseManager();
 
     /**
      * API Endpoint to create an expense
@@ -49,7 +49,6 @@ public class ExpenseController {
 
             return 1;
         } catch (Exception e) {
-            System.out.println(e);
             return 0;
         }
     }
@@ -106,7 +105,7 @@ public class ExpenseController {
                 return expense.getPeople();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            return null;
         }
         return null;
     }

@@ -19,7 +19,6 @@ public class User extends Person implements AccountFeatures {
     private final int UUID;
     public final String username;
     public List<Integer> expenses;
-    private String password;
 
     /**
      * Construct User, giving them the given name, balance, and email.
@@ -38,7 +37,6 @@ public class User extends Person implements AccountFeatures {
         super(name, balance, email);
         this.UUID = uuid;
         this.username = username;
-        this.password = password;
     }
 
     @Override

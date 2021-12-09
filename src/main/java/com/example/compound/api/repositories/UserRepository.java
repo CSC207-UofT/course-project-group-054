@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Repository
@@ -50,7 +51,7 @@ public class UserRepository implements UserInteractor {
                 ps.setString(4, password);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("uuid");
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("uuid");
         } catch (Exception ignored) { }
         return 0;
     }

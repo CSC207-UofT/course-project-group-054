@@ -17,7 +17,7 @@ public class GroupController {
     @Autowired
     GroupInteractor repository;
 
-    GroupManager manager = new GroupManager();
+    final GroupManager manager = new GroupManager();
 
 
     /**

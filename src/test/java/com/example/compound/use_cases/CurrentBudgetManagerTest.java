@@ -3,15 +3,8 @@ package com.example.compound.use_cases;
 //import com.example.compound.data.Data;
 import com.example.compound.data.Data;
 import com.example.compound.entities.Group;
-import com.example.compound.repositories.BudgetRepository;
-import com.example.compound.repositories.GroupRepository;
-import com.example.compound.repositories.ItemRepository;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
-import com.example.compound.use_cases.transfer_data.BudgetTransferData;
-import com.example.compound.use_cases.transfer_data.GroupTransferData;
-import com.example.compound.use_cases.transfer_data.ItemTransferData;
 import org.junit.*;
 
 import static org.junit.Assert.*;

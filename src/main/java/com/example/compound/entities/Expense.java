@@ -2,8 +2,6 @@ package com.example.compound.entities;
 
 import java.util.*;
 
-import com.example.compound.data.*;
-
 /*
  * An expense, which is associated with a cost and a mapping between users and the amounts of money owed by those users.
  */

@@ -7,9 +7,6 @@ import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A Controller managing input and output for Group use cases.
  */
@@ -17,9 +14,6 @@ public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
     private final CurrentUserManager currentUserManager;
-    private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final GroupRepository groupRepository;
-    private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final RepositoryGateway repositoryGateway;
     private final ExpenseManager expenseManager;
     private static final String[] groupActions = {
@@ -47,9 +41,6 @@ public class GroupController {
                            GroupRepository groupRepository,
                            RepositoryGatewayI<ItemTransferData> itemRepository,
                            CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
-        this.budgetRepository = budgetRepository;
-        this.groupRepository = groupRepository;
-        this.itemRepository = itemRepository;
         this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
         this.groupManager = new GroupManager(repositoryGateway);
         this.currentUserManager = currentUserManager;

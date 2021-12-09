@@ -1,7 +1,6 @@
 package com.example.compound.api.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

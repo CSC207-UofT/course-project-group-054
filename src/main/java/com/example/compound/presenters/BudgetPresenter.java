@@ -2,7 +2,6 @@
  * This file represents the presenter for the budget controller class.
  */
 package com.example.compound.presenters;
-import com.example.compound.cli_controllers.InOut;
 
 public class BudgetPresenter {
     private final String[] selectionActions = {

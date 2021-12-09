@@ -3,7 +3,7 @@ package com.example.compound.use_cases;
 import com.example.compound.data.Data;
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.ExpenseManager;
-import com.example.compound.use_cases.gateways.RepositoryGateway;
+
 import java.util.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
