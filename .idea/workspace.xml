@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Completed Group API. Did Refactoring.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/use_cases/ExpenseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/use_cases/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/Group2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/GroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/ExpenseInteractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/ExpenseInteractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/Group2Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/use_cases/GroupManager.java" afterDir="false" />
+    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Started Expense API. Did refactoring &amp; clean up.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/ExpenseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -207,7 +201,7 @@
       <workItem from="1638218227644" duration="719000" />
       <workItem from="1638218992957" duration="433000" />
       <workItem from="1638739207213" duration="4131000" />
-      <workItem from="1638754838769" duration="37032000" />
+      <workItem from="1638754838769" duration="37248000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -272,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639017439295</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Started Expense API. Did refactoring &amp; clean up.">
+      <created>1639019792896</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1639019792896</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +300,8 @@
     <MESSAGE value="Made more changes" />
     <MESSAGE value="Cleaned up. Completed Group API." />
     <MESSAGE value="Completed Group API. Did Refactoring." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed Group API. Did Refactoring." />
+    <MESSAGE value="Started Expense API. Did refactoring &amp; clean up." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started Expense API. Did refactoring &amp; clean up." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

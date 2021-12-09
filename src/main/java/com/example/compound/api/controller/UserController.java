@@ -1,7 +1,5 @@
 package com.example.compound.api.controller;
 
-//import com.example.compound.api.UserInteractor;
-//import com.example.compound.data.Data;
 import com.example.compound.entities.User;
 import com.example.compound.api.repositories.UserInteractor;
 import com.example.compound.api.repositories.UserRepository;
@@ -18,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -27,11 +25,7 @@ public class UserController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    // TODO: Move to constructor?
-    // TODO Rohan
-//    public RepositoryGateway repositoryGateway = new Data(); // TODO: Take in as a constructor parameter?
     public RepositoryGateway repositoryGateway = null;
-//        this.repositoryGateway = repositoryGateway;
     public GroupManager groupManager = new GroupManager(this.repositoryGateway);
     public UserManager userManager = new UserManager(this.repositoryGateway);
     public ExpenseManager expenseManager = new ExpenseManager(this.repositoryGateway);
