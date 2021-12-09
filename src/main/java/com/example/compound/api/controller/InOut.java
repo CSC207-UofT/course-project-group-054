@@ -1,4 +1,4 @@
-package com.example.compound.controller;
+package com.example.compound.api.controller;
 
 public interface InOut {
     String getInput();

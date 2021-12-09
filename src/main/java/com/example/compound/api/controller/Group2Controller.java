@@ -1,7 +1,7 @@
-package com.example.compound.controller;
+package com.example.compound.api.controller;
 
 import com.example.compound.api.entities.Group;
-import com.example.compound.api.repositories.Group2Repo;
+import com.example.compound.api.repositories.GroupInteractor;
 import com.example.compound.use_cases.Group2Manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,9 +13,9 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/groups")
 public class Group2Controller {
-    @Qualifier("group2Repo")
+    @Qualifier("groupInteractor")
     @Autowired
-    Group2Repo repository;
+    GroupInteractor repository;
 
     Group2Manager manager = new Group2Manager();
 
@@ -25,7 +25,7 @@ public class Group2Controller {
      * @param request JSON request object casted into a Java map with as <String, Object> key value pairs
      * @return 1 if the group was created
      */
-    @PostMapping("/add")
+    @PostMapping("/create")
     public int createGroup(@RequestBody Map<String, Object> request) {
         String name = (String) request.get("name");
         String description = (String) request.get("description");

@@ -1,7 +1,5 @@
-package com.example.compound.controller;
+package com.example.compound.to_delete;
 
-import com.example.compound.entities.Test;
-import com.example.compound.api.repositories.TestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.example.compound.entities;
+package com.example.compound.to_delete;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 ///*
 //This file represents the controller class which handles the interactions between inputs and outputs.
 // */
-//package com.example.compound.controller;
+//package com.example.compound.api.controller;
 //
 //import java.util.*;
 //

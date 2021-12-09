@@ -1,4 +1,4 @@
-//package com.example.compound.controller;
+//package com.example.compound.api.controller;
 //
 //import com.example.compound.entities.Group;
 //import com.example.compound.api.repositories.GroupRepository;

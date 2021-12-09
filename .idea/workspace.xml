@@ -4,61 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Made more changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Group.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/Group2Repo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/Group2Repository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupRepositoryImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Group2Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/Group2Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="bd037ef8-ab02-447c-b90d-d3f0dbd01fa9" name="Changes" comment="Cleaned up. Completed Group API.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/AccountFeatures.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Budget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Expense.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/ExpenseInteractor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/ExpenseRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/GroupRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compound_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/compound_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/CompoundApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/CompoundApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/UserInteractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/UserInteractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/BudgetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/BudgetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/TestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/data/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/debugging/Debugging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/debugging/Debugging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Expense.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/GroupRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/TestRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/TestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/TestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/repositories/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/UserRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/GroupServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/services/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/services/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/BudgetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/BudgetManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/CurrentGroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/CurrentGroupManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/ExpenseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/Group2Repo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupInteractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/Group2Repository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/GroupRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/GroupRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/TestRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/TestRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/api/repositories/TestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/TestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/cli/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/BudgetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/BudgetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/Group2Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/Group2Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/GroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/InOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/InOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/api/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/entities/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/GroupManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/gateways/RepositoryGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/compound/use_cases/gateways/RepositoryGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log-in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/log-in.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sign-up.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/sign-up.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/BudgetTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ExpenseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/GroupTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/GroupTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ItemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/ItemTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/PersonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/PersonTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/entities/UserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/BudgetManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/BudgetManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/CurrentBudgetManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/CurrentBudgetManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/ExpenseManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/ExpenseManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/UserManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/compound/use_cases/UserManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/compound/controller/UserController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,8 +41,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -135,6 +108,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -142,7 +116,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/compound/api/entities" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/compound/to_delete" />
       <recent name="$PROJECT_DIR$/src/main/resources/public" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
@@ -246,7 +224,7 @@
       <workItem from="1638218227644" duration="719000" />
       <workItem from="1638218992957" duration="433000" />
       <workItem from="1638739207213" duration="4131000" />
-      <workItem from="1638754838769" duration="32488000" />
+      <workItem from="1638754838769" duration="34454000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated project to Maven for Spring use.">
       <created>1636582781507</created>
@@ -297,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638758006375</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Cleaned up. Completed Group API.">
+      <created>1639015171441</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1639015171441</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -322,7 +307,8 @@
     <MESSAGE value="Added GroupController, GroupService, GroupServiceImpl files." />
     <MESSAGE value="Fixed errors and typing to get the API to work." />
     <MESSAGE value="Made more changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made more changes" />
+    <MESSAGE value="Cleaned up. Completed Group API." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up. Completed Group API." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
