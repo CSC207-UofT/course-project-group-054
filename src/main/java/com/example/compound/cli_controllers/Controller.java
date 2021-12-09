@@ -1,33 +1,32 @@
-/*
-This file represents the controller class which handles the interactions between inputs and outputs.
- */
-package com.example.compound.cli_controllers;
+package com.example.compound.controller;
 
 import java.util.*;
 
-import com.example.compound.entities.Group;
-import com.example.compound.repositories.GroupRepository;
+import com.example.compound.entities.User;
+import com.example.compound.entities.Person;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.*;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
+/**
+ * A Controller for handling the interactions between inputs and outputs.
+ */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
-    public static String appName = "Money Manager";
+    public static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final GroupRepository groupRepository;
+    private final RepositoryGatewayI<GroupTransferData> groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
-    public RepositoryGateway repositoryGateway;
-    public GroupManager groupManager;
-    public UserManager userManager;
-    public ExpenseManager expenseManager;
-    public CurrentUserManager currentUserManager;
-    public PersonManager personManager;
+    public final RepositoryGateway repositoryGateway;
+    public final GroupManager groupManager;
+    public final UserManager userManager;
+    public final ExpenseManager expenseManager;
+    public final CurrentUserManager currentUserManager;
 
     public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      GroupRepository groupRepository,
+                      RepositoryGatewayI<GroupTransferData> groupRepository,
                       RepositoryGatewayI<ItemTransferData> itemRepository,
                       RepositoryGateway repositoryGateway) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
@@ -38,10 +37,9 @@ public class Controller {
         this.userManager = new UserManager(this.repositoryGateway);
         this.expenseManager = new ExpenseManager(this.repositoryGateway);
         this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
-        this.personManager = new PersonManager(this.repositoryGateway);
     }
 
-    public static String[] actions = {
+    public static final String[] actions = {
             "Add an expense",
             "Show groups",
             "Check balance",
@@ -53,19 +51,18 @@ public class Controller {
             "Log out"
     };
 
-    public static String[] profileActions = {
+    public static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
 
-    public static String[] mainMenuOptions = {
+    public static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"
     };
-
 
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
@@ -75,9 +72,9 @@ public class Controller {
                 // Login
                 String email = inOut.requestInput("your Email");
                 // set the current user
-                currentUserManager.setCurrentUser(userManager.getUser(email));
-                if (this.currentUserManager.getCurrentUser() != null) {
-                    authenticateUser(this.currentUserManager.getCurrentUser().getEmail());
+                if (userManager.getUser(email) != null) {
+                    this.currentUserManager.setCurrentUser(userManager.getUser(email));
+                    authenticateUser(this.currentUserManager.getCurrentUser() );
                     inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
                 } else {
@@ -88,19 +85,30 @@ public class Controller {
                 // Sign up
                 String email = inOut.requestInput("your email");
                 String name = inOut.requestInput("your name");
-                String password = inOut.requestInput("your password");
-                // TODO: Confirm password
+                String password = getPassword(inOut);
+
                 double balance = 0.0;
                 userManager.createUser(name, balance, email, password);
                 inOut.sendOutput("Thanks for signing up!");
             }
-//            case 3 -> {
-//                // Create Group
-//
-//            }
             case 3 -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
+    }
+
+    /**
+     * Request that the user input a password, confirm the input password, and return it.
+     * @param inOut the user interface object
+     * @return the password input by the user
+     */
+    private String getPassword(InOut inOut) {
+        String password = inOut.requestInput("your password");
+        String passwordConfirmation = inOut.requestInput("your password again");
+        if (!password.equals(passwordConfirmation)) {
+            inOut.sendOutput("The passwords do not match. Please try again.");
+            return getPassword(inOut);
+        }
+        return password;
     }
 
     /**
@@ -116,12 +124,8 @@ public class Controller {
 
             switch (input) {
                 case 1 -> {
-                    inOut.sendOutput("Enter the title: ");
-                    String expenseTitle = inOut.getInput();
-                    ExpenseController expenseController = new ExpenseController(
-                            this.currentUserManager, this.userManager, this.personManager,
-                            this.expenseManager);
-                    expenseController.createExpenseView(inOut, expenseTitle);
+                    String expenseTitle = inOut.requestInput("the title");
+                    createExpenseView(inOut, currentUserManager.getCurrentUser(), expenseTitle);
                 }
                 case 2 -> {
                     StringBuilder lst = this.groupManager.showListOfGroup(currentUserManager.getCurrentUser());
@@ -134,20 +138,17 @@ public class Controller {
                 }
                 case 5 -> createGroupView(inOut);
                 case 6 -> {
-                    GroupController groupController = new GroupController(
-                            repositoryGateway, budgetRepository, groupRepository,
-                            itemRepository, currentUserManager, expenseManager, userManager);
+                    GroupController groupController = new GroupController(repositoryGateway,
+                            budgetRepository, groupRepository, itemRepository,
+                            currentUserManager, expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
                 case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
                 case 8 -> {
-                    inOut.sendOutput("Enter the EUID of the expense you wish to pay");
-                    String expenseToPay = inOut.getInput();
-                    inOut.sendOutput("Enter the amount you wish to pay");
-                    Double amount = inputToDouble(inOut);
-                    inOut.sendOutput("Did you borrow? yes(y) or no(n)");
-                    String borrowed = inOut.getInput();
+                    String expenseToPay = inOut.requestInput("the EUID of the expense you wish to pay");
+                    Double amount = requestDouble(inOut, "the amount you wish to pay");
+                    String borrowed = inOut.requestInput("whether you borrowed: 'y' for yes or 'n' for no");
                     expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
@@ -158,18 +159,20 @@ public class Controller {
         }
     }
 
-    public double inputToDouble(InOut inOut){
-        /*
-        Helper method for dashboard, converts input string to a double.
-         */
-        String amountPaid = inOut.getInput();
+    /**
+     * A helper method that requests the user to enter input for the given attribute and converts the input string
+     * returned by the given user interface object to a double.
+     * @param inOut     the user interface object
+     * @param attribute the attribute for which the user interface object requests the user to enter input
+     * @return the double input by the user
+     */
+    private double requestDouble(InOut inOut, String attribute) { // TODO: Similar to requestDouble in BudgetController; new superclass?
+        String input = inOut.requestInput(attribute);
         try {
-            double amount;
-            amount = Double.parseDouble(amountPaid);
-            return amount;
-        } catch(Exception E) {
-            System.out.println("Please enter a valid amount!");
-            return inputToDouble(inOut);
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            inOut.sendOutput("Please enter a valid amount!");
+            return requestDouble(inOut, attribute);
         }
     }
 
@@ -184,7 +187,7 @@ public class Controller {
         }
 
         List<String> members = new ArrayList<>();
-        members.add(currentUserManager.getCurrentUser().getEmail());
+        members.add(getCurrentUser().getEmail());
 
         // Input the group's name
         String groupName = inOut.requestInput("the new group's name");
@@ -221,13 +224,102 @@ public class Controller {
 //        Data.groups.add(group);
     }
 
+    /**
+     * Create the view where we interact with the functions of Expense.
+     *
+     * @param inOut the user interface object
+     * @param u The user that is calling this function.
+     * @param expenseTitle The title of the expense
+     */
+    public void createExpenseView(InOut inOut, User u, String expenseTitle) {
+        HashMap<Person, Double> borrowedSoFar = new HashMap<>();
+        HashMap<Person, Double> lentSoFar = new HashMap<>();
+
+        List<String> people = new ArrayList<>();
+        people.add(currentUserManager.getCurrentUser().getEmail());
+
+        double amount = requestDouble(inOut, "amount borrowed/lent: (0.00)");
+        boolean userBorrow = inOut.requestInput("whether you borrowed (b) or paid (p)").equals("b");
+        if (userBorrow){
+            u.updateBalance(amount);
+            borrowedSoFar.put(currentUserManager.getCurrentUser(), amount);
+        }
+        else{
+            u.updateBalance(-amount);
+            lentSoFar.put(currentUserManager.getCurrentUser(), amount);
+        }
+
+        boolean addMorePeople = Boolean.TRUE;
+        do {
+            inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
+            String input2 = inOut.getInput();
+            switch (input2) {
+                case "y" -> caseYHelper(inOut, borrowedSoFar, lentSoFar);
+                case "n" -> {
+                    if (people.size() == 0) {
+                        inOut.sendOutput("ERROR: You need to have at least one other person to share " +
+                                "expense with.");
+                    } else {
+                        addMorePeople = Boolean.FALSE;
+                    }
+                }
+            }
+        } while (addMorePeople);
+        currentUserManager.getCurrentUser().addExpense(
+                Objects.requireNonNull(
+                        expenseManager.createExpense(
+                                expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
+        System.out.println("borrowed: " + borrowedSoFar.keySet()
+                + "lent: " + lentSoFar.keySet());
+    }
+
+    /**
+     * A helper method for case Y in the above createExpenseView.
+     * @param inOut the user interface object
+     * @param borrowedSoFar A map that stores people that borrowed so far
+     * @param lentSoFar A map that stores people that lent so far
+     */
+    private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
+        String name = inOut.requestInput("their name");
+        String email = inOut.requestInput("user email");
+
+        String borrowOrLend = inOut.requestInput("whether they borrowed (b) or paid (p)");
+        boolean borrowed = borrowOrLend.equals("b");
+
+        double amountUsed = requestDouble(inOut, "the amount borrowed/lent: (0.00)");
+
+        // If we find the user in the database then update bal
+        if (userManager.getUser(email) != null) {
+            User user = userManager.getUser(email);
+            assert user != null;
+
+            if (borrowed){
+                borrowedSoFar.put(user, amountUsed);
+            }
+            else {
+                lentSoFar.put(user, amountUsed);
+            }
+            user.updateBalance(amountUsed);
+        }
+        // Otherwise, create a stand in person.
+        else {
+            Person standIn = this.userManager.createUser(
+                    name, 0.0, email, ""); // TODO: PersonManager.createPerson?
+            if (borrowed){
+                borrowedSoFar.put(standIn, amountUsed);
+            }
+            else {
+                lentSoFar.put(standIn, amountUsed);
+            }
+        }
+    }
 
     /**
      * Authenticate the user; check if they're signed up.
-     * @param email - the user we are checking.
+     * @param user - the user we are checking.
      */
-    public void authenticateUser(String email) {
-        currentUserManager.setCurrentUser(userManager.getUser(email));
+    public void authenticateUser(User user) {
+        currentUserManager.setCurrentUser(user);
         setUserStatus(true);
     }
 
@@ -247,6 +339,13 @@ public class Controller {
         Controller.isLoggedIn = isLoggedIn;
     }
 
+    /**
+     * Get the person currently logged in.
+     * @return current user
+     */
+    public User getCurrentUser() {
+        return currentUserManager.getCurrentUser();
+    }
 
     /**
      * Assign the status of the user to be logged out.
@@ -289,8 +388,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeName(InOut inOut) {
-        inOut.sendOutput("Please enter the new name.");
-        String name = inOut.getInput();
+        String name = inOut.requestInput("the new name");
         UserManager.setName(currentUserManager.getCurrentUser(), name);
         inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
@@ -301,8 +399,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeEmail(InOut inOut) {
-        inOut.sendOutput("Please enter the new email.");
-        String email = inOut.getInput();
+        String email = inOut.requestInput("the new email");
         userManager.setEmail(currentUserManager.getCurrentUser(), email);
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
