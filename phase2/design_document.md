@@ -76,7 +76,7 @@ There should be no warnings when the code is opened in IntelliJ and classes and 
 
 ## Testing
 
-Most methods in entity and use case classes are tested.
+Most methods in entity and use case classes are tested, such as ExpenseTest, GroupTest, ExpenseManagerTest, and etc.
 
 ## Refactoring
 
