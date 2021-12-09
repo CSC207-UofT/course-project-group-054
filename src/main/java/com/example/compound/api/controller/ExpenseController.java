@@ -114,13 +114,11 @@ public class ExpenseController {
     /**
      * API endpoint to update amounts owed in an expense
      * @param euid UID of the concerned expense
-     * @param attribute Attribute to be modified
      * @param request JSON object containing information about the modification
      * @return Updated attribute
      */
     @PostMapping("/{euid}/update")
     public Map<Integer, Double> updatePeople(@PathVariable Integer euid,
-                                   @PathVariable String attribute,
                                    @RequestBody Map<String, Object> request) {
         Integer uuid = (Integer) request.get("uuid");
         Double amountPaid = (Double) request.get("amountPaid");
