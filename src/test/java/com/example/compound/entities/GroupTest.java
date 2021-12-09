@@ -48,7 +48,7 @@ public class GroupTest {
     @Test
     public void testRemoveMember(){
         simpleGroup.removeMember("alice@example.com");
-        ArrayList<String> expectedGroupList = new ArrayList<String>();
+        ArrayList<String> expectedGroupList = new ArrayList<>();
         expectedGroupList.add("bob@example.com");
         assertFalse(simpleGroup.getGroupMembers().contains("alice@example.com"));
     }

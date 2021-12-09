@@ -1,10 +1,9 @@
-/*
-This file represents the controller class which handles the interactions between inputs and outputs.
- */
 package com.example.compound.cli_controllers;
 
 import java.util.*;
 
+import com.example.compound.entities.User;
+import com.example.compound.entities.Person;
 import com.example.compound.entities.Group;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
@@ -13,33 +12,22 @@ import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.GroupTransferData;
 import com.example.compound.use_cases.transfer_data.ItemTransferData;
 
+/**
+ * A Controller for handling the interactions between inputs and outputs.
+ */
 public class Controller {
     private static boolean isLoggedIn = Boolean.FALSE;
-    public static String appName = "Money Manager";
+    private static final String appName = "Money Manager";
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
-    public RepositoryGateway repositoryGateway;
-    public GroupManager groupManager;
-    public UserManager userManager;
-    public ExpenseManager expenseManager;
-    public CurrentUserManager currentUserManager;
-    public PersonManager personManager;
-
-    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                      GroupRepository groupRepository,
-                      RepositoryGatewayI<ItemTransferData> itemRepository,
-                      RepositoryGateway repositoryGateway) {
-        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
-        this.groupRepository = groupRepository;
-        this.itemRepository = itemRepository;
-        this.repositoryGateway = repositoryGateway;
-        this.groupManager = new GroupManager(this.repositoryGateway);
-        this.userManager = new UserManager(this.repositoryGateway);
-        this.expenseManager = new ExpenseManager(this.repositoryGateway);
-        this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
-        this.personManager = new PersonManager(this.repositoryGateway);
-    }
+    private final RepositoryGateway repositoryGateway;
+    private final GroupManager groupManager;
+    private final UserManager userManager;
+    private final ExpenseManager expenseManager;
+    private final CurrentUserManager currentUserManager;
+    private final PersonManager personManager;
+    private static final String[] actions = {
 
     public static String[] actions = {
             "Add an expense",
@@ -52,21 +40,44 @@ public class Controller {
             "Pay an expense",
             "Log out"
     };
-
-    public static String[] profileActions = {
+    private static final String[] profileActions = {
             "Change Name",
             "Change Email",
             "Delete Account",
             "Back"
     };
-
-    public static String[] mainMenuOptions = {
+    private static final String[] mainMenuOptions = {
             "Sign in to my account",
             "Create a new account",
             "Close app"
     };
 
+    /**
+     * Construct a new Controller with the given parameters.
+     * @param budgetRepository  the repository for budgets
+     * @param groupRepository   the repository for groups
+     * @param itemRepository    the repository for items
+     * @param repositoryGateway the repository for all objects
+     */
+    public Controller(RepositoryGatewayI<BudgetTransferData> budgetRepository,
+                      GroupRepository groupRepository,
+                      RepositoryGatewayI<ItemTransferData> itemRepository,
+                      RepositoryGateway repositoryGateway) {
+        this.budgetRepository = budgetRepository;
+        this.groupRepository = groupRepository;
+        this.itemRepository = itemRepository;
+        this.repositoryGateway = repositoryGateway;
+        this.groupManager = new GroupManager(this.repositoryGateway);
+        this.userManager = new UserManager(this.repositoryGateway);
+        this.expenseManager = new ExpenseManager(this.repositoryGateway);
+        this.currentUserManager = new CurrentUserManager(this.repositoryGateway);
+        this.personManager = new PersonManager(this.repositoryGateway);
+    }
 
+    /**
+     * Have the user choose an option from the main menu and perform the appropriate action.
+     * @param inOut the user interface object
+     */
     public void menu(InOut inOut) {
         inOut.sendOutput("Welcome to " + appName);
         int menuInput = inOut.getOptionView(mainMenuOptions);
@@ -88,25 +99,35 @@ public class Controller {
                 // Sign up
                 String email = inOut.requestInput("your email");
                 String name = inOut.requestInput("your name");
-                String password = inOut.requestInput("your password");
-                // TODO: Confirm password
+                String password = getPassword(inOut);
+
                 double balance = 0.0;
                 userManager.createUser(name, balance, email, password);
                 inOut.sendOutput("Thanks for signing up!");
             }
-//            case 3 -> {
-//                // Create Group
-//
-//            }
             case 3 -> System.exit(1);
             default -> System.out.println("Please enter a valid option.");
         }
     }
 
     /**
+     * Request that the user input a password, confirm the input password, and return it.
+     * @param inOut the user interface object
+     * @return the password input by the user
+     */
+    private String getPassword(InOut inOut) {
+        String password = inOut.requestInput("your password");
+        String passwordConfirmation = inOut.requestInput("your password again");
+        if (!password.equals(passwordConfirmation)) {
+            inOut.sendOutput("The passwords do not match. Please try again.");
+            return getPassword(inOut);
+        }
+        return password;
+    }
+
+    /**
      * While the user is logged in, have the user choose an action to perform on their account entities and perform
      * that action.
-     *
      * @param inOut the user interface object
      */
     public void dashboard(InOut inOut) {
@@ -116,8 +137,7 @@ public class Controller {
 
             switch (input) {
                 case 1 -> {
-                    inOut.sendOutput("Enter the title: ");
-                    String expenseTitle = inOut.getInput();
+                    String expenseTitle = inOut.requestInput("the title");
                     ExpenseController expenseController = new ExpenseController(
                             this.currentUserManager, this.userManager, this.personManager,
                             this.expenseManager);
@@ -136,18 +156,15 @@ public class Controller {
                 case 6 -> {
                     GroupController groupController = new GroupController(
                             repositoryGateway, budgetRepository, groupRepository,
-                            itemRepository, currentUserManager, expenseManager, userManager);
+                            itemRepository, currentUserManager, expenseManager);
                     groupController.updateGroup(inOut);
                 }//Manage Groups
                 //TODO: Fix case 7; not properly displaying people in expenses
                 case 7 -> inOut.sendOutput(this.userManager.getExpenses(currentUserManager.getCurrentUser()));
                 case 8 -> {
-                    inOut.sendOutput("Enter the EUID of the expense you wish to pay");
-                    String expenseToPay = inOut.getInput();
-                    inOut.sendOutput("Enter the amount you wish to pay");
-                    Double amount = inputToDouble(inOut);
-                    inOut.sendOutput("Did you borrow? yes(y) or no(n)");
-                    String borrowed = inOut.getInput();
+                    String expenseToPay = inOut.requestInput("the EUID of the expense you wish to pay");
+                    Double amount = requestDouble(inOut, "the amount you wish to pay");
+                    String borrowed = inOut.requestInput("whether you borrowed: 'y' for yes or 'n' for no");
                     expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
@@ -158,24 +175,26 @@ public class Controller {
         }
     }
 
-    public double inputToDouble(InOut inOut){
-        /*
-        Helper method for dashboard, converts input string to a double.
-         */
-        String amountPaid = inOut.getInput();
+    /**
+     * A helper method that requests the user to enter input for the given attribute and converts the input string
+     * returned by the given user interface object to a double.
+     * @param inOut     the user interface object
+     * @param attribute the attribute for which the user interface object requests the user to enter input
+     * @return the double input by the user
+     */
+    private double requestDouble(InOut inOut, String attribute) {
+        String input = inOut.requestInput(attribute);
         try {
-            double amount;
-            amount = Double.parseDouble(amountPaid);
-            return amount;
-        } catch(Exception E) {
-            System.out.println("Please enter a valid amount!");
-            return inputToDouble(inOut);
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            inOut.sendOutput("Please enter a valid amount!");
+            return requestDouble(inOut, attribute);
         }
     }
 
     /**
-     * Create and return a new Group based on user input.
-     * If the user is not authenticated, a new group is not created.
+     * Create a new group based on user input.
+     * If the current user is not authenticated, a new group is not created.
      * @param inOut the user interface object
      */
     public void createGroupView(InOut inOut) {
@@ -216,15 +235,12 @@ public class Controller {
         String description = inOut.requestInput("a description");
 
         // Create and add the group to our Database
-//        Group group =
         this.groupManager.createGroup(groupName, members, new ArrayList<>(), description);
-//        Data.groups.add(group);
     }
-
 
     /**
      * Authenticate the user; check if they're signed up.
-     * @param email - the user we are checking.
+     * @param email the user we are checking.
      */
     public void authenticateUser(String email) {
         currentUserManager.setCurrentUser(userManager.getUser(email));
@@ -269,9 +285,7 @@ public class Controller {
             switch (inputP){
                 case 1 -> changeName(inOut);
                 case 2 -> changeEmail(inOut);
-            /*
-            Delete Account
-             */
+                // Delete account
                 case 3 -> {
                     repositoryGateway.removeUser(currentUserManager.getCurrentUser());
                     inOut.sendOutput("Your account has been successfully deleted.");
@@ -289,8 +303,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeName(InOut inOut) {
-        inOut.sendOutput("Please enter the new name.");
-        String name = inOut.getInput();
+        String name = inOut.requestInput("the new name");
         UserManager.setName(currentUserManager.getCurrentUser(), name);
         inOut.sendOutput("Your name is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));
@@ -301,8 +314,7 @@ public class Controller {
      * @param inOut The user interface object.
      */
     public void changeEmail(InOut inOut) {
-        inOut.sendOutput("Please enter the new email.");
-        String email = inOut.getInput();
+        String email = inOut.requestInput("the new email");
         userManager.setEmail(currentUserManager.getCurrentUser(), email);
         inOut.sendOutput("Your email is changed successfully. Here's your new profile:");
         inOut.sendOutput(userManager.getProfile(currentUserManager.getCurrentUser(), groupManager));

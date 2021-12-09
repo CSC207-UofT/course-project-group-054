@@ -28,7 +28,7 @@ class UserManagerTest {
         u = new UserManager(data);
         e = new ExpenseManager(data);
         g = new GroupManager(data);
-        user1 =(new User(0,"Rohan", "rohan.tinna@mail.utoronto.ca",
+        user1 =(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca",
                 "rohan.tinna@mail.utoronto.ca", 100.0, "password"));
         user2 = (new User(1, "Johny", "johny@example.com", "johny@example.com",
                 100.0, "password2"));

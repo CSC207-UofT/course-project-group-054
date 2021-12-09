@@ -10,7 +10,9 @@ public interface BudgetRepositoryGateway extends RepositoryGatewayI<Budget> {
     List<Budget> findAll();
 
     // Returns a new BUID
-    String save(Budget budget); // TODO: Separate methods for saving a new object and updating an existing one?
+    String save(Budget budget);
 
-    void deleteById(String BUID);
+    boolean update(Budget budget);
+
+    boolean deleteById(String BUID);
 }

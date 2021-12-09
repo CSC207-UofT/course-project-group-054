@@ -4,7 +4,7 @@ import com.example.compound.entities.Group;
 
 import java.util.List;
 
-public interface GroupRepositoryGateway {
+public interface GroupRepositoryGateway extends RepositoryGatewayI<Group> {
     Group findById(String GUID);
 
     List<Group> findAll();
@@ -12,5 +12,7 @@ public interface GroupRepositoryGateway {
     // Returns a new GUID
     String save(Group group);
 
-    void deleteById(String GUID);
+    boolean update(Group group);
+
+    boolean deleteById(String GUID);
 }

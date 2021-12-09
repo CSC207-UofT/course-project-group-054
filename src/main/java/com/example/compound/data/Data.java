@@ -2,27 +2,28 @@ package com.example.compound.data;
 
 import com.example.compound.entities.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-/*
-The class representing the data.
+/**
+ * The class representing the data.
  */
+@Repository
 public class Data implements RepositoryGateway {
-    public List<User> users = new ArrayList<>();
-    public List<Person> persons = new ArrayList<>();
-    public List<Expense> expenses = new ArrayList<>();
-    public List<Group> groups = new ArrayList<>();
-    public List<Budget> budgets = new ArrayList<>();
-    public List<Item> items = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
+    private final List<Person> persons = new ArrayList<>();
+    private final List<Expense> expenses = new ArrayList<>();
+    private final List<Group> groups = new ArrayList<>();
+    private final List<Budget> budgets = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
     private int groupCounter = 0;
     private int budgetCounter = 0;
     private int itemCounter = 0;
 
     public void initializeData() {
         // Creating dummy users
-
-        users.add(new User(0,"Rohan", "rohan.tinna@mail.utoronto.ca",
+        users.add(new User(0, "Rohan", "rohan.tinna@mail.utoronto.ca",
         "rohan.tinna@mail.utoronto.ca", 100.0, "password"));
         users.add(new User(1, "Johny", "johny@example.com", "johny@example.com",
                 100.0, "password2"));

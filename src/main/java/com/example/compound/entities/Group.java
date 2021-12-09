@@ -6,12 +6,12 @@ import java.util.*;
  * Below is the abstract Group class which represents the origin of our program.
  */
 public class Group {
-    protected String groupName;
-    protected final List<String> groupMembers;
-    protected final List<Expense> expenseList;
-    protected final String description;
-    protected String GUID;
-    protected final List<Budget> budgets;
+    private String groupName;
+    private final List<String> groupMembers;
+    private final List<Expense> expenseList;
+    private final String description;
+    private String GUID;
+    private final List<Budget> budgets;
 
     /**
      * Construct a group with the given name, list of members, list of expenses, and description.
@@ -72,15 +72,6 @@ public class Group {
     public void addBudget(Budget budget) {
         this.budgets.add(budget);
     }
-
-//    public Budget getBudget(String BUID) {
-//        for (Budget budget : budgets) {
-//            if (budget.getBUID().equals(BUID)) {
-//                return budget;
-//            }
-//        }
-//        return null;
-//    }
 
     public List<Budget> getBudgets() {
         return this.budgets;

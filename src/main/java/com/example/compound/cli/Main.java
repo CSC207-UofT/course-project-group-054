@@ -6,13 +6,23 @@ import com.example.compound.repositories.BudgetRepository;
 import com.example.compound.repositories.GroupRepository;
 import com.example.compound.repositories.ItemRepository;
 
+/**
+ * A class containing the main method, which runs the program from the command line.
+ */
 public class Main {
+    /**
+     * Run the program from the command line.
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         Data data = new Data();
         data.initializeData();
 
         View view = new View();
-        Controller controller = new Controller(new BudgetRepository(), new GroupRepository(), new ItemRepository(),
+        ItemRepository itemRepository = new ItemRepository(); // TODO: RepositoryGatewayI<ItemTransferData> itemRepository = ...?
+        BudgetRepository budgetRepository = new BudgetRepository(itemRepository);
+        GroupRepository groupRepository = new GroupRepository();
+        Controller controller = new Controller(budgetRepository, groupRepository, itemRepository,
                 data);
 
         do {
