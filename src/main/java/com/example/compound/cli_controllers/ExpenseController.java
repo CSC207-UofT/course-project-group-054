@@ -1,6 +1,7 @@
 package com.example.compound.cli_controllers;
 
 import com.example.compound.entities.Person;
+import com.example.compound.presenters.ExpensePresenter;
 import com.example.compound.use_cases.CurrentUserManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.PersonManager;
@@ -16,6 +17,7 @@ public class ExpenseController {
     private final UserManager userManager;
     private final PersonManager personManager;
     private final ExpenseManager expenseManager;
+    private final ExpensePresenter expensePresenter;
 
     public ExpenseController(CurrentUserManager currentUserManager, UserManager userManager,
                              PersonManager personManager, ExpenseManager expenseManager){
@@ -23,6 +25,7 @@ public class ExpenseController {
         this.userManager = userManager;
         this.personManager = personManager;
         this.expenseManager = expenseManager;
+        this.expensePresenter = new ExpensePresenter();
     }
     /**
      * Create the view where we interact with the functions of Expense.
@@ -33,13 +36,13 @@ public class ExpenseController {
         HashMap<Person, Double> borrowedSoFar = new HashMap<>();
         HashMap<Person, Double> lentSoFar = new HashMap<>();
 
-        List<String> people = new ArrayList<>();
-        people.add(currentUserManager.getCurrentUser().getEmail());
+        List<Person> people = new ArrayList<>();
+        people.add(currentUserManager.getCurrentUser());
 
-        inOut.sendOutput("Enter amount borrowed/lent: (0.00)");
+        inOut.sendOutput(expensePresenter.requestBorrowedOrLentAmount());
         double amount = Float.parseFloat(inOut.getInput());
 
-        inOut.sendOutput("Did you borrow (b) or pay (p)?");
+        inOut.sendOutput(expensePresenter.requestBorrowedOrLent());
         boolean userBorrow = inOut.getInput().equals("b");
         if (userBorrow){
             currentUserManager.getCurrentUser().updateBalance(amount);
@@ -52,14 +55,13 @@ public class ExpenseController {
 
         boolean addMorePeople = Boolean.TRUE;
         do {
-            inOut.sendOutput("Do you want to add more people to this expense? (y/n)");
+            inOut.sendOutput(expensePresenter.addMore());
             String input2 = inOut.getInput();
             switch (input2) {
                 case "y" -> caseYHelper(inOut, borrowedSoFar, lentSoFar);
                 case "n" -> {
                     if (people.size() == 0) {
-                        inOut.sendOutput("ERROR: You need to have at least one other person to share " +
-                                "expense with.");
+                        inOut.sendOutput(expensePresenter.error());
                     } else {
                         addMorePeople = Boolean.FALSE;
                     }
@@ -70,8 +72,6 @@ public class ExpenseController {
                 Objects.requireNonNull(
                         expenseManager.createExpense(
                                 expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
-        System.out.println("borrowed: " + borrowedSoFar.keySet()
-                + "lent: " + lentSoFar.keySet());
     }
 
     /**
@@ -81,16 +81,16 @@ public class ExpenseController {
      * @param lentSoFar A map that stores people that lent so far
      */
     private void caseYHelper(InOut inOut, HashMap<Person, Double> borrowedSoFar, HashMap<Person, Double> lentSoFar) {
-        inOut.sendOutput("Enter their name:");
+        inOut.sendOutput(expensePresenter.requestName());
         String name = inOut.getInput();
 
-        inOut.sendOutput("Enter user email:");
+        inOut.sendOutput(expensePresenter.requestEmail());
         String email = inOut.getInput();
 
-        inOut.sendOutput("Did they borrow (b) or pay (p)?");
+        inOut.sendOutput(expensePresenter.requestBorrowedOrLent());
         String borrowOrLend = inOut.getInput();
 
-        inOut.sendOutput("Enter the amount borrowed/lent: (0.00)");
+        inOut.sendOutput(expensePresenter.requestBorrowedOrLentAmount());
         String amountUsedStr = inOut.getInput();
         double amountUsed = Double.parseDouble(amountUsedStr);
 
@@ -110,12 +110,11 @@ public class ExpenseController {
         }
         // Otherwise, create a stand in person.
         else {
-            Person standIn = personManager.createPerson(name, 0.0, "");
             if (borrowed){
-                borrowedSoFar.put(standIn, amountUsed);
+                borrowedSoFar.put(personManager.createPerson(name, 0.0, ""), amountUsed);
             }
             else {
-                lentSoFar.put(standIn, amountUsed);
+                lentSoFar.put(personManager.createPerson(name, 0.0, ""), amountUsed);
             }
         }
     }
