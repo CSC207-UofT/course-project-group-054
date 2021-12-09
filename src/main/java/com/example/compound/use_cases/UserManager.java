@@ -18,7 +18,7 @@ public class UserManager {
 
     public StringBuilder getExpenses(User user) {
         StringBuilder lst = new StringBuilder("RECENT EXPENSES\n");
-        lst.append("EUID  Title                People\n");
+        lst.append("EUID | Title | People | Amount\n");
         lst.append("---------------------------------\n");
         int counter = 0;
 

@@ -11,11 +11,12 @@ The class representing the data.
  */
 @Repository
 public class Data implements RepositoryGateway {
-    public final List<User> users = new ArrayList<>();
-    public final List<Expense> expenses = new ArrayList<>();
-    public final List<Group> groups = new ArrayList<>();
-    public final List<Budget> budgets = new ArrayList<>();
-    public final List<Item> items = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
+    private final List<Person> persons = new ArrayList<>();
+    private final List<Expense> expenses = new ArrayList<>();
+    private final List<Group> groups = new ArrayList<>();
+    private final List<Budget> budgets = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
     private int groupCounter = 0;
     private int budgetCounter = 0;
     private int itemCounter = 0;
@@ -209,6 +210,11 @@ public class Data implements RepositoryGateway {
 
     public int getNewIUID() {
         return this.itemCounter;
+    }
+
+    @Override
+    public void addPerson(Person person) {
+        this.persons.add(person);
     }
 
     @Override

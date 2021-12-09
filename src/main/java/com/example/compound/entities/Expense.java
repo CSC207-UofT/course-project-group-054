@@ -59,8 +59,7 @@ public class Expense {
 
     @Override
     public String toString() {
-        return this.EUID + "     " + this.title + "     " + this.numPeople();
-    }
+        return this.EUID + "     " + this.title + "     " + this.numPeople() + "    " + this.amount; }
 
     public void settleExpenseBorrowed(Person p, Double amountPaid) {
         this.amount -= amountPaid;
