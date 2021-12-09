@@ -85,8 +85,8 @@ public class Controller {
                 // Login
                 String email = inOut.requestInput("your Email");
                 // set the current user
-                currentUserManager.setCurrentUser(userManager.getUser(email));
-                if (this.currentUserManager.getCurrentUser() != null) {
+                if (userManager.getUser(email) != null) {
+                        currentUserManager.setCurrentUser(userManager.getUser(email));
                     authenticateUser(this.currentUserManager.getCurrentUser().getEmail());
                     inOut.sendOutput("Welcome back, " + this.currentUserManager.getCurrentUser() .getName() + "!");
                     dashboard(inOut);
