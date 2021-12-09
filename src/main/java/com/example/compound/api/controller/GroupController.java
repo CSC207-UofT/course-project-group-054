@@ -22,7 +22,7 @@ public class GroupController {
 
     /**
      * API Endpoint to create a group
-     * @param request JSON request object casted into a Java map with as <String, Object> key value pairs
+     * @param request JSON object containing information of the new group
      * @return 1 if the group was created
      */
     @PostMapping("/create")

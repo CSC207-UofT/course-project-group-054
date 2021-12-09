@@ -15,6 +15,8 @@ public class Expense {
     private Double amount;
     private Integer payer; // UUID of person who paid
     @ElementCollection
+    @MapKeyColumn
+    @CollectionTable
     private Map<Integer, Double> people;
 
     public Expense() {}
@@ -41,10 +43,9 @@ public class Expense {
      * @param people List containing UIDs of people part of the expense
      */
     //TODO: Implement multiple split types for Phase 2
-    public Expense(Integer EUID, String title, Double amount,
+    public Expense(String title, Double amount,
                    Integer payer,
                    Map<Integer, Double> people) {
-        this.EUID = EUID;
         this.title = title;
         this.amount = amount;
         this.payer = payer;

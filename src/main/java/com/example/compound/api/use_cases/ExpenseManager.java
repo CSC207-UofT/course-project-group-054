@@ -23,22 +23,21 @@ public class ExpenseManager {
 
 
     // TODO add javadoc
-    public void settleExpense(Expense expense, User user, double amountPaid, boolean borrowed) {
+    public void settleExpense(Expense expense, Integer uuid, double amountPaid, boolean borrowed) {
+        Double amount = expense.getPeople().get(uuid);
         expense.setAmount(expense.getAmount() - amountPaid);
 
-//        if (borrowed){
-//            Double amount = this.whoBorrowed.get(p);
-//            this.whoBorrowed.replace(p, amount - amountPaid);
-//        }
-//        else{
-//            Double amount = this.whoPaid.get(p);
-//            if (amount - amountPaid < 0){
-//                System.out.println("You've entered too much!");
-//            }
-//            else{
-//                this.whoPaid.replace(p, amount - amountPaid);
-//            }
-//        }
+        if (borrowed){
+            expense.getPeople().replace(uuid, amount - amountPaid);
+        }
+        else{
+            if (amount - amountPaid < 0){
+                System.out.println("You've entered too much!");
+            }
+            else{
+                expense.getPeople().replace(uuid, amount - amountPaid);
+            }
+        }
     }
 
 //    public void updateBalances(Map<com.example.compound.api.entities.Person, Double> whoPaid){

@@ -18,6 +18,10 @@ public class ExpenseManager {
         this.repositoryGateway = repositoryGateway;
     }
 
+    public ExpenseManager() {
+
+    }
+
     /**
      * Creates a new expense and adds it to every user associated with the expense.
      *
