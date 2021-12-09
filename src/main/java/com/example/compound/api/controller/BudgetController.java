@@ -4,6 +4,7 @@ import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.CurrentBudgetManager;
 import com.example.compound.use_cases.CurrentGroupManager;
 import com.example.compound.use_cases.ExpenseManager;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
 import com.example.compound.use_cases.transfer_data.BudgetTransferData;
 import com.example.compound.use_cases.transfer_data.GroupTransferData;
@@ -27,16 +28,19 @@ public class BudgetController {
     /**
      * Construct a new BudgetController with the given parameters.
      * @param currentGroupManager a use case containing the current group
-     * @param budgetRepository    the repository for budgets
-     * @param itemRepository      the repository for items
-     * @param groupRepository     the repository for groups
+     * @param repositoryGateway the repository for all objects
+//     * @param budgetRepository    the repository for budgets
+//     * @param itemRepository      the repository for items
+//     * @param groupRepository     the repository for groups
      */
     public BudgetController(CurrentGroupManager currentGroupManager,
-                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                            RepositoryGatewayI<ItemTransferData> itemRepository,
-                            RepositoryGatewayI<GroupTransferData> groupRepository) {
-        this.currentBudgetManager = new CurrentBudgetManager(budgetRepository);
-        this.budgetManager = new BudgetManager(budgetRepository, groupRepository, itemRepository);
+//                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
+//                            RepositoryGatewayI<ItemTransferData> itemRepository,
+//                            RepositoryGatewayI<GroupTransferData> groupRepository) {
+                            RepositoryGateway repositoryGateway
+                            ) {
+        this.currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
+        this.budgetManager = new BudgetManager(repositoryGateway);
         this.expenseManager = new ExpenseManager(null); // TODO
         this.currentGroupManager = currentGroupManager;
 //        this.expenseManager = new ExpenseManager(expenseRepository);

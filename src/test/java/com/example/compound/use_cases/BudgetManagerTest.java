@@ -24,7 +24,7 @@ public class BudgetManagerTest {
     RepositoryGatewayI<ItemTransferData> itemRepositoryGateway;
     BudgetManager budgetManager;
     ExpenseManager expenseManager;
-    RepositoryGateway repositoryGateway; // TODO: Remove this when ExpenseManager uses an ExpenseRepositoryGateway
+    RepositoryGateway repositoryGateway;
     GroupTransferData g;
     String BUID;
 
@@ -38,7 +38,7 @@ public class BudgetManagerTest {
 
         g = new GroupTransferData("A", new ArrayList<>(), new ArrayList<>(), "New group");
 
-        budgetManager = new BudgetManager(budgetRepositoryGateway, groupRepositoryGateway, itemRepositoryGateway);
+        budgetManager = new BudgetManager(repositoryGateway);
 //        budgetManager = new BudgetManager(repositoryGateway);
         groupRepositoryGateway.save(g);
 //        repositoryGateway.addGroup(g);

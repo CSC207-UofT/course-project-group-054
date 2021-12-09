@@ -20,24 +20,46 @@ public class BudgetPresenter {
             "Exit"
     };
 
+    /**
+     * Return a String outputting a success or failure for authentication.
+     * @param bool whether authentication was successful
+     * @return a String outputting whether authentication succeeded
+     */
     public String getAuthenticationCheck(boolean bool){
         if (bool){
             return "Authentication Success!";
         }
         else {
-            //inOut.sendOutput("Authentication Failed.");
             return "Authentication Failed.";
         }
     }
 
+    /**
+     * Return a String outputting a success or failure for getting a budget.
+     * @param bool whether the budget was obtained
+     * @return a String outputting whether the budget was obtained
+     */
     public String getBudgetExistence(boolean bool) {
         if (bool) {
-            return "This budget does not exist.";
+            return "This budget exists";
         } else {
-            return "This budget exists!";
+            return "This budget does not exist";
         }
     }
 
+    /**
+     * Return a String outputting that there are no budgets.
+     * @return a String outputting that there are no budgets
+     */
+    public String getNoBudgets() {
+        return "There are no budgets";
+    }
+
+    /**
+     * Return a String outputting whether input was valid
+     * @param bool whether input was valid
+     * @return a String outputting whether input was valid
+     */
     public String getValidAmount(boolean bool){
         if (bool) {
             return "Valid Amount.";
@@ -46,6 +68,11 @@ public class BudgetPresenter {
         }
     }
 
+    /**
+     * Return a String outputting whether the item was available
+     * @param bool whether the item was available
+     * @return a String outputting whether the item was available
+     */
     public String noItemAvailable(boolean bool){
         if(bool){
             return "The item was not available.";
@@ -55,8 +82,13 @@ public class BudgetPresenter {
         }
     }
 
-    public String getFailure(boolean bool){
-        if (bool){
+    /**
+     * Return a String outputting whether the operation was complete
+     * @param bool whether the operation was complete
+     * @return a String outputting whether the operation was complete
+     */
+    public String getResult(boolean bool){
+        if (bool) {
             return "Success! The operation was complete";
         }
         else {
@@ -64,30 +96,58 @@ public class BudgetPresenter {
         }
     }
 
+    /**
+     * Return a String requesting an integer.
+     * @return a String requesting an integer
+     */
     public String requestInt(){
-        return "Please enter a valid integer.";
+        return "a valid integer";
     }
 
+    /**
+     * Return a String requesting a quantity.
+     * @return a String requesting a quantity
+     */
     public String requestQuantity(){
-        return "Please enter a valid (Integer) quantity.";
+        return "a valid (Integer) quantity";
     }
 
+    /**
+     * Return a String requesting a name.
+     * @return a String requesting a name
+     */
     public String requestName(){
-        return "Please enter the name.";
+        return "the name";
     }
 
+    /**
+     * Return a String requesting an amount.
+     * @return a String requesting an amount
+     */
     public String requestAmount(){
-        return "Please enter a valid (Double) amount.";
+        return "a valid (Double) amount";
     }
 
+    /**
+     * Return a String requesting a cost.
+     * @return a String requesting a cost
+     */
     public String requestCost(){
-        return "Please enter a valid (Double) cost.";
+        return "a valid (Double) cost";
     }
 
+    /**
+     * Return a String requesting an action among selectionActions.
+     * @return a String requesting an action among selectionActions
+     */
     public String[] requestSelectionActions(){
         return this.selectionActions;
     }
 
+    /**
+     * Return a String requesting an action among budgetActions.
+     * @return a String requesting an action among budgetActions
+     */
     public String[] requestBudgetActions(){
         return this.budgetActions;
     }

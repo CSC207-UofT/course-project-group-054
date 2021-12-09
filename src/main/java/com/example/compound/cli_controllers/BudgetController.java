@@ -4,10 +4,7 @@ import com.example.compound.presenters.BudgetPresenter;
 import com.example.compound.use_cases.BudgetManager;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.CurrentBudgetManager;
-import com.example.compound.use_cases.gateways.RepositoryGatewayI;
-import com.example.compound.use_cases.transfer_data.BudgetTransferData;
-import com.example.compound.use_cases.transfer_data.GroupTransferData;
-import com.example.compound.use_cases.transfer_data.ItemTransferData;
+import com.example.compound.use_cases.gateways.RepositoryGateway;
 //import com.example.compound.use_cases.gateways.RepositoryGateway;
 
 import java.util.List;
@@ -26,20 +23,21 @@ public class BudgetController {
     /**
      * Construct a new BudgetController with the given parameters.
      * @param GUID             the UID of the current group
-     * @param budgetRepository the repository for budgets
-     * @param groupRepository  the repository for groups
-     * @param itemRepository   the repository for items
+//     * @param budgetRepository the repository for budgets
+//     * @param groupRepository  the repository for groups
+//     * @param itemRepository   the repository for items
+     * @param repositoryGateway the repository for all objects
      * @param expenseManager   the manager for expenses
      */
     public BudgetController(String GUID,
-                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                            RepositoryGatewayI<GroupTransferData> groupRepository,
-                            RepositoryGatewayI<ItemTransferData> itemRepository,
-//                            RepositoryGateway repositoryGateway,
+//                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
+//                            RepositoryGatewayI<GroupTransferData> groupRepository,
+//                            RepositoryGatewayI<ItemTransferData> itemRepository,
+                            RepositoryGateway repositoryGateway,
                             ExpenseManager expenseManager) {
         this.GUID = GUID;
-        this.currentBudgetManager = new CurrentBudgetManager(budgetRepository);
-        this.budgetManager = new BudgetManager(budgetRepository, groupRepository, itemRepository);
+        this.currentBudgetManager = new CurrentBudgetManager(repositoryGateway);
+        this.budgetManager = new BudgetManager(repositoryGateway);
         this.expenseManager = expenseManager;
         this.budgetPresenter = new BudgetPresenter();
     }
@@ -78,9 +76,8 @@ public class BudgetController {
         }
         // Get budget choice
         if (budgets.size() == 0) {
-            inOut.sendOutput(budgetPresenter.getBudgetExistence(false));
+            inOut.sendOutput(budgetPresenter.getNoBudgets());
         } else {
-            // inOut.sendOutput("The budgets in this group:");
             int budgetInput = inOut.getOptionView(budgets.toArray(new String[0]));
             String budgetName = budgets.get(budgetInput - 1);
             String BUID;
@@ -104,9 +101,9 @@ public class BudgetController {
         double maxSpend = requestDouble(inOut, budgetPresenter.requestAmount());
 
         if (budgetManager.create(GUID, name, maxSpend)) {
-            inOut.sendOutput(budgetPresenter.getFailure(false));
+            inOut.sendOutput(budgetPresenter.getResult(true));
         } else {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 
@@ -182,10 +179,10 @@ public class BudgetController {
             Objects.requireNonNull(budgetManager.addItem(currentBudgetManager.getCurrentBudgetUID(), name,
                     cost, quantity));
         } catch (NullPointerException e) {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
             return;
         }
-        inOut.sendOutput(budgetPresenter.getFailure(false));
+        inOut.sendOutput(budgetPresenter.getResult(true));
     }
 
     /**
@@ -201,7 +198,7 @@ public class BudgetController {
         }
         int newQuantity = requestInt(inOut, budgetPresenter.requestInt());
         if (!budgetManager.changeItemQuantity(IUID, newQuantity)) {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 
@@ -217,7 +214,7 @@ public class BudgetController {
             return;
         }
         if (!budgetManager.removeItem(IUID)) {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 
@@ -228,7 +225,7 @@ public class BudgetController {
     private void changeSpendingLimit(InOut inOut) {
         double newMaxSpend = requestDouble(inOut, budgetPresenter.requestAmount());
         if (!budgetManager.setMaxSpend(currentBudgetManager.getCurrentBudgetUID(), newMaxSpend)) {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 
@@ -239,9 +236,9 @@ public class BudgetController {
     private void convertToExpenses(InOut inOut) {
         if (budgetManager.addExpensesToGroup(GUID, currentBudgetManager.getCurrentBudgetUID(),
                 expenseManager)) {
-            inOut.sendOutput(budgetPresenter.getFailure(false));
+            inOut.sendOutput(budgetPresenter.getResult(true));
         } else {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 
@@ -251,9 +248,9 @@ public class BudgetController {
      */
     private void deleteBudget(InOut inOut) {
         if (budgetManager.remove(GUID, currentBudgetManager.getCurrentBudgetUID())) {
-            inOut.sendOutput(budgetPresenter.getFailure(false));
+            inOut.sendOutput(budgetPresenter.getResult(true));
         } else {
-            inOut.sendOutput(budgetPresenter.getFailure(true));
+            inOut.sendOutput(budgetPresenter.getResult(false));
         }
     }
 

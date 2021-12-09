@@ -20,6 +20,7 @@ public class GroupController {
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
     private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
+    private final RepositoryGateway repositoryGateway;
     private final ExpenseManager expenseManager;
     private static final String[] groupActions = {
             "Edit Group Name",
@@ -46,13 +47,14 @@ public class GroupController {
                            GroupRepository groupRepository,
                            RepositoryGatewayI<ItemTransferData> itemRepository,
                            CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
-        this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
+        this.budgetRepository = budgetRepository;
         this.groupRepository = groupRepository;
         this.itemRepository = itemRepository;
         this.currentGroupManager = new CurrentGroupManager(repositoryGateway);
         this.groupManager = new GroupManager(repositoryGateway);
         this.currentUserManager = currentUserManager;
         this.expenseManager = expenseManager;
+        this.repositoryGateway = repositoryGateway;
     }
 
     /**
@@ -124,8 +126,8 @@ public class GroupController {
             case 6 -> //TODO: Need to update the balance of all the users in the group.
                     this.groupManager.removeGroup(currentGroupManager.getCurrentGroupUID()); //Delete Group
             case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(),
-//                    repositoryGateway,
-                    budgetRepository, groupRepository, itemRepository,
+                    repositoryGateway,
+//                    budgetRepository, groupRepository, itemRepository,
                     expenseManager).groupBudgetsDashboard(inOut);
             case 8 -> back = true;
         }
