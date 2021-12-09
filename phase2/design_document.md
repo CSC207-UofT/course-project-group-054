@@ -91,9 +91,15 @@ We also refactored for Clean Architecture (for example, [here](https://github.co
 We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all our static front-end (HTML, JavaScript, CSS, etc.) files will be stored in the `src/main/resources/public` folder in our project. This is a special folder that Spring uses to serve static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
 
 ## Accessibility report
-# 1
+# 1 a)
 - Simple and Intuitive Use: Our Sign Up page has a very simple and easy to understand design that will not confuse any user. The language is very simple and to the point to accomodate a wider range of literacy skills.
 - Tolerance for Error: If we enter something that is not an email on the sign up page, the website will not crash. 
+- Equitable Use: Our program is intended to be free and is open source, this allows for maximum equity.
+# 1 b)
+- Perceptable Information: We can use pictures and introduce a "high contrast mode", or maybe implement voice guided instructions.
+- Flexibility In Use: Our App is designed to be easy to use and tends to be reliant on keyboard and mice input, as a result this principle does not apply very strongly.
+- Low Physical Effort: Our app is reliant on the computer, so as a result the majority of physical effort will not rely on our app design, rather on the computer itself.
+- Size and Space for Approach and Use: Similar to Low Physical Effort our app is reliant on the computer, as a result this trait is reliant on the computer rather than out app.
 # 2
 # 3
 
