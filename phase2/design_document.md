@@ -100,7 +100,7 @@ We use dependency injection and annotations to link our entities and repositorie
 - Flexibility In Use: Our App is designed to be easy to use and tends to be reliant on keyboard and mice input, as a result this principle does not apply very strongly.
 - Low Physical Effort: Our app is reliant on the computer, so as a result the majority of physical effort will not rely on our app design, rather on the computer itself.
 - Size and Space for Approach and Use: Similar to Low Physical Effort our app is reliant on the computer, as a result this trait is reliant on the computer rather than out app.
-2.
+2. We would market our program towards people who need to split expenses in a group. Examples are tourists travelling as a group and need to split the airfare and roommates who need to split the bills.
 3. People who do not go out often, such as introverts, might be less likely to need to split expenses with other people and therefore might be less likely to use our program. In addition, people who are visually impaired might find using our program difficult because our app is text-based and there are currently no accessibility features for them.
 
 
