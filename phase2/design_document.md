@@ -26,6 +26,8 @@ Groups also have budgets. A budget stores a list of items, each of which has a n
 
 ## How our project adheres to Clean Architecture
 
+[This diagram](https://docs.google.com/presentation/d/1GwnxknvQq3UOgHyd0vTY455l2_wLG83vvOMlbPF6tbo/edit?usp=sharing) of the major classes in our program highlights the layers of Clean Architecture.
+
 The frameworks and drivers classes, such as the command line or web app, pass in information to our controllers. Our interface adapters do not depend on the view directly; instead, they depend on `InOut` interfaces that are in the interface adapter layer and that the view implements. The controllers in the interface adapters layer convert data from the view into a format that use cases can use, and pass the converted data to the use cases, which work on the entities to perform the appropriate actions. The use cases also interact with gateway interfaces in the use cases layer that database gateway classes in the interface adapter layer implement so that the use cases do not depend on the interface adapter layer or the database itself.
 
 Since Phase 1, we have been fixing cases where classes in layers used other classes in layers that are not adjacent; for example, our controllers sometimes used entities. We fixed this violation by adding new use case classes, such as a `CurrentUserManager` use case that stores the current user so that the controller does not have to store it.
@@ -62,6 +64,12 @@ We have used GitHub issues, such as [Issue #17](https://github.com/CSC207-UofT/c
 
 We have often made use of GitHub pull requests. Examples are linked to from the “Design patterns” and “Member progress and plans” sections of this document.
 
+### Actions
+
+We have used two GitHub actions in workflows in the `.github/workflows` folder:
+- `automerge`: As we have configured it, [this action](https://github.com/marketplace/actions/merge-pull-requests-automerge-action) automatically merges pull requests that have at least one approval and that have the label `automerge` and then deletes automerged branches.
+- `stale`: As we have configured it, [this action](https://github.com/marketplace/actions/close-stale-issues) labels issues and pull requests that have been open 1 day with no activity as `stale`.
+
 ## Code style and documentation
 
 There should be no warnings when the code is opened in IntelliJ and classes and methods have Javadoc.
@@ -83,5 +91,23 @@ We also refactored for Clean Architecture (for example, [here](https://github.co
 We use dependency injection and annotations to link our entities and repositories together. This tells Spring what the various classes in our project are meant for. We are using a Postgresql database for storing data. We have tested this locally on our devices and also included a `.sql` file that contains code to set up the database. One the database has been set up, we can run our Spring application and find our server running on port 8080 by default. We use the `/api` path for API requests and all our static front-end (HTML, JavaScript, CSS, etc.) files will be stored in the `src/main/resources/public` folder in our project. This is a special folder that Spring uses to serve static content by default. Once our server is running, the client can visit our web app and the front-end will interact with the backend, which, in turn, will interact with our central database to fetch/create/modify the data and send a _response_ back to the front-end.
 
 ## Accessibility report
+1. a)
+- Simple and Intuitive Use: Our Sign Up page has a very simple and easy to understand design that will not confuse any user. The language is very simple and to the point to accomodate a wider range of literacy skills.
+- Tolerance for Error: If we enter something that is not an email on the sign up page, the website will not crash. 
+- Equitable Use: Our program is intended to be free and is open source, this allows for maximum equity.
+1. b)
+- Perceptable Information: We can use pictures and introduce a "high contrast mode", or maybe implement voice guided instructions.
+- Flexibility In Use: Our App is designed to be easy to use and tends to be reliant on keyboard and mice input, as a result this principle does not apply very strongly.
+- Low Physical Effort: Our app is reliant on the computer, so as a result the majority of physical effort will not rely on our app design, rather on the computer itself.
+- Size and Space for Approach and Use: Similar to Low Physical Effort our app is reliant on the computer, as a result this trait is reliant on the computer rather than out app.
+2. We would market our program towards people who need to split expenses in a group. Examples are tourists travelling as a group and need to split the airfare and roommates who need to split the bills.
+3. People who do not go out often, such as introverts, might be less likely to need to split expenses with other people and therefore might be less likely to use our program. In addition, people who are visually impaired might find using our program difficult because our app is text-based and there are currently no accessibility features for them.
 
-...
+
+## Progress report
+
+- **Rohan** worked on the API for Phase 2. He had to separate the API codebase from the CLI because Spring JPA works well with Integer IDs (Primary keys). Since until phase 1 we had all unique identifiers to be of String type, he had to create separate entities and manager classes which conform and work with the JpaRepository requirements of the Spring framework. His code follows Clean Architecture and is inspired by the code provided in the [Intro to Web Apps Workshop](https://github.com/CSC207-UofT/CleanArchitectureWebDemo). Rohan also worked on migrating the database for changes made in Phase 2 and a bit on the front-end. His changes are documented in [PR#56](https://github.com/CSC207-UofT/course-project-group-054/pull/56).
+- **Wasee:** Wasee worked on Clean Architecture Refactoring, the Presenter classes, Javdoc comments, and the design document. A significant pull request was [PR #38](https://github.com/CSC207-UofT/course-project-group-054/pull/38) in which I refactored our controller and several other related classes to adhere to Clean Architecture. Wasee believes this pull request demonstrates a significant contribution to the team because it was a significant area where the group lost marks in Phase1 and required much debugging. *Note: Much of Wasee's work was shown through direct commits to various branches (such as being directly applied to main after private team approval, for example: commit history in main: https://github.com/CSC207-UofT/course-project-group-054/commits/main).*
+- **Subhasis** has worked on refactoring unrelated to Clean Architecture, GitHub actions, Javadoc comments, and the design document. One significant pull request I made this term was [PR #40](https://github.com/CSC207-UofT/course-project-group-054/pull/40), in which I completed several TODOs as well as miscellaneous refactoring unrelated to Clean Architecture. I think this pull request demonstrates a significant contribution to the team because it resolved several outstanding problems with the code.
+- **Lingyun** has worked on stuffs related to Clean Architecture, and some Javadoc comments. One siginificant pull request was [PR #34](https://github.com/CSC207-UofT/course-project-group-054/pull/34), in which I refactored the codes in our controllers and several other classes to make sure that our controllers would no longer directly use our entities, making our project more adhere to the Clean Architecture. I think this demonstrates a significant contribution to the team since Clean architecture is one of the most important things in Java programming, and we lost a lot of marks in this section in phase 1.
+- **Mohamed** has worked on the frontend. He has also worked on writing some test code. He plans on integrating the frontend with the backend, and also plans on making the frontend more modern and visually-appealing.
