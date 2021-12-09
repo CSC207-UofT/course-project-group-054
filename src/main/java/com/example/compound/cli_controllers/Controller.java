@@ -165,7 +165,7 @@ public class Controller {
                     String expenseToPay = inOut.requestInput("the EUID of the expense you wish to pay");
                     Double amount = requestDouble(inOut, "the amount you wish to pay");
                     String borrowed = inOut.requestInput("whether you borrowed: 'y' for yes or 'n' for no");
-                    expenseManager.payDebt(getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
+                    expenseManager.payDebt(currentUserManager.getCurrentUser(), expenseToPay, amount, borrowed.equals("y"));
                 }
                 case 9 -> {
                     logoutUser();
