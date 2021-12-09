@@ -70,7 +70,7 @@ class UserManagerTest {
         User user = u.createUser(0, "test", 100.0, "test@example.com",
                  "password");
         assertEquals("test", user.getName());
-        assert data.users.contains(user);
+        assert data.getUsers().contains(user);
     }
 
     @Test
