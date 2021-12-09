@@ -12,9 +12,14 @@ public class CurrentGroupManager {
     private Group currentGroup;
     private final RepositoryGateway repositoryGateway;
 
+    /**
+     * Construct a new CurrentGroupManager with the given parameters.
+     * @param repositoryGateway the repository for all objects
+     */
     public CurrentGroupManager(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
     }
+
     /**
      * Return the UID of the Group being currently used by the program.
      * @return the UID of the Group being currently used by the program
@@ -31,6 +36,12 @@ public class CurrentGroupManager {
         this.currentGroup = this.repositoryGateway.findByGUID(GUID);
     }
 
-    public Group getCurrentGroup(){return this.currentGroup;}
+    /**
+     * Return the current group.
+     * @return the current group
+     */
+    public Group getCurrentGroup() {
+        return this.currentGroup;
+    }
 }
 
