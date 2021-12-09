@@ -2,7 +2,7 @@
 //
 //import com.example.compound.entities.User;
 //import com.example.compound.exceptions.UserAuthException;
-//import com.example.compound.repositories.UserRepository;
+//import com.example.compound.api.repositories.UserRepository;
 //import org.springframework.context.annotation.Configuration;
 //
 //import java.util.List;
