@@ -72,8 +72,6 @@ public class ExpenseController {
                 Objects.requireNonNull(
                         expenseManager.createExpense(
                                 expenseTitle, amount, lentSoFar, borrowedSoFar, userManager)));
-        System.out.println("borrowed: " + borrowedSoFar.keySet()
-                + "lent: " + lentSoFar.keySet());
     }
 
     /**
@@ -99,8 +97,8 @@ public class ExpenseController {
         boolean borrowed = borrowOrLend.equals("b");
 
         // If we find the user in the database then update bal
-        if (userManager.getUserEmail(email) != null) {
-            currentUserManager.setCurrentUser(userManager.getUserEmail(email));
+        if (userManager.getUser(email) != null) {
+            currentUserManager.setCurrentUser(userManager.getUser(email));
 
             if (borrowed){
                 borrowedSoFar.put(currentUserManager.getCurrentUser(), amountUsed);

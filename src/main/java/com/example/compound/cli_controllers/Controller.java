@@ -27,7 +27,6 @@ public class Controller {
     private final ExpenseManager expenseManager;
     private final CurrentUserManager currentUserManager;
     private final PersonManager personManager;
-    private static final String[] actions = {
 
     public static String[] actions = {
             "Add an expense",
