@@ -26,6 +26,8 @@ Groups also have budgets. A budget stores a list of items, each of which has a n
 
 ## How our project adheres to Clean Architecture
 
+[This diagram](https://docs.google.com/presentation/d/1GwnxknvQq3UOgHyd0vTY455l2_wLG83vvOMlbPF6tbo/edit?usp=sharing) of the major classes in our program highlights the layers of Clean Architecture.
+
 The frameworks and drivers classes, such as the command line or web app, pass in information to our controllers. Our interface adapters do not depend on the view directly; instead, they depend on `InOut` interfaces that are in the interface adapter layer and that the view implements. The controllers in the interface adapters layer convert data from the view into a format that use cases can use, and pass the converted data to the use cases, which work on the entities to perform the appropriate actions. The use cases also interact with gateway interfaces in the use cases layer that database gateway classes in the interface adapter layer implement so that the use cases do not depend on the interface adapter layer or the database itself.
 
 Since Phase 1, we have been fixing cases where classes in layers used other classes in layers that are not adjacent; for example, our controllers sometimes used entities. We fixed this violation by adding new use case classes, such as a `CurrentUserManager` use case that stores the current user so that the controller does not have to store it.
@@ -91,3 +93,11 @@ We use dependency injection and annotations to link our entities and repositorie
 ## Accessibility report
 
 ...
+
+## Progress report
+
+- **Rohan** has worked on the backend. Mainly he worked with the Spring Boot Framework and Postgresql to implement a RESTful API with a PSQL database for storing and retrieving data. He set up the database and added schema for user, groups, and expenses tables. He used JPA and JDBC to make SQL queries from within Spring Boot.
+- **Wasee** has worked on completing the implementation of various features most notably expenses. Wasee has also helped make the project adhere to clean architecture by refactoring many methods. Wasee has answered many questions for the design document. He plans on making a friends system once the database is fully operational.
+- **Subhasis** has worked on refactoring unrelated to Clean Architecture, GitHub actions, Javadoc comments, and the design document. One significant pull request I made this term was [PR #40](https://github.com/CSC207-UofT/course-project-group-054/pull/40), in which I completed several TODOs as well as miscellaneous refactoring unrelated to Clean Architecture. I think this pull request demonstrates a significant contribution to the team because it resolved several outstanding problems with the code.
+- **Lingyun** has worked on completing the implementation of the features on updating the profiles of the user, and managing the groups in the Controller, and use cases (GroupManager, UserManager). Also, he helps to make the program adhere to Clean Architecture by refactoring methods/names.
+- **Mohamed** has worked on the frontend. He has also worked on writing some test code. He plans on integrating the frontend with the backend, and also plans on making the frontend more modern and visually-appealing.
