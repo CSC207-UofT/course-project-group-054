@@ -1,8 +1,8 @@
-package com.example.compound.use_cases;
+package com.example.compound.api.use_cases;
 
 import com.example.compound.api.entities.Group;
 
-public class Group2Manager {
+public class GroupManager {
     /**
      * Add the member to the group.
      * @param group The group to which the member is to be added.

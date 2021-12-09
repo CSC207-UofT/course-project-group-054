@@ -3,8 +3,8 @@ package com.example.compound.api.controller;
 //import com.example.compound.api.UserInteractor;
 //import com.example.compound.data.Data;
 import com.example.compound.entities.User;
+import com.example.compound.api.repositories.UserInteractor;
 import com.example.compound.api.repositories.UserRepository;
-import com.example.compound.api.repositories.UserRepositoryImpl;
 import com.example.compound.use_cases.ExpenseManager;
 import com.example.compound.use_cases.GroupManager;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class UserController {
 
     @Autowired
-    UserRepository repository;
+    UserInteractor repository;
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     public UserController() {
-        this.repository = new UserRepositoryImpl();
+        this.repository = new UserRepository();
     }
 
     @GetMapping("/users/id/{id}")

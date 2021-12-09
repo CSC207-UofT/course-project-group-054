@@ -90,4 +90,7 @@ public class Expense {
             key.balance -= whoPaid.get(key);
         }
     }
+
+    public void setAmount(double v) {
+    }
 }

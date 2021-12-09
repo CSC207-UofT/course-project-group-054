@@ -1,92 +1,58 @@
 package com.example.compound.api.entities;
 
+import javax.persistence.*;
 import java.util.Map;
-
-//import com.example.compound.data.*;
-
 
 /*
  * Below is the Expense class which represents the origin of our program.
  */
+@Entity
 public class Expense {
-    private final Integer EUID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer EUID;
+    private String title;
+    private Double amount;
+    private Integer payer; // UUID of person who paid
+    @ElementCollection
+    private Map<Integer, Double> people;
 
-    private final String title;
-    private double amount;
+    public Expense() {}
 
+    public Integer getEUID() {
+        return this.EUID;
+    }
     public String getTitle() {
         return title;
     }
-
-    public Map<Person, Double> getWhoPaid() {
-        return whoPaid;
+    public Double getAmount() { return amount; }
+    public void setAmount(Double amount) { this.amount = amount; }
+    public Integer getPayer() {
+        return payer;
     }
+    public Map<Integer, Double> getPeople() { return people; }
 
-    public Map<Person, Double> getWhoBorrowed() {
-        return whoBorrowed;
-    }
-
-    private final Map<Person, Double> whoPaid;
-    private final Map<Person, Double> whoBorrowed;
 
     /**
      * Construct Expense, with title, cost, payers, note, and current time
      * @param title the title of the Expense
      * @param amount the cost of the Expense
-     * @param whoPaid Map of People:AmountPaid
-     * @param whoBorrowed Map of People:AmountBorrowed
+     * @param payer UUID of person who paid
+     * @param people List containing UIDs of people part of the expense
      */
     //TODO: Implement multiple split types for Phase 2
-    public Expense(Integer EUID, String title, double amount,
-                   Map<Person, Double> whoPaid,
-                   Map<Person, Double> whoBorrowed) {
+    public Expense(Integer EUID, String title, Double amount,
+                   Integer payer,
+                   Map<Integer, Double> people) {
         this.EUID = EUID;
         this.title = title;
         this.amount = amount;
-        this.whoPaid = whoPaid;
-        this.whoBorrowed = whoBorrowed;
-        this.updateBalances(whoPaid);
-    }
-
-    public double getAmount(){
-        return this.amount;
-    }
-
-    public Integer getEUID() {
-        return this.EUID;
-    }
-
-    public int numPeople() {
-        return this.whoPaid.size() + this.whoBorrowed.size();
+        this.payer = payer;
+        this.people = people;
     }
 
     @Override
     public String toString() {
-        return this.EUID + "     " + this.title + "     " + this.numPeople();
-    }
-
-    public void settleExpense(Person p, Double amountPaid, boolean borrowed) {
-        this.amount -= amountPaid;
-
-        if (borrowed){
-            Double amount = this.whoBorrowed.get(p);
-            this.whoBorrowed.replace(p, amount - amountPaid);
-        }
-        else{
-            Double amount = this.whoPaid.get(p);
-            if (amount - amountPaid < 0){
-                System.out.println("You've entered too much!");
-            }
-            else{
-                this.whoPaid.replace(p, amount - amountPaid);
-            }
-        }
-
-    }
-
-    public void updateBalances(Map<Person, Double> whoPaid){
-        for(Person key : whoPaid.keySet()){
-            key.balance -= whoPaid.get(key);
-        }
+        return this.EUID + ": " + this.title;
     }
 }

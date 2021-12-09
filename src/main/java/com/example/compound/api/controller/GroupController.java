@@ -2,7 +2,7 @@ package com.example.compound.api.controller;
 
 import com.example.compound.api.entities.Group;
 import com.example.compound.api.repositories.GroupInteractor;
-import com.example.compound.use_cases.Group2Manager;
+import com.example.compound.api.use_cases.GroupManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +12,12 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/groups")
-public class Group2Controller {
+public class GroupController {
     @Qualifier("groupInteractor")
     @Autowired
     GroupInteractor repository;
 
-    Group2Manager manager = new Group2Manager();
+    GroupManager manager = new GroupManager();
 
 
     /**
@@ -48,17 +48,34 @@ public class Group2Controller {
         return 1;
     }
 
+    /**
+     * API Endpoint to return a list of all groups in the database.
+     * @return list of all groups in the database
+     */
     @GetMapping("/all")
     public List<Group> showAllGroups() {
         return repository.findAll();
     }
 
+
+    /**
+     * API Endpoint to get a group from guid
+     * @param guid UID of the concerned group
+     * @return JSON object containing details of the group if it exists, null otherwise
+     */
     @GetMapping("/{guid}")
     public Optional<Group> getById(@PathVariable Integer guid) {
         return repository.findById(guid);
     }
 
 
+    /**
+     * API Endpoint to add to a group attribute
+     * @param guid UID of the concerned group
+     * @param attribute Attribute to be modified
+     * @param request JSON object containing information about the modification
+     * @return Updated attribute
+     */
     @PostMapping("/{guid}/{attribute}/add")
     public List<Integer> addObject(@PathVariable Integer guid,
                               @PathVariable String attribute,
@@ -82,6 +99,13 @@ public class Group2Controller {
         }
     }
 
+    /**
+     * API Endpoint to remove from a group attribute
+     * @param guid UID of the concerned group
+     * @param attribute Attribute to be modified
+     * @param request JSON object containing information about the modification
+     * @return Updated attribute
+     */
     @PostMapping("/{guid}/{attribute}/remove")
     public List<Integer> deleteObject(@PathVariable Integer guid,
                                     @PathVariable String attribute,
