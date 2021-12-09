@@ -1,5 +1,7 @@
-package com.example.compound.controller;
+package com.example.compound.cli_controllers;
 
+import com.example.compound.entities.Group;
+import com.example.compound.repositories.GroupRepository;
 import com.example.compound.use_cases.*;
 import com.example.compound.use_cases.gateways.RepositoryGateway;
 import com.example.compound.use_cases.gateways.RepositoryGatewayI;
@@ -13,17 +15,19 @@ import java.util.List;
 public class GroupController {
     private final CurrentGroupManager currentGroupManager;
     private final GroupManager groupManager;
+    private final UserManager userManager;
     private final CurrentUserManager currentUserManager;
     private final RepositoryGatewayI<BudgetTransferData> budgetRepository;
-    private final RepositoryGatewayI<GroupTransferData> groupRepository;
+    private final GroupRepository groupRepository;
     private final RepositoryGatewayI<ItemTransferData> itemRepository;
     private final ExpenseManager expenseManager;
 
     public GroupController(RepositoryGateway repositoryGateway,
                            RepositoryGatewayI<BudgetTransferData> budgetRepository,
-                           RepositoryGatewayI<GroupTransferData> groupRepository,
+                           GroupRepository groupRepository,
                            RepositoryGatewayI<ItemTransferData> itemRepository,
-                           CurrentUserManager currentUserManager, ExpenseManager expenseManager) {
+                           CurrentUserManager currentUserManager, ExpenseManager expenseManager,
+                           UserManager userManager) {
         this.budgetRepository = budgetRepository; // TODO: instantiate gateways here or inject dependencies?
         this.groupRepository = groupRepository;
         this.itemRepository = itemRepository;
@@ -31,6 +35,7 @@ public class GroupController {
         this.groupManager = new GroupManager(repositoryGateway);
         this.currentUserManager = currentUserManager;
         this.expenseManager = expenseManager;
+        this.userManager = userManager;
     }
 
     public static final String[] groupActions = {
@@ -40,13 +45,13 @@ public class GroupController {
             "View GroupMembers",
             "Leave Group",
             "Delete Group",
-            "Manage Budgets",
+//            "Manage Budgets",
             "Back"
     };
 
     /**
-     * While the users want to update their group(s), have the user choose an action to perform on their group
-     * and perform that action.
+     * While the users want to update their group(s), have the user choose an action to
+     * perform on their group and perform that action.
      * @param inOut the user interface object
      */
     public void updateGroup(InOut inOut) {
@@ -111,44 +116,39 @@ public class GroupController {
                 inOut.sendOutput("Please enter the new name.");
                 String newName = inOut.getInput();
                 this.groupManager.setGroupName(currentGroupManager.getCurrentGroupUID(), newName);
-            } //Edit Group Name
-            case 2 -> {
-                List<String> people = addRemovePeople(inOut, "add");
-                for (String p: people) {
-                    GroupManager.addMember(currentGroupManager.getCurrentGroup(), p);
-                }
             } // Add people to the group
-            case 3 -> {
+            case 2 -> {
                 StringBuilder members = this.groupManager.showGroupMembers(currentGroupManager.getCurrentGroupUID());
-                if (members.charAt(0) == 'Y') {
-                    inOut.sendOutput("You should delete the group instead.");
-                    break;
-                }
                 inOut.sendOutput("Note that invalid name would be automatically ignored.");
-                List<String> people = addRemovePeople(inOut, "remove");
-                if (people.contains(currentUserManager.getCurrentUser().getName())){
-                    people.remove(currentUserManager.getCurrentUser().getName());
-                    inOut.sendOutput("You should leave or delete the group instead.");
-                }
-                for (String p: people) {
-                    try {
-                        GroupManager.removeMember(currentGroupManager.getCurrentGroup(), p);
-                    } catch (Exception ignored) {
-                    }
-                }
+                inOut.sendOutput("Please enter their email");
+                String emailToAdd = inOut.getInput();
+                GroupManager.addMember(currentGroupManager.getCurrentGroup(), emailToAdd);
+
             } //Remove People from the group
-            case 4 -> inOut.sendOutput(this.groupManager.showGroupMembers(currentGroupManager.getCurrentGroupUID()));
-                        //View GroupMembers
+            case 3 -> {
+                inOut.sendOutput("Please enter their email");
+                String emailToRemove = inOut.getInput();
+                GroupManager.removeMember(currentGroupManager.getCurrentGroup(), emailToRemove);
+            }
+            // View group members
+            case 4 -> {
+                for (String email :
+                        currentGroupManager.getCurrentGroup().getGroupMembers()) {
+                    inOut.sendOutput(email);
+                }
+            }
+
+            //Leave Group
             case 5 -> //TODO: Need to update the balance of the current user.
                     GroupManager.removeMember(currentGroupManager.getCurrentGroup(),
                             currentUserManager.getCurrentUser().getEmail()); //Leave Group
             case 6 -> //TODO: Need to update the balance of all the users in the group.
                     this.groupManager.removeGroup(currentGroupManager.getCurrentGroupUID()); //Delete Group
-            case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(),
+            // TODO: Fix this
+//            case 7 -> new BudgetController(currentGroupManager.getCurrentGroup().getGUID(),
 //                    repositoryGateway,
-                    budgetRepository, groupRepository, itemRepository,
-                    expenseManager).groupBudgetsDashboard(inOut);
-            case 8 -> back = true;
+//                    expenseManager).groupBudgetsDashboard(inOut);
+            case 7 -> back = true;
         }
         return back;
     }
